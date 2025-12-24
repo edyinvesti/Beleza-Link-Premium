@@ -1,0 +1,7 @@
+{
+  "name": "Beleza Link-Completo",
+  "description": "Uma plataforma completa para especialistas de beleza gerenciarem comissões, participarem de workshops ao vivo e acessarem catálogos de produtos exclusivos.",
+  "requestFramePermissions": [
+    "geolocation"
+  ]
+}
