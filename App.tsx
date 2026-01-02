@@ -1,70 +1,138 @@
+import React, { useState, useEffect } from 'react';
+import { HashRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { Sun, Moon, Video, BellOff } from 'lucide-react';
+import { Toaster } from 'sonner';
 
-import React from 'react';
-import { HashRouter, Routes, Route, Link, useLocation } from 'react-router-dom';
-import Home from './screens/Home';
-import Wallet from './screens/Wallet';
-import Products from './screens/Products';
+// Importando Telas
+import LoginScreen from './screens/LoginScreen';
+import RegisterScreen from './screens/RegisterScreen';
+import Dashboard from './screens/Dashboard';
+import ProductsList from './screens/ProductsList';
+import ProductDetail from './screens/ProductDetail';
+import SalesList from './screens/SalesList';
 import Community from './screens/Community';
 import Profile from './screens/Profile';
+import WithdrawSuccess from './screens/WithdrawSuccess';
+import CRMScreen from './screens/CRMScreen';
 import LiveWorkshop from './screens/LiveWorkshop';
-import Success from './screens/Success';
-import Courses from './screens/Courses';
-import Appointments from './screens/Appointments';
-import Clients from './screens/Clients';
-import More from './screens/More';
-import PremiumSalon from './screens/PremiumSalon';
-import CashFlow from './screens/CashFlow';
 
-const BottomNav = () => {
-  const location = useLocation();
-  const path = location.pathname;
+import Blog from './screens/Blog';
+import SettingsScreen from './screens/SettingsScreen';
+import SaquePix from './screens/SaquePix';
 
-  const NavLink = ({ to, icon, label }: { to: string, icon: string, label: string }) => {
-    const isActive = path === to;
-    return (
-      <Link to={to} className={`flex flex-col items-center gap-1 transition-colors ${isActive ? 'text-primary' : 'text-gray-400'}`}>
-        <span className={`material-symbols-outlined ${isActive ? 'filled' : ''}`}>{icon}</span>
-        <span className="text-[10px] font-bold">{label}</span>
-      </Link>
-    );
-  };
+// Importando Componentes Globais
+import BottomNav from './components/BottomNav';
+import BackHeader from './components/BackHeader';
+import SplashScreen from './components/SplashScreen';
+import { UserProvider } from './contexts/UserContext';
+import { getSettings } from './services/database';
 
-  if (['/live', '/success', '/cash-flow'].includes(path)) return null;
+const App: React.FC = () => {
+  const [isDark, setIsDark] = useState(() => getSettings().darkMode);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const handleSettingsUpdate = (e: any) => {
+      if (e.detail && typeof e.detail.darkMode === 'boolean') {
+        setIsDark(e.detail.darkMode);
+      }
+    };
+    window.addEventListener('app-settings-updated', handleSettingsUpdate as EventListener);
+    return () => window.removeEventListener('app-settings-updated', handleSettingsUpdate as EventListener);
+  }, []);
+
+  useEffect(() => {
+    if (isDark) {
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+    }
+  }, [isDark]);
 
   return (
-    <div className="fixed bottom-0 left-0 right-0 bg-white dark:bg-surface-dark border-t border-gray-100 dark:border-gray-800 px-4 py-2 pb-5 z-50">
-      <nav className="flex justify-between items-center max-w-md mx-auto w-full">
-        <NavLink to="/" icon="dashboard" label="Home" />
-        <NavLink to="/appointments" icon="calendar_month" label="Agenda" />
-        <NavLink to="/clients" icon="person_search" label="Clientes" />
-        <NavLink to="/products" icon="store" label="Loja" />
-        <NavLink to="/more" icon="menu" label="Mais" />
-      </nav>
-    </div>
+    <Router>
+      <UserProvider>
+        <div className="min-h-screen bg-[#09090b] text-white font-sans selection:bg-pink-500 selection:text-white transition-colors duration-500 overflow-x-hidden relative flex justify-center">
+
+          {/* SPLASH SCREEN */}
+          {isLoading && <SplashScreen onComplete={() => setIsLoading(false)} />}
+
+          {/* Fundo Global Glassmorphism */}
+          <div className="fixed inset-0 pointer-events-none z-0">
+            <div className="absolute top-[-10%] left-[-10%] w-[60%] h-[50%] bg-pink-500/10 blur-[120px] rounded-full animate-pulse" />
+            <div className="absolute bottom-[-10%] right-[-10%] w-[60%] h-[50%] bg-purple-500/10 blur-[120px] rounded-full" />
+            <div className="absolute top-[30%] right-[10%] w-[30%] h-[30%] bg-blue-500/5 blur-[100px] rounded-full" />
+          </div>
+
+          <Toaster
+            position="top-center"
+            toastOptions={{
+              className: 'glass-toast',
+              style: {
+                background: 'rgba(24, 24, 27, 0.8)',
+                backdropFilter: 'blur(12px)',
+                border: '1px solid rgba(255, 255, 255, 0.1)',
+                color: '#ffffff',
+                borderRadius: '1.25rem',
+                boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.5)',
+                textShadow: '0 1px 2px rgba(0,0,0,0.5)'
+              },
+            }}
+          />
+
+          {/* Toggle Dark Mode Flutuante (Oculto no móbile por design luxe) */}
+          <button
+            onClick={() => setIsDark(!isDark)}
+            className="fixed top-6 right-6 z-[100] size-10 bg-white/5 backdrop-blur-md text-white rounded-full flex items-center justify-center border border-white/10 active:scale-90 transition-all group"
+          >
+            {isDark ? <Sun className="w-5 h-5 shadow-sm" /> : <Moon className="w-5 h-5 shadow-sm" />}
+          </button>
+
+
+          {/* Main App Container with Slide Up Transition */}
+          <div className={`w-full max-w-7xl mx-auto px-4 sm:px-6 relative min-h-screen z-10 flex flex-col items-center ${!isLoading ? 'animate-slide-up-settle' : 'opacity-0'}`}>
+            <Routes>
+              {/* Redirecionamento Inicial */}
+              <Route path="/" element={<Navigate to="/login" replace />} />
+
+              {/* Telas de Autenticação */}
+              <Route path="/login" element={<LoginScreen />} />
+              <Route path="/register" element={<RegisterScreen />} />
+
+              {/* Telas Funcionais */}
+              <Route path="/dashboard" element={<Dashboard />} />
+              <Route path="/products" element={<ProductsList />} />
+              <Route path="/product/:id" element={<ProductDetail />} />
+              <Route path="/sales" element={<SalesList />} />
+              <Route path="/community" element={<Community />} />
+              <Route path="/blog" element={<Blog />} />
+              <Route path="/profile" element={<Profile />} />
+
+              <Route path="/saque-pix" element={<SaquePix />} />
+              {/* Fluxos Específicos */}
+              <Route path="/crm" element={<CRMScreen />} />
+              <Route path="/withdraw-success" element={<WithdrawSuccess />} />
+              <Route path="/live/:id" element={<LiveWorkshop />} />
+
+              <Route path="/notifications" element={
+                <div className="pb-24">
+                  <BackHeader title="Notificações" />
+                  <div className="flex flex-col items-center justify-center pt-20 px-10 text-center">
+                    <BellOff className="w-16 h-16 text-zinc-200 dark:text-zinc-800 mb-4" />
+                    <p className="text-zinc-400 font-medium text-sm">Nenhuma notificação por aqui ainda.</p>
+                  </div>
+                </div>
+              } />
+
+              <Route path="/settings" element={<SettingsScreen />} />
+            </Routes>
+
+            <BottomNav />
+          </div>
+        </div>
+      </UserProvider>
+    </Router>
   );
 };
 
-export default function App() {
-  return (
-    <HashRouter>
-      <div className="max-w-md mx-auto min-h-screen bg-background-light dark:bg-background-dark relative pb-20">
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/appointments" element={<Appointments />} />
-          <Route path="/clients" element={<Clients />} />
-          <Route path="/products" element={<Products />} />
-          <Route path="/wallet" element={<Wallet />} />
-          <Route path="/cash-flow" element={<CashFlow />} />
-          <Route path="/courses" element={<Courses />} />
-          <Route path="/community" element={<Community />} />
-          <Route path="/profile" element={<Profile />} />
-          <Route path="/more" element={<More />} />
-          <Route path="/premium-salon" element={<PremiumSalon />} />
-          <Route path="/live" element={<LiveWorkshop />} />
-          <Route path="/success" element={<Success />} />
-        </Routes>
-        <BottomNav />
-      </div>
-    </HashRouter>
-  );
-}
+export default App;
