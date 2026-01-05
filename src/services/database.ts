@@ -39,6 +39,16 @@ export const getClients = async (): Promise<Client[]> => {
     return data || [];
 };
 
+export const createClient = async (client: Partial<Client>): Promise<Client> => {
+    const { data, error } = await supabase
+        .from('clients')
+        .insert([client])
+        .select()
+        .single();
+    if (error) throw error;
+    return data;
+};
+
 // Appointments
 export const getAppointments = async (): Promise<Appointment[]> => {
     const { data, error } = await supabase.from('appointments').select('*');
@@ -48,7 +58,17 @@ export const getAppointments = async (): Promise<Appointment[]> => {
 
 // Transactions
 export const getTransactions = async (): Promise<Transaction[]> => {
-    const { data, error } = await supabase.from('transactions').select('*');
+    const { data, error } = await supabase.from('transactions').select('*').order('date', { ascending: false });
     if (error) throw error;
     return data || [];
+};
+
+export const createTransaction = async (transaction: Partial<Transaction>): Promise<Transaction> => {
+    const { data, error } = await supabase
+        .from('transactions')
+        .insert([transaction])
+        .select()
+        .single();
+    if (error) throw error;
+    return data;
 };
