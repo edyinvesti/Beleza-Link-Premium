@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from 'r
 import Home from './screens/Home';
 import Dashboard from './screens/Dashboard';
 import Clientes from './screens/Clientes';
+import Agenda from './screens/Agenda'; // IMPORTANDO A AGENDA
 import Sidebar from './components/Sidebar';
 import { SparklesLoader } from './components/SparklesLoader';
 
@@ -13,12 +14,12 @@ function AppContent() {
   return (
     <div className="flex min-h-screen bg-black text-white">
       {!isHomePage && <Sidebar />}
-      {/* ml-0 para celular (encostado na esquerda) e md:ml-64 para PC */}
       <main className={`flex-1 w-full ${!isHomePage ? 'ml-0 md:ml-64 pb-24 md:pb-0' : ''}`}>
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/clientes" element={<Clientes />} />
+          <Route path="/agenda" element={<Agenda />} /> {/* ROTA DA AGENDA AQUI */}
           <Route path="*" element={<Navigate to="/" />} />
         </Routes>
       </main>
