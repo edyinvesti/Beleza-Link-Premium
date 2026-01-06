@@ -4,6 +4,8 @@ import Dashboard from './screens/Dashboard';
 import LiveWorkshop from './screens/LiveWorkshop'; 
 import Clientes from './screens/Clientes'; 
 import Appointments from './screens/Appointments';
+import SettingsScreen from './screens/SettingsScreen';
+import CashFlow from './screens/CashFlow';
 
 function App() {
   return (
@@ -19,6 +21,8 @@ function App() {
             <Route path="/workshop" element={<LiveWorkshop />} />
             <Route path="/clientes" element={<Clientes />} />
             <Route path="/agenda" element={<Appointments />} />
+            <Route path="/config" element={<SettingsScreen />} />
+            <Route path="/financeiro" element={<CashFlow />} />
             
             {/* Rota de segurança para caso o link esteja errado */}
             <Route path="*" element={<Navigate to="/dashboard" replace />} />
