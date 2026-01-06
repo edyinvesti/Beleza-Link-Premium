@@ -1,15 +1,15 @@
-import { useState, useEffect } from 'react';
+ï»¿import { useState } from 'react';
 import { Save, User, Store, Loader2 } from 'lucide-react';
 
 const SettingsScreen = () => {
   const [loading, setLoading] = useState(false);
-  const [perfil, setPerfil] = useState({ nome_salao: 'Eternidade Link', proprietario: 'Edy' });
+  const [perfil, setPerfil] = useState({ nome_salao: 'Kelly hair', proprietario: 'Kelly da Silva Laureano' });
 
   const handleSave = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
     setTimeout(() => {
-      alert("? Configurações salvas com sucesso!");
+      alert("Configuracoes salvas com sucesso!");
       setLoading(false);
     }, 1000);
   };
@@ -23,11 +23,11 @@ const SettingsScreen = () => {
           <input value={perfil.nome_salao} onChange={(e) => setPerfil({...perfil, nome_salao: e.target.value})} className="w-full bg-black border border-white/10 p-3 rounded-xl mt-1 outline-none focus:border-amber-500" />
         </div>
         <div>
-          <label className="text-xs font-bold text-zinc-500 uppercase flex items-center gap-2"><User size={14} /> Nome do Proprietário</label>
+          <label className="text-xs font-bold text-zinc-500 uppercase flex items-center gap-2"><User size={14} /> Nome do ProprietÃ¡rio</label>
           <input value={perfil.proprietario} onChange={(e) => setPerfil({...perfil, proprietario: e.target.value})} className="w-full bg-black border border-white/10 p-3 rounded-xl mt-1 outline-none focus:border-amber-500" />
         </div>
         <button type="submit" disabled={loading} className="w-full bg-amber-500 text-black font-black py-4 rounded-2xl flex items-center justify-center gap-2">
-          {loading ? <Loader2 className="animate-spin" /> : <><Save size={20} /> SALVAR ALTERAÇÕES</>}
+          {loading ? <Loader2 className="animate-spin" /> : <><Save size={20} /> SALVAR ALTERAÃ‡Ã•ES</>}
         </button>
       </form>
     </div>
