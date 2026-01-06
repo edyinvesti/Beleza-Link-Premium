@@ -1,5 +1,4 @@
-
-import { TrendingUp, Users, Calendar, DollarSign, ArrowUpRight, Star } from 'lucide-react';
+import { Users, Calendar, DollarSign, ArrowUpRight, Star } from 'lucide-react';
 
 const Dashboard = () => {
   return (
