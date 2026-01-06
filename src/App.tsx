@@ -13,7 +13,8 @@ function AppContent() {
   return (
     <div className="flex min-h-screen bg-black text-white">
       {!isHomePage && <Sidebar />}
-      <main className={`flex-1 ${!isHomePage ? 'ml-20 md:ml-64' : ''}`}>
+      {/* ml-0 no mobile para não empurrar, pb-24 para dar espaço à barra de baixo */}
+      <main className={`flex-1 transition-all ${!isHomePage ? 'md:ml-64 pb-24 md:pb-0' : ''}`}>
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/dashboard" element={<Dashboard />} />
@@ -27,7 +28,6 @@ function AppContent() {
 
 function App() {
   const [isAppLoading, setIsAppLoading] = useState(true);
-
   useEffect(() => {
     const timer = setTimeout(() => setIsAppLoading(false), 2500);
     return () => clearTimeout(timer);
