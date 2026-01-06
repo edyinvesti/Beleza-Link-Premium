@@ -1,10 +1,8 @@
-﻿import React from 'react';
-import { Link, useLocation } from 'react-router-dom';
+﻿import { Link, useLocation } from 'react-router-dom'; // Removemos o "React" daqui
 import { LayoutDashboard, Calendar, Users, Wallet, Package, Settings, Sparkles } from 'lucide-react';
 
 const Sidebar = () => {
   const location = useLocation();
-
   const menuItems = [
     { icon: LayoutDashboard, label: 'Dashboard', path: '/dashboard' },
     { icon: Calendar, label: 'Agenda', path: '/appointments' },
@@ -24,25 +22,21 @@ const Sidebar = () => {
           Eternidade Link
         </h1>
       </div>
-
       <div className="flex-1 space-y-2">
-        {menuItems.map((item) => {
-          const isActive = location.pathname === item.path;
-          return (
-            <Link
-              key={item.path}
-              to={item.path}
-              className={`flex items-center gap-4 px-4 py-3 rounded-xl transition-all ${
-                isActive 
+        {menuItems.map((item) => (
+          <Link 
+            key={item.path} 
+            to={item.path} 
+            className={`flex items-center gap-4 px-4 py-3 rounded-xl transition-all ${
+              location.pathname === item.path 
                 ? 'bg-amber-500 text-black font-bold' 
-                : 'text-zinc-400 hover:bg-white/5 hover:text-white'
-              }`}
-            >
-              <item.icon size={20} />
-              <span>{item.label}</span>
-            </Link>
-          );
-        })}
+                : 'text-zinc-400 hover:bg-white/5'
+            }`}
+          >
+            <item.icon size={20} />
+            <span>{item.label}</span>
+          </Link>
+        ))}
       </div>
     </nav>
   );
