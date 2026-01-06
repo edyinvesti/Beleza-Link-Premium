@@ -1,145 +1,99 @@
 import React, { useEffect, useState } from 'react';
-import { getClients, createClient } from '../services/database';
-import { Client } from '../types';
-import BackHeader from '../components/BackHeader';
-import { Plus, Search, User, Phone, Loader } from 'lucide-react';
-import { toast } from 'sonner';
+import { supabase } from '../lib/supabaseClient';
+import { UserPlus, Search, Phone, MessageSquare, Loader2 } from 'lucide-react';
 
-const Clients: React.FC = () => {
-    const [clients, setClients] = useState<Client[]>([]);
-    const [loading, setLoading] = useState(true);
-    const [searchTerm, setSearchTerm] = useState('');
-    const [showForm, setShowForm] = useState(false);
+const Clientes = () => {
+  const [loading, setLoading] = useState(true);
+  const [clientes, setClientes] = useState<any[]>([]);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [novoNome, setNovoNome] = useState('');
+  const [novoTelefone, setNovoTelefone] = useState('');
 
-    // Form inputs
-    const [name, setName] = useState('');
-    const [phone, setPhone] = useState('');
+  const fetchClientes = async () => {
+    setLoading(true);
+    const { data, error } = await supabase
+      .from('clientes')
+      .select('*')
+      .order('nome', { ascending: true });
+    if (!error) setClientes(data || []);
+    setLoading(false);
+  };
 
-    const loadData = async () => {
-        try {
-            const data = await getClients();
-            setClients(data);
-        } catch {
-            toast.error('Erro ao carregar clientes');
-        } finally {
-            setLoading(false);
-        }
-    };
+  const handleAddCliente = async (e: React.FormEvent) => {
+    e.preventDefault();
+    const { error } = await supabase
+      .from('clientes')
+      .insert([{ nome: novoNome, telefone: novoTelefone }]);
 
-    useEffect(() => {
-        loadData();
-    }, []);
+    if (!error) {
+      setNovoNome('');
+      setNovoTelefone('');
+      setIsModalOpen(false);
+      fetchClientes(); // Atualiza a lista na hora
+    }
+  };
 
-    const handleSubmit = async (e: React.FormEvent) => {
-        e.preventDefault();
-        try {
-            if (!name) {
-                toast.error('Nome é obrigatório');
-                return;
-            }
+  useEffect(() => { fetchClientes(); }, []);
 
-            await createClient({
-                name,
-                phone,
-                totalSpent: 0,
-                lastVisit: new Date().toISOString() // Temporarily set to now or null
-            });
+  return (
+    <div className="space-y-6 animate-in fade-in duration-500 pb-20">
+      <header className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+        <h1 className="text-3xl font-black text-white">Meus Clientes</h1>
+        <button 
+          onClick={() => setIsModalOpen(true)}
+          className="bg-amber-500 text-black px-6 py-3 rounded-2xl font-bold flex items-center gap-2 hover:scale-105 transition-all shadow-lg shadow-amber-500/20"
+        >
+          <UserPlus size={20} /> Novo Cliente
+        </button>
+      </header>
 
-            toast.success('Cliente cadastrado!');
-            setShowForm(false);
-            setName('');
-            setPhone('');
-            loadData();
-        } catch (error) {
-            console.error(error);
-            toast.error('Erro ao salvar cliente');
-        }
-    };
-
-    const filtered = clients.filter(c =>
-        c.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        c.phone.includes(searchTerm)
-    );
-
-    return (
-        <div className="pb-24 min-h-screen bg-black">
-            <BackHeader title="Meus Clientes" />
-
-            <div className="p-4">
-                {/* Header Actions */}
-                <div className="flex gap-2 mb-6">
-                    <div className="relative flex-1">
-                        <Search className="absolute left-3 top-2.5 w-4 h-4 text-zinc-500" />
-                        <input
-                            type="text"
-                            placeholder="Buscar por nome ou telefone..."
-                            value={searchTerm}
-                            onChange={e => setSearchTerm(e.target.value)}
-                            className="w-full bg-zinc-900 border border-zinc-800 rounded-lg py-2 pl-9 pr-4 text-white focus:ring-pink-500 focus:border-pink-500 placeholder-zinc-600"
-                        />
-                    </div>
-                    <button
-                        onClick={() => setShowForm(!showForm)}
-                        className="bg-pink-600 text-white p-2 rounded-lg hover:bg-pink-700 transition"
-                    >
-                        <Plus className="w-6 h-6" />
-                    </button>
+      {/* Lista de Clientes */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        {loading ? (
+          <Loader2 className="animate-spin text-amber-500" />
+        ) : (
+          clientes.map((cliente) => (
+            <div key={cliente.id} className="p-5 rounded-3xl bg-zinc-900/50 border border-white/5">
+              <div className="flex items-center gap-4">
+                <div className="h-12 w-12 rounded-full bg-amber-500/10 text-amber-500 flex items-center justify-center font-bold">
+                  {cliente.nome.charAt(0).toUpperCase()}
                 </div>
-
-                {/* Add Form */}
-                {showForm && (
-                    <div className="bg-zinc-900/80 border border-zinc-800 rounded-xl p-4 mb-6 animate-in slide-in-from-top-2">
-                        <h3 className="text-white font-bold mb-4">Novo Cliente</h3>
-                        <form onSubmit={handleSubmit} className="space-y-3">
-                            <input
-                                className="w-full bg-black border border-zinc-700 rounded-lg p-3 text-white"
-                                placeholder="Nome Completo"
-                                value={name} onChange={e => setName(e.target.value)}
-                            />
-                            <input
-                                className="w-full bg-black border border-zinc-700 rounded-lg p-3 text-white"
-                                placeholder="Telefone / WhatsApp"
-                                value={phone} onChange={e => setPhone(e.target.value)}
-                            />
-                            <button className="w-full bg-pink-600 text-white font-bold py-3 rounded-lg mt-2">
-                                Salvar Cliente
-                            </button>
-                        </form>
-                    </div>
-                )}
-
-                {/* List */}
-                {loading ? (
-                    <div className="flex justify-center p-10"><Loader className="animate-spin text-pink-500" /></div>
-                ) : filtered.length === 0 ? (
-                    <div className="text-center py-10 text-zinc-500">
-                        <User className="w-12 h-12 mx-auto mb-3 opacity-50" />
-                        <p>Nenhum cliente encontrado.</p>
-                    </div>
-                ) : (
-                    <div className="space-y-3">
-                        {filtered.map(client => (
-                            <div key={client.id} className="bg-zinc-900 p-4 rounded-xl border border-zinc-800 flex items-center justify-between">
-                                <div className="flex items-center gap-4">
-                                    <div className="w-12 h-12 rounded-full bg-zinc-800 flex items-center justify-center text-zinc-400 font-bold text-lg">
-                                        {client.name?.[0]?.toUpperCase()}
-                                    </div>
-                                    <div>
-                                        <h3 className="font-medium text-white">{client.name}</h3>
-                                        <div className="flex items-center gap-1 text-zinc-500 text-sm">
-                                            <Phone className="w-3 h-3" />
-                                            <span>{client.phone}</span>
-                                        </div>
-                                    </div>
-                                </div>
-                                {/* Future: Add functionality to View Details or WhatsApp */}
-                            </div>
-                        ))}
-                    </div>
-                )}
+                <div className="flex-1">
+                  <h3 className="font-bold text-white">{cliente.nome}</h3>
+                  <p className="text-zinc-500 text-sm">{cliente.telefone}</p>
+                </div>
+              </div>
             </div>
+          ))
+        )}
+      </div>
+
+      {/* MODAL PARA NOVO CLIENTE (SIMPLES) */}
+      {isModalOpen && (
+        <div className="fixed inset-0 bg-black/80 backdrop-blur-sm z-[60] flex items-center justify-center p-4">
+          <div className="bg-zinc-900 border border-white/10 p-8 rounded-[2.5rem] w-full max-w-md shadow-2xl">
+            <h2 className="text-2xl font-bold text-white mb-6">Cadastrar Cliente</h2>
+            <form onSubmit={handleAddCliente} className="space-y-4">
+              <input 
+                type="text" placeholder="Nome do cliente" required
+                value={novoNome} onChange={(e) => setNovoNome(e.target.value)}
+                className="w-full bg-zinc-800 border-zinc-700 rounded-2xl p-4 text-white outline-none focus:ring-2 focus:ring-amber-500"
+              />
+              <input 
+                type="text" placeholder="Telefone (WhatsApp)" required
+                value={novoTelefone} onChange={(e) => setNovoTelefone(e.target.value)}
+                className="w-full bg-zinc-800 border-zinc-700 rounded-2xl p-4 text-white outline-none focus:ring-2 focus:ring-amber-500"
+              />
+              <div className="flex gap-3 pt-2">
+                <button type="button" onClick={() => setIsModalOpen(false)} className="flex-1 py-4 text-zinc-400 font-bold">Cancelar</button>
+                <button type="submit" className="flex-1 bg-amber-500 text-black py-4 rounded-2xl font-bold hover:bg-amber-400 transition-all">Salvar</button>
+              </div>
+            </form>
+          </div>
         </div>
-    );
+      )}
+    </div>
+  );
 };
 
-export default Clients;
+export default Clientes;
