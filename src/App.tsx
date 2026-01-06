@@ -2,7 +2,7 @@ import { HashRouter as Router, Routes, Route } from 'react-router-dom';
 import Sidebar from './components/Sidebar';
 import Dashboard from './screens/Dashboard';
 import LiveWorkshop from './screens/LiveWorkshop';
-import Clientes from './screens/Clients'; // AJUSTADO PARA O NOME DA FOTO
+import Clientes from './screens/Clients.tsx'; // FORÇADO COM EXTENSÃO .tsx
 
 const Placeholder = ({ title }: { title: string }) => (
   <div className="flex items-center justify-center h-[80vh] text-zinc-500">
