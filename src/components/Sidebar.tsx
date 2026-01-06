@@ -32,7 +32,11 @@ const Sidebar = () => {
             <Link
               key={item.path}
               to={item.path}
-              className={lex items-center gap-4 px-4 py-3 rounded-xl transition-all }
+              className={`flex items-center gap-4 px-4 py-3 rounded-xl transition-all ${
+                isActive 
+                ? 'bg-amber-500 text-black font-bold' 
+                : 'text-zinc-400 hover:bg-white/5 hover:text-white'
+              }`}
             >
               <item.icon size={20} />
               <span>{item.label}</span>
