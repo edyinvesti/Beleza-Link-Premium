@@ -1,12 +1,36 @@
-import React from 'react';
+import { useState, useEffect } from 'react';
+import { Save, User, Store, Loader2 } from 'lucide-react';
 
-const SettingsScreen: React.FC = () => {
-    return (
-        <div className="flex flex-col items-center justify-center min-h-screen text-white">
-            <h1 className="text-2xl font-bold">Settings Screen</h1>
-            <p className="mt-4 text-zinc-400">Placeholder content</p>
+const SettingsScreen = () => {
+  const [loading, setLoading] = useState(false);
+  const [perfil, setPerfil] = useState({ nome_salao: 'Eternidade Link', proprietario: 'Edy' });
+
+  const handleSave = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setLoading(true);
+    setTimeout(() => {
+      alert("? Configurações salvas com sucesso!");
+      setLoading(false);
+    }, 1000);
+  };
+
+  return (
+    <div className="p-4 text-white space-y-6">
+      <h1 className="text-3xl font-black">Ajustes</h1>
+      <form onSubmit={handleSave} className="bg-zinc-900 p-6 rounded-3xl border border-white/5 space-y-4">
+        <div>
+          <label className="text-xs font-bold text-zinc-500 uppercase flex items-center gap-2"><Store size={14} /> Nome do Estabelecimento</label>
+          <input value={perfil.nome_salao} onChange={(e) => setPerfil({...perfil, nome_salao: e.target.value})} className="w-full bg-black border border-white/10 p-3 rounded-xl mt-1 outline-none focus:border-amber-500" />
         </div>
-    );
+        <div>
+          <label className="text-xs font-bold text-zinc-500 uppercase flex items-center gap-2"><User size={14} /> Nome do Proprietário</label>
+          <input value={perfil.proprietario} onChange={(e) => setPerfil({...perfil, proprietario: e.target.value})} className="w-full bg-black border border-white/10 p-3 rounded-xl mt-1 outline-none focus:border-amber-500" />
+        </div>
+        <button type="submit" disabled={loading} className="w-full bg-amber-500 text-black font-black py-4 rounded-2xl flex items-center justify-center gap-2">
+          {loading ? <Loader2 className="animate-spin" /> : <><Save size={20} /> SALVAR ALTERAÇÕES</>}
+        </button>
+      </form>
+    </div>
+  );
 };
-
 export default SettingsScreen;
