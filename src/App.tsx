@@ -13,8 +13,8 @@ function AppContent() {
   return (
     <div className="flex min-h-screen bg-black text-white">
       {!isHomePage && <Sidebar />}
-      {/* ml-0 no mobile para não empurrar, pb-24 para dar espaço à barra de baixo */}
-      <main className={`flex-1 transition-all ${!isHomePage ? 'md:ml-64 pb-24 md:pb-0' : ''}`}>
+      {/* Removemos o ml-20 no mobile. Agora no mobile é ml-0 e no PC é ml-64 */}
+      <main className={`flex-1 transition-all ${!isHomePage ? 'md:ml-64 pb-20 md:pb-0' : ''}`}>
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/dashboard" element={<Dashboard />} />
