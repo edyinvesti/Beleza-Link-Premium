@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { HashRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import Sidebar from './components/Sidebar';
-import LockScreen from './components/LockScreen'; // Importando o cadeado
+import LockScreen from './components/LockScreen';
 import Dashboard from './screens/Dashboard'; 
 import LiveWorkshop from './screens/LiveWorkshop'; 
 import Clientes from './screens/Clientes'; 
@@ -13,12 +13,10 @@ function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   useEffect(() => {
-    // Verifica se já está autenticado NESTA SESSÃO
     const auth = sessionStorage.getItem('is_authenticated');
     if (auth === 'true') setIsAuthenticated(true);
   }, []);
 
-  // Se não estiver autenticado, mostra a tela de login (estilo banco digital)
   if (!isAuthenticated) {
     return <LockScreen onUnlock={() => setIsAuthenticated(true)} />;
   }
