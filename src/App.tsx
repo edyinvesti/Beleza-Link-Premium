@@ -107,7 +107,7 @@ const App: React.FC = () => {
           >
             <Routes>
               {/* Redirecionamento inicial */}
-              <Route path="/" element={<Navigate to="/login" replace />} />
+              <Route path="/" element={<Navigate to="/dashboard" replace />} />
 
               {/* Autenticação */}
               <Route path="/login" element={<LoginScreen />} />

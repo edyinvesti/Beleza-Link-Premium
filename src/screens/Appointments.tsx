@@ -21,7 +21,7 @@ const Appointments: React.FC = () => {
         try {
             const data = await getAppointments();
             setAppointments(data);
-        } catch (error) {
+        } catch {
             toast.error('Erro ao carregar agendamentos');
         } finally {
             setLoading(false);

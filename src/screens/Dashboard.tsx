@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useUser } from '../contexts/UserContext';
 import { getAppointments, getClients, getTransactions } from '../services/database';
-import { Appointment, Client, Transaction } from '../types';
+import { Appointment } from '../types';
 import { DollarSign, Users, Calendar, TrendingUp } from 'lucide-react';
 import { Link } from 'react-router-dom';
 

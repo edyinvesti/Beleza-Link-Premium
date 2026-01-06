@@ -63,4 +63,5 @@ export interface Transaction {
   status: 'confirmed' | 'pending';
   category: 'Serviços' | 'Produtos' | 'Aluguel' | 'Suprimentos' | 'Outros';
   flow: 'in' | 'out'; // in = Entrada, out = Saída
+  description?: string;
 }

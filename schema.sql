@@ -66,6 +66,7 @@ create table if not exists transactions (
   status text check (status in ('confirmed', 'pending')),
   category text,
   flow text check (flow in ('in', 'out')),
+  description text,
   created_at timestamp with time zone default timezone('utc'::text, now())
 );
 

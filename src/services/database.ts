@@ -56,6 +56,16 @@ export const getAppointments = async (): Promise<Appointment[]> => {
     return data || [];
 };
 
+export const createAppointment = async (appointment: Partial<Appointment>): Promise<Appointment> => {
+    const { data, error } = await supabase
+        .from('appointments')
+        .insert([appointment])
+        .select()
+        .single();
+    if (error) throw error;
+    return data;
+};
+
 // Transactions
 export const getTransactions = async (): Promise<Transaction[]> => {
     const { data, error } = await supabase.from('transactions').select('*').order('date', { ascending: false });

@@ -21,7 +21,7 @@ const ProductsList: React.FC = () => {
         try {
             const data = await getProducts();
             setProducts(data);
-        } catch (error) {
+        } catch {
             toast.error('Erro ao carregar produtos');
         } finally {
             setLoading(false);

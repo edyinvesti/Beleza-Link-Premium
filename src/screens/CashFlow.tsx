@@ -19,7 +19,7 @@ const CashFlow: React.FC = () => {
         try {
             const data = await getTransactions();
             setTransactions(data);
-        } catch (error) {
+        } catch {
             toast.error('Erro ao carregar transações');
         } finally {
             setLoading(false);

@@ -19,7 +19,7 @@ const Clients: React.FC = () => {
         try {
             const data = await getClients();
             setClients(data);
-        } catch (error) {
+        } catch {
             toast.error('Erro ao carregar clientes');
         } finally {
             setLoading(false);
