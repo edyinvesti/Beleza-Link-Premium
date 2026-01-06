@@ -14,7 +14,7 @@ export default function Navigation() {
 
   return (
     <>
-      {/* LATERAL: Apenas Desktop (md:flex) - Escondida no Mobile (hidden) */}
+      {/* LATERAL: SÓ APARECE NO PC (md:flex). NO CELULAR FICA INVISÍVEL (hidden) */}
       <aside className="hidden md:flex fixed left-0 top-0 h-full w-64 bg-zinc-950 border-r border-white/5 flex-col z-40">
         <div className="p-8 text-amber-500 font-black italic text-xl">
           BELEZA LINK
@@ -38,20 +38,20 @@ export default function Navigation() {
         </nav>
       </aside>
 
-      {/* RODAPÉ: Apenas Mobile (flex) - Escondido no Desktop (md:hidden) */}
-      <nav className="md:hidden fixed bottom-0 left-0 right-0 bg-black/90 backdrop-blur-xl border-t border-white/10 pb-8 pt-3 px-4 flex justify-around items-center z-50">
+      {/* RODAPÉ: SÓ APARECE NO CELULAR (flex). NO PC FICA INVISÍVEL (md:hidden) */}
+      <nav className="md:hidden fixed bottom-0 left-0 right-0 bg-black border-t border-white/10 pb-6 pt-3 px-2 flex justify-around items-center z-50">
         {menuItems.map((item) => {
           const isActive = location.pathname === item.path;
           return (
             <button
               key={item.path}
               onClick={() => navigate(item.path)}
-              className="flex flex-col items-center justify-center transition-all active:scale-90"
+              className="flex flex-col items-center justify-center w-full transition-all active:scale-90"
             >
-              <div className={`p-2 rounded-xl transition-colors ${isActive ? 'bg-amber-500 text-black' : 'text-zinc-500'}`}>
-                <item.icon size={24} />
+              <div className={`p-2 rounded-xl ${isActive ? 'text-amber-500' : 'text-zinc-600'}`}>
+                <item.icon size={26} />
               </div>
-              <span className={`text-[10px] mt-1 font-bold ${isActive ? 'text-amber-500' : 'text-zinc-600'}`}>
+              <span className={`text-[10px] font-bold ${isActive ? 'text-amber-500' : 'text-zinc-600'}`}>
                 {item.label}
               </span>
             </button>

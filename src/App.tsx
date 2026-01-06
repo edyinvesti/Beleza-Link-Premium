@@ -13,8 +13,8 @@ function AppContent() {
   return (
     <div className="flex min-h-screen bg-black text-white">
       {!isHomePage && <Sidebar />}
-      {/* Removemos o ml-20 no mobile. Agora no mobile é ml-0 e no PC é ml-64 */}
-      <main className={`flex-1 transition-all ${!isHomePage ? 'md:ml-64 pb-20 md:pb-0' : ''}`}>
+      {/* ml-0 para celular (encostado na esquerda) e md:ml-64 para PC */}
+      <main className={`flex-1 w-full ${!isHomePage ? 'ml-0 md:ml-64 pb-24 md:pb-0' : ''}`}>
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/dashboard" element={<Dashboard />} />
