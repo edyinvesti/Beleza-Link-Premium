@@ -1,42 +1,34 @@
-import { useState, useEffect } from 'react';
-import { HashRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
-import Sidebar from './components/Sidebar';
-import LockScreen from './components/LockScreen';
-import Dashboard from './screens/Dashboard'; 
-import LiveWorkshop from './screens/LiveWorkshop'; 
-import Clientes from './screens/Clientes'; 
-import Appointments from './screens/Appointments';
-import SettingsScreen from './screens/SettingsScreen';
-import CashFlow from './screens/CashFlow';
+﻿import { useState, useEffect } from 'react';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import Home from './screens/Home';
+import Dashboard from './screens/Dashboard';
+import Clientes from './screens/Clientes';
+import { SparklesLoader } from './components/SparklesLoader';
 
 function App() {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isAppLoading, setIsAppLoading] = useState(true);
 
   useEffect(() => {
-    const auth = sessionStorage.getItem('is_authenticated');
-    if (auth === 'true') setIsAuthenticated(true);
+    // Simula o tempo de carregamento dos bancos digitais (2.5 segundos)
+    const timer = setTimeout(() => {
+      setIsAppLoading(false);
+    }, 2500);
+    return () => clearTimeout(timer);
   }, []);
 
-  if (!isAuthenticated) {
-    return <LockScreen onUnlock={() => setIsAuthenticated(true)} />;
+  if (isAppLoading) {
+    return <SparklesLoader />;
   }
 
   return (
     <Router>
-      <div className="flex flex-col lg:flex-row min-h-screen bg-[#09090b] text-white">
-        <Sidebar />
-        <main className="flex-1 w-full lg:ml-64 p-4 md:p-8 pb-24 lg:pb-8">
-          <Routes>
-            <Route path="/" element={<Navigate to="/dashboard" replace />} />
-            <Route path="/dashboard" element={<Dashboard />} />
-            <Route path="/workshop" element={<LiveWorkshop />} />
-            <Route path="/clientes" element={<Clientes />} />
-            <Route path="/agenda" element={<Appointments />} />
-            <Route path="/config" element={<SettingsScreen />} />
-            <Route path="/financeiro" element={<CashFlow />} />
-            <Route path="*" element={<Navigate to="/dashboard" replace />} />
-          </Routes>
-        </main>
+      <div className="min-h-screen bg-black text-white selection:bg-amber-500/30">
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/clientes" element={<Clientes />} />
+          <Route path="*" element={<Navigate to="/" />} />
+        </Routes>
       </div>
     </Router>
   );
