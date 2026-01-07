@@ -1,7 +1,8 @@
 ﻿import { useNavigate, useLocation } from 'react-router-dom';
 import {
-  LayoutDashboard, Users, Calendar, DollarSign,
-  MessageSquare, Settings, LogOut, GraduationCap, Newspaper
+  LayoutDashboard, Users, Calendar, DollarSign, Target,
+  Settings, LogOut, GraduationCap, Newspaper,
+  Wallet, TrendingUp, UsersRound, Sparkles
 } from 'lucide-react';
 
 export default function Sidebar() {
@@ -10,28 +11,35 @@ export default function Sidebar() {
 
   const menuItems = [
     { icon: LayoutDashboard, label: 'Painel', path: '/painel' },
-    { icon: Users, label: 'Clientes', path: '/clientes' },
     { icon: Calendar, label: 'Agenda', path: '/agenda' },
+    { icon: Users, label: 'Clientes', path: '/clientes' },
+    { icon: Target, label: 'CRM', path: '/crm' },
+    { icon: TrendingUp, label: 'Fluxo de Caixa', path: '/cashflow' },
     { icon: DollarSign, label: 'Financeiro', path: '/financeiro' },
-    { icon: GraduationCap, label: 'Workshops', path: '/workshops' },
-    { icon: Newspaper, label: 'Editorial', path: '/blog' },
-    { icon: MessageSquare, label: 'Assistente IA', path: '/ia' },
+    { icon: Wallet, label: 'Carteira', path: '/wallet' },
+    { icon: GraduationCap, label: 'Academy', path: '/academy' },
+    { icon: Newspaper, label: 'Blog', path: '/blog' },
+    { icon: UsersRound, label: 'Comunidade', path: '/community' },
+    { icon: Sparkles, label: 'Assistente IA', path: '/ia' },
     { icon: Settings, label: 'Configurações', path: '/configuracoes' },
   ];
 
   return (
-    <aside className="fixed left-0 top-0 h-screen w-64 bg-black border-r border-white/5 z-50 hidden md:block">
-      <div className="p-8">
+    <aside className="fixed left-0 top-0 h-screen w-64 bg-gradient-to-b from-black via-zinc-950 to-black border-r border-white/5 z-50 hidden md:flex flex-col">
+      {/* Logo */}
+      <div className="p-8 border-b border-white/5">
         <span className="text-xl font-black italic uppercase tracking-tighter">
-          BELEZA <span className="text-amber-500">LINK</span>
+          BELEZA <span className="bg-gradient-to-r from-amber-400 to-orange-500 bg-clip-text text-transparent">LINK</span>
         </span>
+        <p className="text-[8px] text-zinc-600 uppercase tracking-widest mt-1 font-bold">Premium Network</p>
       </div>
 
-      <nav className="px-4 space-y-2">
+      {/* Navigation */}
+      <nav className="flex-1 px-4 py-6 space-y-2 overflow-y-auto scrollbar-thin scrollbar-thumb-zinc-800 scrollbar-track-transparent">
         {/* Link Especial: LIVE */}
         <button
           onClick={() => navigate('/live')}
-          className="w-full mb-6 flex items-center justify-between px-4 py-4 rounded-2xl bg-red-600/10 border border-red-600/20 hover:bg-red-600/20 transition-all group shadow-[0_0_20px_rgba(220,38,38,0.1)]"
+          className="w-full mb-4 flex items-center justify-between px-4 py-4 rounded-2xl bg-gradient-to-r from-red-600/10 to-red-500/5 border border-red-600/20 hover:border-red-500/40 hover:bg-red-600/20 transition-all group shadow-[0_0_20px_rgba(220,38,38,0.1)] hover:shadow-[0_0_30px_rgba(220,38,38,0.2)]"
         >
           <div className="flex items-center gap-3">
             <div className="relative flex h-2 w-2">
@@ -43,27 +51,32 @@ export default function Sidebar() {
           <div className="bg-red-600/20 px-2 py-0.5 rounded text-[8px] font-black text-red-500 uppercase tracking-tighter">Live</div>
         </button>
 
-        {menuItems.map((item) => (
-          <button
-            key={item.path}
-            onClick={() => navigate(item.path)}
-            className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl font-bold text-xs uppercase tracking-widest transition-all ${location.pathname === item.path
-              ? 'bg-amber-500 text-black'
-              : 'text-zinc-500 hover:bg-white/5 hover:text-white'
-              }`}
-          >
-            <item.icon size={18} />
-            {item.label}
-          </button>
-        ))}
+        {/* Menu Items */}
+        {menuItems.map((item) => {
+          const isActive = location.pathname === item.path;
+          return (
+            <button
+              key={item.path}
+              onClick={() => navigate(item.path)}
+              className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl font-bold text-xs uppercase tracking-widest transition-all group ${isActive
+                ? 'bg-gradient-to-r from-amber-500 to-orange-500 text-black shadow-lg shadow-amber-500/20'
+                : 'text-zinc-500 hover:bg-white/5 hover:text-white hover:border-white/10'
+                }`}
+            >
+              <item.icon size={18} className={isActive ? '' : 'group-hover:scale-110 transition-transform'} />
+              {item.label}
+            </button>
+          );
+        })}
       </nav>
 
-      <div className="absolute bottom-8 px-4 w-full">
+      {/* Bottom Section */}
+      <div className="p-4 border-t border-white/5 space-y-2">
         <button
           onClick={() => navigate('/')}
-          className="w-full flex items-center gap-3 px-4 py-3 rounded-xl font-bold text-xs uppercase tracking-widest text-red-500 hover:bg-red-500/10 transition-all"
+          className="w-full flex items-center gap-3 px-4 py-3 rounded-xl font-bold text-xs uppercase tracking-widest text-red-500 hover:bg-red-500/10 transition-all group"
         >
-          <LogOut size={18} />
+          <LogOut size={18} className="group-hover:scale-110 transition-transform" />
           Sair
         </button>
       </div>
