@@ -28,6 +28,21 @@ export default function Sidebar() {
       </div>
 
       <nav className="px-4 space-y-2">
+        {/* Link Especial: LIVE */}
+        <button
+          onClick={() => navigate('/live')}
+          className="w-full mb-6 flex items-center justify-between px-4 py-4 rounded-2xl bg-red-600/10 border border-red-600/20 hover:bg-red-600/20 transition-all group shadow-[0_0_20px_rgba(220,38,38,0.1)]"
+        >
+          <div className="flex items-center gap-3">
+            <div className="relative flex h-2 w-2">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-500 opacity-75"></span>
+              <span className="relative inline-flex rounded-full h-2 w-2 bg-red-600"></span>
+            </div>
+            <span className="text-xs font-black uppercase tracking-[0.2em] text-red-500 group-hover:text-red-400 transition-colors">Ao Vivo</span>
+          </div>
+          <div className="bg-red-600/20 px-2 py-0.5 rounded text-[8px] font-black text-red-500 uppercase tracking-tighter">Live</div>
+        </button>
+
         {menuItems.map((item) => (
           <button
             key={item.path}
