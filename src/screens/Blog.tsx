@@ -1,8 +1,7 @@
-import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Newspaper, Calendar, ArrowRight } from 'lucide-react';
 
-const Blog: React.FC = () => {
+export default function Blog() {
     const navigate = useNavigate();
     const posts = [
         { id: 1, title: "5 Tendências de Cortes para 2026", excerpt: "Descubra o que vai estar em alta nos salões de luxo este ano...", date: "06 Jan, 2026", category: "Tendências" },

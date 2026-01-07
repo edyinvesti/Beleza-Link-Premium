@@ -9,6 +9,8 @@ import MORE from "./screens/More";
 import CLIENTES from "./screens/Clientes";
 import CRM from "./screens/CRM";
 import Academy from "./screens/Academy";
+import Blog from "./screens/Blog";
+import Post from "./screens/Post";
 import LockScreen from "./components/LockScreen";
 import Layout from "./components/Layout";
 
@@ -75,6 +77,8 @@ function App() {
                 <Route path="/more" element={<ProtectedRoute><MORE /></ProtectedRoute>} />
                 <Route path="/crm" element={<ProtectedRoute><CRM /></ProtectedRoute>} />
                 <Route path="/academy" element={<ProtectedRoute><Academy /></ProtectedRoute>} />
+                <Route path="/blog" element={<ProtectedRoute><Blog /></ProtectedRoute>} />
+                <Route path="/post/:id" element={<ProtectedRoute><Post /></ProtectedRoute>} />
 
                 {/* Redirect aliases for consistency */}
                 <Route path="/Painel" element={<Navigate to="/painel" replace />} />

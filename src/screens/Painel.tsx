@@ -19,12 +19,7 @@ export default function Painel() {
         <div className="p-4 md:p-8 max-w-6xl mx-auto animate-in fade-in duration-700">
             {/* HEADER FINANCEIRO */}
             <header className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-10">
-                <div>
-                    <h1 className="text-zinc-500 text-xs font-black uppercase tracking-[0.3em] mb-2">Conta Digital Elite</h1>
-                    <p className="text-3xl font-black italic text-white uppercase tracking-tighter">
-                        Bem-vindo, <span className="text-amber-500">Parceiro</span>
-                    </p>
-                </div>
+                <div />
                 <div className="bg-zinc-900/50 border border-white/5 p-4 rounded-3xl backdrop-blur-md flex items-center gap-4 shadow-2xl">
                     <div className="bg-amber-500/10 p-3 rounded-2xl">
                         <Wallet className="text-amber-500" size={24} />

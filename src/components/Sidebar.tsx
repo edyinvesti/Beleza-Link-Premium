@@ -1,7 +1,7 @@
 ﻿import { useNavigate, useLocation } from 'react-router-dom';
 import {
   LayoutDashboard, Users, Calendar, DollarSign,
-  MessageSquare, Settings, LogOut, GraduationCap
+  MessageSquare, Settings, LogOut, GraduationCap, Newspaper
 } from 'lucide-react';
 
 export default function Sidebar() {
@@ -14,6 +14,7 @@ export default function Sidebar() {
     { icon: Calendar, label: 'Agenda', path: '/agenda' },
     { icon: DollarSign, label: 'Financeiro', path: '/financeiro' },
     { icon: GraduationCap, label: 'Workshops', path: '/workshops' },
+    { icon: Newspaper, label: 'Editorial', path: '/blog' },
     { icon: MessageSquare, label: 'Assistente IA', path: '/ia' },
     { icon: Settings, label: 'Configurações', path: '/configuracoes' },
   ];
