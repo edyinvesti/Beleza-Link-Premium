@@ -1,5 +1,3 @@
-﻿import { ArrowUpCircle, TrendingUp } from 'lucide-react';
-
 export default function CashFlow() {
   return (
     <div className="p-4 text-white space-y-6">
@@ -17,3 +15,4 @@ export default function CashFlow() {
     </div>
   );
 }
+

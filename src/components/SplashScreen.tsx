@@ -20,3 +20,4 @@ const SplashScreen: React.FC<SplashScreenProps> = ({ onComplete }) => {
 };
 
 export default SplashScreen;
+

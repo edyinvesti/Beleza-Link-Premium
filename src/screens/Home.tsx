@@ -1,89 +1,62 @@
-﻿import { useNavigate } from 'react-router-dom';
-import { Shield, Zap, Star, ArrowRight } from 'lucide-react';
+﻿import { useNavigate } from "react-router-dom";
+import { Star, ArrowRight } from "lucide-react";
 
 export default function Home() {
-  const navigate = useNavigate();
+    const navigate = useNavigate();
 
-  return (
-    <div className="min-h-screen bg-black text-white selection:bg-amber-500/30">
-      {/* Background Decorativo */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute -top-[25%] -left-[10%] w-[70%] h-[70%] bg-amber-500/10 blur-[120px] rounded-full" />
-        <div className="absolute -bottom-[25%] -right-[10%] w-[60%] h-[60%] bg-zinc-800/20 blur-[100px] rounded-full" />
-      </div>
+    return (
+        <div className="min-h-screen bg-[#050505] text-white font-sans overflow-x-hidden selection:bg-amber-500">
+            <div className="fixed top-[-10%] left-[-10%] w-[50%] h-[50%] bg-amber-600/10 blur-[150px] rounded-full pointer-events-none animate-pulse" />
 
-      <div className="relative z-10 max-w-7xl mx-auto px-6 pt-20 pb-32">
-        {/* Header Simples */}
-        <nav className="flex justify-between items-center mb-24">
-          <div className="text-2xl font-black italic tracking-tighter text-amber-500">
-            BELEZA LINK <span className="text-white/20 ml-2 font-light">PREMIUM</span>
-          </div>
-        </nav>
+            <nav className="relative p-6 md:p-10 flex justify-between items-center max-w-7xl mx-auto z-50">
+                <div className="flex items-center gap-4">
+                    <span className="text-2xl md:text-3xl font-black italic tracking-tighter uppercase">
+                        BELEZA <span className="text-amber-500">LINK</span>
+                    </span>
+                    <div className="flex items-center gap-2 bg-red-600/10 border border-red-600/30 px-3 py-1.5 rounded-full shadow-[0_0_15px_rgba(220,38,38,0.2)]">
+                        <span className="relative flex h-2 w-2">
+                            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-500 opacity-75"></span>
+                            <span className="relative inline-flex rounded-full h-2 w-2 bg-red-600"></span>
+                        </span>
+                        <span className="text-[10px] font-black text-red-500 uppercase tracking-[0.2em]">LIVE</span>
+                    </div>
+                </div>
+                <button
+                    onClick={() => navigate("/painel")}
+                    className="bg-white text-black px-8 py-4 rounded-2xl font-black uppercase text-xs hover:bg-amber-500 transition-all shadow-xl"
+                >
+                    ACESSAR PAINEL
+                </button>
+            </nav>
 
-        {/* Hero Section */}
-        <div className="max-w-4xl">
-          <div className="inline-flex items-center gap-2 bg-white/5 border border-white/10 px-4 py-2 rounded-full mb-8">
-            <Star size={16} className="text-amber-500 fill-amber-500" />
-            <span className="text-xs font-bold uppercase tracking-widest text-zinc-400">Plataforma Expert 2026</span>
-          </div>
+            <main className="relative max-w-7xl mx-auto px-6 pt-16 md:pt-24 pb-40 text-center z-10">
+                <div className="inline-flex items-center gap-2 bg-zinc-900/50 border border-white/10 px-6 py-2.5 rounded-full mb-10">
+                    <Star size={14} className="text-amber-500 fill-amber-500" />
+                    <span className="text-[10px] font-black uppercase tracking-[0.3em] text-zinc-300">Plataforma Expert 2026</span>
+                </div>
 
-          <h1 className="text-6xl md:text-8xl font-black italic mb-8 tracking-tighter leading-[0.9]">
-            O PODER DO SEU<br />
-            <span className="text-amber-500">NEGÓCIO ONLINE.</span>
-          </h1>
+                <h1 className="text-5xl md:text-9xl font-black italic tracking-tighter uppercase leading-[0.85] mb-10">
+                    TRANSFORME SUA PAIXÃO <br />
+                    <span className="text-amber-500 bg-gradient-to-b from-amber-200 to-amber-700 bg-clip-text text-transparent">
+                        POR BELEZA EM RENDA.
+                    </span>
+                </h1>
 
-          <p className="text-xl md:text-2xl text-zinc-400 mb-12 max-w-2xl leading-relaxed">
-            Gestão inteligente, agendamentos rápidos e segurança total para o seu salão ou clínica.
-          </p>
+                <p className="max-w-2xl mx-auto text-zinc-400 text-lg md:text-2xl mb-14 leading-relaxed font-medium">
+                    Ganhe <span className="text-white font-bold">20% de comissão</span> em cada venda. Faça upload dos seus vídeos e receba via <span className="text-amber-500 font-bold italic">PIX</span>.
+                </p>
 
-          <div className="flex flex-col sm:flex-row gap-4">
-            <button 
-              onClick={() => navigate('/dashboard')}
-              className="group bg-amber-500 text-black font-black px-10 py-6 rounded-2xl flex items-center justify-center gap-3 transition-all hover:bg-amber-400 hover:scale-[1.02] active:scale-95"
-            >
-              ENTRAR NO PAINEL
-              <ArrowRight className="transition-transform group-hover:translate-x-1" />
-            </button>
-            
-            <div className="flex items-center gap-6 px-4">
-              <div className="flex flex-col">
-                <span className="text-xl font-bold">100%</span>
-                <span className="text-[10px] text-zinc-500 uppercase font-black">Seguro</span>
-              </div>
-              <div className="w-[1px] h-8 bg-white/10" />
-              <div className="flex flex-col">
-                <span className="text-xl font-bold">24/7</span>
-                <span className="text-[10px] text-zinc-500 uppercase font-black">Suporte</span>
-              </div>
-            </div>
-          </div>
+                <button
+                    onClick={() => navigate("/painel")}
+                    className="group bg-white text-black px-12 py-7 rounded-[2.5rem] font-black uppercase text-md flex items-center gap-6 mx-auto hover:bg-amber-500 transition-all shadow-2xl active:scale-95"
+                >
+                    Começar Agora <ArrowRight size={22} className="group-hover:translate-x-2 transition-transform" />
+                </button>
+            </main>
+
+            <footer className="fixed bottom-0 w-full p-8 border-t border-white/5 bg-black/60 backdrop-blur-3xl z-50 text-[10px] font-black uppercase tracking-[0.4em] text-center text-zinc-500">
+                Beleza Link System © 2026
+            </footer>
         </div>
-
-        {/* Footer com diferenciais */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-32 border-t border-white/5 pt-16">
-          <div className="flex items-start gap-4">
-            <div className="bg-white/5 p-3 rounded-xl text-amber-500"><Zap size={24} /></div>
-            <div>
-              <h3 className="font-bold mb-1 uppercase text-sm">Alta Performance</h3>
-              <p className="text-zinc-500 text-xs">Sistema otimizado para agendamentos em segundos.</p>
-            </div>
-          </div>
-          <div className="flex items-start gap-4">
-            <div className="bg-white/5 p-3 rounded-xl text-amber-500"><Shield size={24} /></div>
-            <div>
-              <h3 className="font-bold mb-1 uppercase text-sm">Dados Protegidos</h3>
-              <p className="text-zinc-500 text-xs">Seus clientes e finanças com criptografia total.</p>
-            </div>
-          </div>
-          <div className="flex items-start gap-4">
-            <div className="bg-white/5 p-3 rounded-xl text-amber-500"><Star size={24} /></div>
-            <div>
-              <h3 className="font-bold mb-1 uppercase text-sm">Interface Premium</h3>
-              <p className="text-zinc-500 text-xs">Design moderno que valoriza a sua marca profissional.</p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
+    );
 }

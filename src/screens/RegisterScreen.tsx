@@ -13,7 +13,7 @@ const RegisterScreen: React.FC = () => {
     const handleRegister = async (e: React.FormEvent) => {
         e.preventDefault();
         if (password !== confirmPassword) {
-            toast.error('As senhas não coincidem');
+            toast.error('As senhas nÃ£o coincidem');
             return;
         }
 
@@ -27,7 +27,7 @@ const RegisterScreen: React.FC = () => {
 
             if (error) throw error;
 
-            toast.success('Cadastro realizado! Faça login.');
+            toast.success('Cadastro realizado! FaÃ§a login.');
             navigate('/login');
         } catch (error: any) {
             toast.error(error.message || 'Erro ao cadastrar');
@@ -89,7 +89,7 @@ const RegisterScreen: React.FC = () => {
                 </form>
                 <div className="text-center">
                     <Link to="/login" className="text-sm text-pink-500 hover:text-pink-400">
-                        Já tem uma conta? Entre
+                        JÃ¡ tem uma conta? Entre
                     </Link>
                 </div>
             </div>
@@ -98,3 +98,4 @@ const RegisterScreen: React.FC = () => {
 };
 
 export default RegisterScreen;
+

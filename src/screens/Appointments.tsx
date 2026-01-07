@@ -7,7 +7,7 @@ const Appointments = () => {
   const [fetching, setFetching] = useState(true);
   const [clientes, setClientes] = useState<any[]>([]);
   const [agendamentos, setAgendamentos] = useState<any[]>([]);
-  
+
   const [selectedClient, setSelectedClient] = useState('');
   const [data, setData] = useState('');
   const [hora, setHora] = useState('');
@@ -15,11 +15,9 @@ const Appointments = () => {
 
   const carregarDados = async () => {
     setFetching(true);
-    // Busca clientes para o select
     const { data: cData } = await supabase.from('clientes').select('id, nome');
     if (cData) setClientes(cData);
 
-    // Busca agendamentos com o nome do cliente (Join)
     const { data: aData } = await supabase
       .from('appointments')
       .select(`
@@ -29,7 +27,7 @@ const Appointments = () => {
         clientes ( nome )
       `)
       .order('data_hora', { ascending: true });
-    
+
     if (aData) setAgendamentos(aData);
     setFetching(false);
   };
@@ -48,7 +46,7 @@ const Appointments = () => {
     }]);
 
     if (!error) {
-      alert("✅ Agendamento realizado!");
+      alert("Agendamento realizado!");
       setServico('');
       carregarDados();
     } else {
@@ -58,7 +56,7 @@ const Appointments = () => {
   };
 
   const deletarAgendamento = async (id: string) => {
-    if (confirm("Deseja cancelar este horário?")) {
+    if (window.confirm("Deseja cancelar este horário?")) {
       await supabase.from('appointments').delete().eq('id', id);
       carregarDados();
     }
@@ -71,8 +69,7 @@ const Appointments = () => {
           <Calendar className="text-amber-500" /> Agenda
         </h1>
       </header>
-      
-      {/* Formulário */}
+
       <form onSubmit={handleSave} className="bg-zinc-900 p-6 rounded-3xl border border-white/5 space-y-4">
         <h2 className="text-sm font-bold text-amber-500 uppercase tracking-widest">Novo Horário</h2>
         <div>
@@ -87,11 +84,11 @@ const Appointments = () => {
         <div className="grid grid-cols-2 gap-4">
           <div>
             <label className="text-xs font-bold text-zinc-500 uppercase">Data</label>
-            <input required type="date" value={data} onChange={(e) => setData(e.target.value)} className="w-full bg-black border border-white/10 p-3 rounded-xl mt-1" />
+            <input required type="date" value={data} onChange={(e) => setData(e.target.value)} className="w-full bg-black border border-white/10 p-3 rounded-xl mt-1 font-sans" />
           </div>
           <div>
             <label className="text-xs font-bold text-zinc-500 uppercase">Hora</label>
-            <input required type="time" value={hora} onChange={(e) => setHora(e.target.value)} className="w-full bg-black border border-white/10 p-3 rounded-xl mt-1" />
+            <input required type="time" value={hora} onChange={(e) => setHora(e.target.value)} className="w-full bg-black border border-white/10 p-3 rounded-xl mt-1 font-sans" />
           </div>
         </div>
 
@@ -100,36 +97,38 @@ const Appointments = () => {
           <input required placeholder="Ex: Progressiva" value={servico} onChange={(e) => setServico(e.target.value)} className="w-full bg-black border border-white/10 p-3 rounded-xl mt-1" />
         </div>
 
-        <button type="submit" disabled={loading} className="w-full bg-amber-500 text-black font-black py-4 rounded-2xl flex items-center justify-center gap-2 hover:bg-amber-400">
+        <button type="submit" disabled={loading} className="w-full bg-amber-500 text-black font-black py-4 rounded-2xl flex items-center justify-center gap-2 hover:bg-amber-400 active:scale-95 transition-all">
           {loading ? <Loader2 className="animate-spin" /> : <><Save size={20} /> AGENDAR AGORA</>}
         </button>
       </form>
 
-      {/* Lista de Próximos Horários */}
       <section className="space-y-4">
         <h2 className="text-xl font-bold px-2">Próximos Atendimentos</h2>
         <div className="grid gap-3">
-          {fetching ? <Loader2 className="animate-spin mx-auto text-amber-500" /> : 
-           agendamentos.length === 0 ? <p className="text-zinc-500 text-center py-4">Nenhum horário marcado.</p> :
-           agendamentos.map(a => (
-            <div key={a.id} className="bg-zinc-900/50 border border-white/5 p-4 rounded-2xl flex justify-between items-center">
-              <div className="flex gap-4 items-center">
-                <div className="bg-amber-500/10 p-3 rounded-xl text-amber-500">
-                   <Clock size={20} />
+          {fetching ? <Loader2 className="animate-spin mx-auto text-amber-500" /> :
+            agendamentos.length === 0 ? <p className="text-zinc-500 text-center py-4">Nenhum horário marcado.</p> :
+              agendamentos.map(a => (
+                <div key={a.id} className="bg-zinc-900/50 border border-white/5 p-4 rounded-2xl flex justify-between items-center transition-all hover:bg-zinc-900">
+                  <div className="flex gap-4 items-center">
+                    <div className="bg-amber-500/10 p-3 rounded-xl text-amber-500">
+                      <Clock size={20} />
+                    </div>
+                    <div>
+                      <p className="font-bold text-lg">{(a.clientes as any)?.nome || 'Cliente Excluído'}</p>
+                      <p className="text-zinc-500 text-sm">
+                        {new Date(a.data_hora).toLocaleDateString('pt-BR')} às {new Date(a.data_hora).toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' })}
+                      </p>
+                      <span className="text-xs text-amber-500/80 font-medium italic">{a.servico}</span>
+                    </div>
+                  </div>
+                  <button
+                    onClick={() => deletarAgendamento(a.id)}
+                    className="text-zinc-700 hover:text-red-500 transition-colors p-2 rounded-lg hover:bg-red-500/5"
+                  >
+                    <Trash2 size={18} />
+                  </button>
                 </div>
-                <div>
-                  <p className="font-bold text-lg">{(a.clientes as any)?.nome || 'Cliente Excluído'}</p>
-                  <p className="text-zinc-500 text-sm">
-                    {new Date(a.data_hora).toLocaleDateString('pt-BR')} às {new Date(a.data_hora).toLocaleTimeString('pt-BR', {hour: '2-digit', minute:'2-digit'})}
-                  </p>
-                  <span className="text-xs text-amber-500/80 font-medium italic">{a.servico}</span>
-                </div>
-              </div>
-              <button onClick={() => deletarAgendamento(a.id)} className="text-zinc-700 hover:text-red-500 transition-colors">
-                <Trash2 size={18} />
-              </button>
-            </div>
-          ))}
+              ))}
         </div>
       </section>
     </div>

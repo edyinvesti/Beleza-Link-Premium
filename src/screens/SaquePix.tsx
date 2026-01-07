@@ -10,3 +10,4 @@ const SaquePix: React.FC = () => {
 };
 
 export default SaquePix;
+

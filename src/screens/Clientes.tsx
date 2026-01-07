@@ -1,4 +1,4 @@
-﻿import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Users, Plus, Phone, DollarSign, Trash2, X, Save } from 'lucide-react';
 import { supabase } from '../lib/supabase';
 
@@ -177,3 +177,4 @@ export default function Clientes() {
     </div>
   );
 }
+

@@ -1,4 +1,3 @@
-﻿import React from 'react';
 import { User, Shield, Bell, HelpCircle, LogOut, ChevronRight, Smartphone, Moon } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
@@ -33,7 +32,7 @@ export default function More() {
     <div className="p-6 md:p-12 text-white min-h-screen pb-32">
       <header className="mb-12">
         <h1 className="text-5xl font-black italic tracking-tighter uppercase">Configurações</h1>
-        <p className="text-zinc-500 font-bold text-[10px] uppercase tracking-[0.3em] mt-2">Beleza Link Premium v1.0</p>
+        <p className="text-zinc-500 font-bold text-[10px] uppercase tracking-[0.3em] mt-2">Beleza Link v1.0</p>
       </header>
 
       <div className="max-w-2xl space-y-10">
@@ -42,7 +41,7 @@ export default function More() {
             <h3 className="text-zinc-600 font-black text-[10px] uppercase tracking-[0.2em] ml-4">{section.title}</h3>
             <div className="bg-zinc-900/50 border border-white/5 rounded-[2rem] overflow-hidden">
               {section.items.map((item, itemIdx) => (
-                <button 
+                <button
                   key={itemIdx}
                   className="w-full flex items-center justify-between p-6 hover:bg-white/5 transition-all border-b border-white/5 last:border-none group"
                 >
@@ -62,7 +61,7 @@ export default function More() {
           </div>
         ))}
 
-        <button 
+        <button
           onClick={() => navigate('/')}
           className="w-full mt-8 p-6 bg-red-500/10 border border-red-500/20 rounded-[2rem] flex items-center justify-center gap-3 text-red-500 font-black uppercase text-[10px] tracking-widest hover:bg-red-500 hover:text-white transition-all"
         >
@@ -72,3 +71,4 @@ export default function More() {
     </div>
   );
 }
+

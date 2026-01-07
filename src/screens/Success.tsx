@@ -10,3 +10,4 @@ const Success: React.FC = () => {
 };
 
 export default Success;
+

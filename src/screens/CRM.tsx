@@ -1,13 +1,19 @@
-﻿import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Target, Star, AlertCircle, MessageSquare, ArrowUpRight, CheckCircle2, X, Send, Gift } from 'lucide-react';
 import { supabase } from '../lib/supabase';
 
+interface Client {
+  id: string;
+  name: string;
+  phone: string;
+  total_spent: number;
+}
+
 export default function CRMScreen() {
   const navigate = useNavigate();
-  const [vips, setVips] = useState<any[]>([]);
+  const [vips, setVips] = useState<Client[]>([]);
   const [totalLeads, setTotalLeads] = useState(0);
-  const [loading, setLoading] = useState(true);
   const [showCampaignModal, setShowCampaignModal] = useState(false);
 
   useEffect(() => {
@@ -17,14 +23,13 @@ export default function CRMScreen() {
         .select('*')
         .gt('total_spent', 300)
         .order('total_spent', { ascending: false });
-      
+
       const { count } = await supabase
         .from('clients')
         .select('*', { count: 'exact', head: true });
 
       if (vipData) setVips(vipData);
       if (count !== null) setTotalLeads(count);
-      setLoading(false);
     }
     fetchCRMData();
   }, []);
@@ -71,7 +76,7 @@ export default function CRMScreen() {
                     <p className="text-zinc-500 text-[10px]">Investimento: R$ {vip.total_spent}</p>
                   </div>
                 </div>
-                <button 
+                <button
                   onClick={() => handleWhatsApp(vip.phone, vip.name)}
                   className="bg-purple-500/10 text-purple-500 hover:bg-purple-500 hover:text-white p-3 rounded-xl transition-all"
                 >
@@ -88,18 +93,18 @@ export default function CRMScreen() {
         <div className="flex flex-col gap-6">
           <div className="bg-gradient-to-br from-amber-500 to-orange-600 p-8 rounded-[2.5rem] text-black group relative overflow-hidden">
             <AlertCircle size={32} className="mb-4" />
-            <h3 className="text-2xl font-black uppercase leading-tight mb-2 italic">Aumente sua <br/> Retenção</h3>
+            <h3 className="text-2xl font-black uppercase leading-tight mb-2 italic">Aumente sua <br /> Retenção</h3>
             <p className="text-black/70 text-sm font-medium mb-6 leading-relaxed">Sua base de dados indica clientes que podem ser fidelizados hoje.</p>
-            <button 
+            <button
               onClick={() => setShowCampaignModal(true)}
               className="bg-black text-white font-black px-8 py-4 rounded-2xl text-[10px] uppercase tracking-widest flex items-center gap-3 hover:scale-105 active:scale-95 transition-all shadow-xl"
             >
               Criar Campanha Agora <ArrowUpRight size={14} />
             </button>
           </div>
-          
+
           {/* CARD DE LEADS AGORA CLICÁVEL */}
-          <div 
+          <div
             onClick={() => navigate('/clientes')}
             className="bg-zinc-900/50 border border-white/5 p-8 rounded-[2.5rem] flex items-center justify-between cursor-pointer hover:bg-zinc-800 transition-all group"
           >
@@ -139,3 +144,4 @@ export default function CRMScreen() {
     </div>
   );
 }
+

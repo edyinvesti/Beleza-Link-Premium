@@ -23,7 +23,7 @@ export interface Course {
   students: number;
   image: string;
   category: string;
-  level: 'Iniciante' | 'Intermediário' | 'Avançado';
+  level: 'Iniciante' | 'IntermediÃ¡rio' | 'AvanÃ§ado';
 }
 
 export interface Appointment {
@@ -61,7 +61,8 @@ export interface Transaction {
   isIcon?: boolean;
   iconName?: string;
   status: 'confirmed' | 'pending';
-  category: 'Serviços' | 'Produtos' | 'Aluguel' | 'Suprimentos' | 'Outros';
-  flow: 'in' | 'out'; // in = Entrada, out = Saída
+  category: 'ServiÃ§os' | 'Produtos' | 'Aluguel' | 'Suprimentos' | 'Outros';
+  flow: 'in' | 'out'; // in = Entrada, out = SaÃ­da
   description?: string;
 }
+

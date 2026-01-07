@@ -1,4 +1,4 @@
-﻿import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { MessageCircle, Heart, Share2, Send, Users, ArrowLeft } from 'lucide-react';
 
@@ -115,3 +115,4 @@ const LiveWorkshop: React.FC = () => {
 };
 
 export default LiveWorkshop;
+

@@ -1,5 +1,5 @@
-﻿import React, { useState, useEffect } from 'react';
-import { Calendar as CalendarIcon, Plus, Clock, User, Scissors, X, Check } from 'lucide-react';
+import { useState, useEffect } from 'react';
+import { Calendar as CalendarIcon, Plus, Scissors, X, Check } from 'lucide-react';
 import { supabase } from '../lib/supabase';
 
 export default function Agenda() {
@@ -25,7 +25,7 @@ export default function Agenda() {
       .from('appointments')
       .select('*, clients(name)')
       .order('date', { ascending: true });
-    
+
     // Busca Clientes para o Select
     const { data: clientData } = await supabase
       .from('clients')
@@ -41,12 +41,12 @@ export default function Agenda() {
     e.preventDefault();
     const { error } = await supabase
       .from('appointments')
-      .insert([{ 
-        client_id: clientId, 
-        service, 
-        date, 
+      .insert([{
+        client_id: clientId,
+        service,
+        date,
         time,
-        status: 'pending' 
+        status: 'pending'
       }]);
 
     if (!error) {
@@ -71,7 +71,7 @@ export default function Agenda() {
           </h1>
         </div>
 
-        <button 
+        <button
           onClick={() => setIsModalOpen(true)}
           className="bg-white text-black font-black px-8 py-4 rounded-2xl flex items-center gap-3 hover:bg-amber-500 transition-all hover:scale-105 active:scale-95"
         >
@@ -92,17 +92,17 @@ export default function Agenda() {
                   <span className="text-xl">{item.time}</span>
                 </div>
                 <div>
-                  <h3 className="text-xl font-bold">{item.clients?.name || 'Cliente'}</h3>
+                  <h3 className="text-xl font-bold">{(item.clients as any)?.name || 'Cliente'}</h3>
                   <p className="text-zinc-500 text-sm flex items-center gap-2">
                     <Scissors size={14} /> {item.service}
                   </p>
                 </div>
               </div>
               <div className="flex items-center gap-4">
-                 <span className="text-zinc-600 text-xs font-bold uppercase">{item.date}</span>
-                 <div className="h-10 w-10 rounded-full bg-green-500/20 text-green-500 flex items-center justify-center">
-                    <Check size={20} />
-                 </div>
+                <span className="text-zinc-600 text-xs font-bold uppercase">{item.date}</span>
+                <div className="h-10 w-10 rounded-full bg-green-500/20 text-green-500 flex items-center justify-center">
+                  <Check size={20} />
+                </div>
               </div>
             </div>
           ))
@@ -125,7 +125,7 @@ export default function Agenda() {
             <form onSubmit={handleAddAppointment} className="space-y-5">
               <div>
                 <label className="text-[10px] font-black uppercase tracking-widest text-zinc-500 ml-4 mb-2 block">Selecionar Cliente</label>
-                <select 
+                <select
                   required
                   value={clientId}
                   onChange={(e) => setClientId(e.target.value)}
@@ -138,7 +138,7 @@ export default function Agenda() {
 
               <div>
                 <label className="text-[10px] font-black uppercase tracking-widest text-zinc-500 ml-4 mb-2 block">Serviço</label>
-                <input 
+                <input
                   required
                   placeholder="Ex: Corte e Barba"
                   value={service}
@@ -168,3 +168,4 @@ export default function Agenda() {
     </div>
   );
 }
+

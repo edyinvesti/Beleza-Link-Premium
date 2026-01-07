@@ -1,4 +1,4 @@
-﻿import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { ArrowLeft, Calendar, Share2, Image as ImageIcon } from 'lucide-react';
 
 export default function Post() {
@@ -11,7 +11,7 @@ export default function Post() {
       title: "5 Tendências de Cortes para 2026",
       date: "06 Jan, 2026",
       category: "Tendências",
-      body: "O ano de 2026 traz o retorno do 'Luxury Shag' e cortes ultra-estruturados. Especialistas apontam que a personalização baseada na inteligência artificial do formato do rosto será o grande diferencial nos salões premium. Espere ver muitas camadas e franjas cortinas com acabamento acetinado."
+      body: "O ano de 2026 traz o retorno do 'Luxury Shag' e cortes ultra-estruturados. Especialistas apontam que a personalização baseada na inteligência artificial do formato do rosto será o grande diferencial nos salões. Espere ver muitas camadas e franjas cortinas com acabamento acetinado."
     },
     "2": {
       title: "Como Dobrar seu Faturamento com a Agenda",
@@ -72,9 +72,10 @@ export default function Post() {
         
         <div className="mt-16 aspect-video w-full bg-zinc-900/50 rounded-[3rem] border border-white/5 flex flex-col items-center justify-center text-zinc-700 gap-4 group hover:border-amber-500/20 transition-all">
           <ImageIcon size={40} className="opacity-20 group-hover:scale-110 transition-transform" />
-          <span className="font-black uppercase tracking-[0.3em] text-[10px]">Galeria Premium em Breve</span>
+          <span className="font-black uppercase tracking-[0.3em] text-[10px]">Galeria em Breve</span>
         </div>
       </div>
     </div>
   );
 }
+

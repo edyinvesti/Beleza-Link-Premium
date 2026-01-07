@@ -1,11 +1,10 @@
-﻿import React, { useState, useEffect } from 'react';
-import { MessageSquare, Heart, Share2, Send, Users, ShieldCheck, Award, Crown, TrendingUp, CheckCircle2, Circle } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { Send, Users, ShieldCheck, Award, Crown, TrendingUp, CheckCircle2, Circle } from 'lucide-react';
 import { supabase } from '../lib/supabase';
 
 export default function Community() {
   const [posts, setPosts] = useState<any[]>([]);
   const [newPost, setNewPost] = useState('');
-  const [loading, setLoading] = useState(true);
   const [completedMissions, setCompletedMissions] = useState<string[]>([]);
 
   useEffect(() => {
@@ -18,7 +17,6 @@ export default function Community() {
       .select('*')
       .order('created_at', { ascending: false });
     if (data) setPosts(data);
-    setLoading(false);
   }
 
   const missions = [
@@ -33,7 +31,7 @@ export default function Community() {
 
     const { error } = await supabase
       .from('community_posts')
-      .insert([{ author_name: 'Membro Premium', content: newPost }]);
+      .insert([{ author_name: 'Membro', content: newPost }]);
 
     if (!error) {
       setNewPost('');
@@ -50,9 +48,14 @@ export default function Community() {
     return { label: 'BRONZE', color: 'text-orange-400', icon: Award, bg: 'bg-orange-400/10' };
   };
 
-  const ranking = [
+  interface RankingMember {
+    name: string;
+    posts: number;
+  }
+
+  const ranking: RankingMember[] = [
     { name: 'Ana Silva', posts: 24 },
-    { name: 'Membro Premium', posts: posts.filter(p => p.author_name === 'Membro Premium').length },
+    { name: 'Membro', posts: posts.filter(p => p.author_name === 'Membro').length },
     { name: 'Carla Santos', posts: 8 },
   ].sort((a, b) => b.posts - a.posts);
 
@@ -74,7 +77,7 @@ export default function Community() {
         <div className="lg:col-span-2 space-y-8 not-italic">
           <div className="bg-zinc-900/50 border border-white/5 p-6 rounded-[2.5rem] shadow-2xl">
             <form onSubmit={handleSendPost} className="flex gap-4">
-              <input 
+              <input
                 value={newPost}
                 onChange={(e) => setNewPost(e.target.value)}
                 placeholder="O que aprendeste hoje?"
@@ -144,6 +147,7 @@ export default function Community() {
           </div>
         </div>
       </div>
-    </div>
+    </div >
   );
 }
+

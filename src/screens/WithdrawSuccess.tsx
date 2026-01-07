@@ -10,3 +10,4 @@ const WithdrawSuccess: React.FC = () => {
 };
 
 export default WithdrawSuccess;
+

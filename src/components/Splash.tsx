@@ -1,4 +1,4 @@
-﻿import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 export default function Splash({ onFinish }: { onFinish: () => void }) {
   const [visible, setVisible] = useState(true);
@@ -22,14 +22,14 @@ export default function Splash({ onFinish }: { onFinish: () => void }) {
           {/* Brilho que passa por trás do texto */}
           <div className="absolute inset-0 bg-gradient-to-r from-transparent via-amber-500/20 to-transparent skew-x-12 animate-[shimmer_2s_infinite] pointer-events-none"></div>
         </div>
-        
+
         {/* Barra de carregamento estilo iOS/Digital Bank */}
         <div className="w-48 h-[2px] bg-zinc-800 mt-8 rounded-full overflow-hidden">
           <div className="h-full bg-amber-500 animate-[loading_2.5s_ease-in-out]"></div>
         </div>
-        
+
         <p className="mt-4 text-[10px] font-black uppercase tracking-[0.4em] text-zinc-500 animate-bounce">
-          Premium Access
+          Access
         </p>
       </div>
 
@@ -46,3 +46,4 @@ export default function Splash({ onFinish }: { onFinish: () => void }) {
     </div>
   );
 }
+

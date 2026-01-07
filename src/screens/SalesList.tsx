@@ -10,3 +10,4 @@ const SalesList: React.FC = () => {
 };
 
 export default SalesList;
+

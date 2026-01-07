@@ -19,3 +19,4 @@ const BackHeader: React.FC<BackHeaderProps> = ({ title }) => {
 };
 
 export default BackHeader;
+

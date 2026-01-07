@@ -4,7 +4,7 @@ import { LayoutDashboard, Calendar, Users, MoreHorizontal } from 'lucide-react';
 const BottomNav = () => {
   const location = useLocation();
   const navItems = [
-    { icon: LayoutDashboard, label: 'Início', path: '/dashboard' },
+    { icon: LayoutDashboard, label: 'Início', path: '/Painel' },
     { icon: Calendar, label: 'Agenda', path: '/appointments' },
     { icon: Users, label: 'Clientes', path: '/clients' },
     { icon: MoreHorizontal, label: 'Mais', path: '/more' },

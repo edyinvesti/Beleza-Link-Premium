@@ -1,4 +1,4 @@
-﻿import { useState } from 'react';
+import { useState } from 'react';
 import { Save, User, Store, Loader2 } from 'lucide-react';
 
 const SettingsScreen = () => {
@@ -34,3 +34,4 @@ const SettingsScreen = () => {
   );
 };
 export default SettingsScreen;
+

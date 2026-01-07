@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+﻿import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { supabase } from '../lib/supabase';
 import { toast } from 'sonner';
@@ -21,7 +21,7 @@ const LoginScreen: React.FC = () => {
 
             if (error) throw error;
 
-            navigate('/dashboard');
+            navigate('/Painel');
             toast.success('Bem-vindo de volta!');
         } catch (error: any) {
             toast.error(error.message || 'Erro ao fazer login');
@@ -73,7 +73,7 @@ const LoginScreen: React.FC = () => {
                 </form>
                 <div className="text-center">
                     <Link to="/register" className="text-sm text-pink-500 hover:text-pink-400">
-                        Não tem uma conta? Cadastre-se
+                        NÃƒÂ£o tem uma conta? Cadastre-se
                     </Link>
                 </div>
             </div>
@@ -82,3 +82,4 @@ const LoginScreen: React.FC = () => {
 };
 
 export default LoginScreen;
+

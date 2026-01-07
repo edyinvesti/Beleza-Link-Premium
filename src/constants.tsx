@@ -5,7 +5,7 @@ export const APPOINTMENTS: Appointment[] = [
   { 
     id: 'a1', 
     clientName: 'Helena Soares', 
-    service: 'Mechas + Hidratação', 
+    service: 'Mechas + HidrataÃ§Ã£o', 
     time: '09:00', 
     price: 450.00, 
     status: 'completed', 
@@ -15,7 +15,7 @@ export const APPOINTMENTS: Appointment[] = [
   { 
     id: 'a2', 
     clientName: 'Marcos Viana', 
-    service: 'Corte Degradê', 
+    service: 'Corte DegradÃª', 
     time: '11:30', 
     price: 60.00, 
     status: 'confirmed', 
@@ -73,7 +73,7 @@ export const FEATURED_PRODUCTS: Product[] = [
   {
     id: '3',
     name: 'Shampoo Pro Absolut Repair',
-    brand: 'L\'Oréal Professionnel',
+    brand: 'L\'OrÃ©al Professionnel',
     price: 120.00,
     commission: 36.00,
     image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuDjn52G0kEdP0tdUkcRlNQa44uNQgSd3KphT9jgc1XnaGE1lqQ7JeWllltxTH-RU80JpD8czQKvQO87e0A6wuMANLJcNz9lgtsnLfzb5SYcpQbAUBxJCDUR_NsvOofARrCqHFRNdOwdNuto8I6jrAfHGJNfPQOuvFoyAfA_Glp93BGomSkk_PyEouh9s2fcLvH1QX1KEi4CIWnS_N8T719lg1NTgr3fNtKx65zhsssCyvWtlZGuc_rPIF7FmuJ3K-5VcEnK6V3rydI',
@@ -104,14 +104,15 @@ export const COURSES: Course[] = [
     students: 1250,
     image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuBn6x-VbwcLDAwUk4GSzG8kU5gKsOYM2EjOWu48QDujgLCEtDfJno3JXkuyeK3Dpnn6t42irJVad1zLBR52-lC8wx7UdqllwBE6ycwUI3jFFFxqiQMy8N5M5gW87lpBc6BCrz5UcyVkRvvILfr2vfFdyXhT-NbMQ5jlrMs_sHYmC8r6pJy0UEcCk79Y7noIFHDUCt9Woh31qH8hTZqIVN3xVEiadrta3WApPdXSfpO-P2mSy-8kQseRrMVmzOvsoNke0AqQawUwkTk',
     category: 'Colorimetria',
-    level: 'Intermediário'
+    level: 'IntermediÃ¡rio'
   }
 ];
 
 export const RECENT_TRANSACTIONS: Transaction[] = [
-  { id: '1', type: 'Serviço - Mechas', date: '24 Out', client: 'Helena Soares', amount: 450.00, status: 'confirmed', category: 'Serviços', flow: 'in', isIcon: true, iconName: 'content_cut' },
+  { id: '1', type: 'ServiÃ§o - Mechas', date: '24 Out', client: 'Helena Soares', amount: 450.00, status: 'confirmed', category: 'ServiÃ§os', flow: 'in', isIcon: true, iconName: 'content_cut' },
   { id: '2', type: 'Venda - Kit Capilar', date: '22 Out', client: 'Maria Silva', amount: 120.00, status: 'confirmed', category: 'Produtos', flow: 'in', image: FEATURED_PRODUCTS[2].image },
-  { id: '3', type: 'Compra de Estoque', date: '20 Out', client: 'L\'Oréal Brasil', amount: 350.00, status: 'confirmed', category: 'Suprimentos', flow: 'out', isIcon: true, iconName: 'shopping_cart' },
-  { id: '4', type: 'Aluguel do Studio', date: '10 Out', client: 'Imobiliária XP', amount: 1200.00, status: 'confirmed', category: 'Aluguel', flow: 'out', isIcon: true, iconName: 'domain' },
-  { id: '5', type: 'Serviço - Corte', date: '24 Out', client: 'Marcos Viana', amount: 60.00, status: 'confirmed', category: 'Serviços', flow: 'in', isIcon: true, iconName: 'face' }
+  { id: '3', type: 'Compra de Estoque', date: '20 Out', client: 'L\'OrÃ©al Brasil', amount: 350.00, status: 'confirmed', category: 'Suprimentos', flow: 'out', isIcon: true, iconName: 'shopping_cart' },
+  { id: '4', type: 'Aluguel do Studio', date: '10 Out', client: 'ImobiliÃ¡ria XP', amount: 1200.00, status: 'confirmed', category: 'Aluguel', flow: 'out', isIcon: true, iconName: 'domain' },
+  { id: '5', type: 'ServiÃ§o - Corte', date: '24 Out', client: 'Marcos Viana', amount: 60.00, status: 'confirmed', category: 'ServiÃ§os', flow: 'in', isIcon: true, iconName: 'face' }
 ];
+

@@ -1,4 +1,4 @@
-﻿import React from 'react';
+import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Newspaper, Calendar, ArrowRight } from 'lucide-react';
 
@@ -35,3 +35,4 @@ const Blog: React.FC = () => {
     );
 };
 export default Blog;
+

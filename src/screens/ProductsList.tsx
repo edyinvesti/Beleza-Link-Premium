@@ -36,7 +36,7 @@ const ProductsList: React.FC = () => {
         e.preventDefault();
         try {
             if (!name || !price) {
-                toast.error('Nome e Preço são obrigatórios');
+                toast.error('Nome e PreÃ§o sÃ£o obrigatÃ³rios');
                 return;
             }
 
@@ -110,7 +110,7 @@ const ProductsList: React.FC = () => {
                                 />
                                 <input
                                     className="w-full bg-black border border-zinc-700 rounded-lg p-3 text-white"
-                                    placeholder="Preço (R$)"
+                                    placeholder="PreÃ§o (R$)"
                                     type="number" step="0.01"
                                     value={price} onChange={e => setPrice(e.target.value)}
                                 />
@@ -163,3 +163,4 @@ const ProductsList: React.FC = () => {
 };
 
 export default ProductsList;
+
