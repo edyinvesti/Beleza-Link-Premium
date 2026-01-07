@@ -1,25 +1,47 @@
-﻿import { useState, useEffect } from 'react';
-import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from 'react-router-dom';
+﻿import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from 'react-router-dom';
+import { useState } from 'react';
 import Home from './screens/Home';
 import Dashboard from './screens/Dashboard';
 import Clientes from './screens/Clientes';
-import Agenda from './screens/Agenda'; // IMPORTANDO A AGENDA
+import Agenda from './screens/Agenda';
+import Financeiro from './screens/Financeiro';
+import Blog from './screens/Blog';
+import Post from './screens/Post';
+import LiveWorkshop from './screens/LiveWorkshop';
+import CRMScreen from './screens/CRM';
+import Community from './screens/Community';
+import More from './screens/More';
 import Sidebar from './components/Sidebar';
-import { SparklesLoader } from './components/SparklesLoader';
+import Splash from './components/Splash';
 
 function AppContent() {
   const location = useLocation();
+  const [showSplash, setShowSplash] = useState(true);
+  
   const isHomePage = location.pathname === '/';
+  const isLivePage = location.pathname.includes('/live');
+
+  if (showSplash) {
+    return <Splash onFinish={() => setShowSplash(false)} />;
+  }
 
   return (
-    <div className="flex min-h-screen bg-black text-white">
-      {!isHomePage && <Sidebar />}
-      <main className={`flex-1 w-full ${!isHomePage ? 'ml-0 md:ml-64 pb-24 md:pb-0' : ''}`}>
+    <div className="min-h-screen bg-black text-white">
+      {!isHomePage && !isLivePage && <Sidebar />}
+      
+      <main className={`w-full ${(!isHomePage && !isLivePage) ? 'md:pl-64 pb-24' : ''}`}>
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/clientes" element={<Clientes />} />
-          <Route path="/agenda" element={<Agenda />} /> {/* ROTA DA AGENDA AQUI */}
+          <Route path="/agenda" element={<Agenda />} />
+          <Route path="/financeiro" element={<Financeiro />} />
+          <Route path="/blog" element={<Blog />} />
+          <Route path="/post/:id" element={<Post />} />
+          <Route path="/live" element={<LiveWorkshop />} />
+          <Route path="/crm" element={<CRMScreen />} />
+          <Route path="/community" element={<Community />} />
+          <Route path="/more" element={<More />} />
           <Route path="*" element={<Navigate to="/" />} />
         </Routes>
       </main>
@@ -27,20 +49,10 @@ function AppContent() {
   );
 }
 
-function App() {
-  const [isAppLoading, setIsAppLoading] = useState(true);
-  useEffect(() => {
-    const timer = setTimeout(() => setIsAppLoading(false), 2500);
-    return () => clearTimeout(timer);
-  }, []);
-
-  if (isAppLoading) return <SparklesLoader />;
-
+export default function App() {
   return (
-    <Router>
+    <Router basename="/Beleza-Link-Premium">
       <AppContent />
     </Router>
   );
 }
-
-export default App;

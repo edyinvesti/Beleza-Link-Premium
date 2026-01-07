@@ -1,5 +1,5 @@
-﻿import { ArrowRight, ShieldCheck, Sparkles, Smartphone, Zap } from 'lucide-react';
-import { useNavigate } from 'react-router-dom';
+﻿import { useNavigate } from 'react-router-dom';
+import { Shield, Zap, Star, ArrowRight } from 'lucide-react';
 
 export default function Home() {
   const navigate = useNavigate();
@@ -7,74 +7,83 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-black text-white selection:bg-amber-500/30">
       {/* Background Decorativo */}
-      <div className="fixed inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute -top-[10%] -left-[10%] w-[40%] h-[40%] bg-amber-500/10 blur-[120px] rounded-full" />
-        <div className="absolute -bottom-[10%] -right-[10%] w-[40%] h-[40%] bg-zinc-500/10 blur-[120px] rounded-full" />
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <div className="absolute -top-[25%] -left-[10%] w-[70%] h-[70%] bg-amber-500/10 blur-[120px] rounded-full" />
+        <div className="absolute -bottom-[25%] -right-[10%] w-[60%] h-[60%] bg-zinc-800/20 blur-[100px] rounded-full" />
       </div>
 
-      {/* Navbar */}
-      <nav className="relative z-10 flex justify-between items-center p-8 max-w-7xl mx-auto">
-        <div className="text-2xl font-black tracking-tighter italic text-amber-500">
-          BELEZA LINK <span className="text-white/20 font-light">|</span> PREMIUM
-        </div>
-        <button 
-          onClick={() => navigate('/dashboard')}
-          className="bg-white/5 border border-white/10 px-6 py-2 rounded-full font-bold hover:bg-white hover:text-black transition-all"
-        >
-          Acessar Sistema
-        </button>
-      </nav>
-
-      {/* Hero Section */}
-      <main className="relative z-10 max-w-7xl mx-auto px-8 pt-20 pb-32 text-center">
-        <div className="inline-flex items-center gap-2 bg-amber-500/10 border border-amber-500/20 px-4 py-1.5 rounded-full text-amber-500 text-sm font-bold mb-8 animate-bounce uppercase">
-          <Sparkles size={16} />
-          Exclusivo para Profissionais
-        </div>
-        
-        <h1 className="text-6xl md:text-8xl font-black tracking-tighter leading-[0.9] mb-8 uppercase">
-          O PODER DO SEU <br />
-          <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-400 to-amber-600">
-            NEGÓCIO ONLINE.
-          </span>
-        </h1>
-
-        <p className="text-zinc-400 text-xl max-w-2xl mx-auto mb-12 font-medium">
-          Gestão inteligente, agendamentos rápidos e segurança total para o seu salão ou clínica.
-        </p>
-
-        <div className="flex flex-col md:flex-row gap-4 justify-center items-center">
-          <button 
-            onClick={() => navigate('/dashboard')}
-            className="group bg-amber-500 text-black text-xl font-black px-12 py-6 rounded-3xl flex items-center gap-3 hover:scale-105 active:scale-95 transition-all uppercase"
-          >
-            Entrar no Painel <ArrowRight className="group-hover:translate-x-1 transition-transform" />
-          </button>
-        </div>
-
-        {/* Features */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-32 text-left">
-          <div className="bg-zinc-900/50 border border-white/5 p-8 rounded-[32px] hover:border-amber-500/50 transition-colors group">
-            <Zap className="text-amber-500 mb-4 group-hover:scale-110 transition-transform" size={32} />
-            <h3 className="text-xl font-bold mb-2">Interface Nexo OS</h3>
-            <p className="text-zinc-500">Fluidez absoluta em cada clique, otimizado para a sua rotina.</p>
+      <div className="relative z-10 max-w-7xl mx-auto px-6 pt-20 pb-32">
+        {/* Header Simples */}
+        <nav className="flex justify-between items-center mb-24">
+          <div className="text-2xl font-black italic tracking-tighter text-amber-500">
+            BELEZA LINK <span className="text-white/20 ml-2 font-light">PREMIUM</span>
           </div>
-          <div className="bg-zinc-900/50 border border-white/5 p-8 rounded-[32px] hover:border-amber-500/50 transition-colors group">
-            <ShieldCheck className="text-amber-500 mb-4 group-hover:scale-110 transition-transform" size={32} />
-            <h3 className="text-xl font-bold mb-2">Cloud Supabase</h3>
-            <p className="text-zinc-500">Seus dados de clientes e faturamento protegidos na nuvem.</p>
+        </nav>
+
+        {/* Hero Section */}
+        <div className="max-w-4xl">
+          <div className="inline-flex items-center gap-2 bg-white/5 border border-white/10 px-4 py-2 rounded-full mb-8">
+            <Star size={16} className="text-amber-500 fill-amber-500" />
+            <span className="text-xs font-bold uppercase tracking-widest text-zinc-400">Plataforma Expert 2026</span>
           </div>
-          <div className="bg-zinc-900/50 border border-white/5 p-8 rounded-[32px] hover:border-amber-500/50 transition-colors group">
-            <Smartphone className="text-amber-500 mb-4 group-hover:scale-110 transition-transform" size={32} />
-            <h3 className="text-xl font-bold mb-2">Acesso Mobile</h3>
-            <p className="text-zinc-500">Gerencie tudo pelo telemóvel com a mesma potência do PC.</p>
+
+          <h1 className="text-6xl md:text-8xl font-black italic mb-8 tracking-tighter leading-[0.9]">
+            O PODER DO SEU<br />
+            <span className="text-amber-500">NEGÓCIO ONLINE.</span>
+          </h1>
+
+          <p className="text-xl md:text-2xl text-zinc-400 mb-12 max-w-2xl leading-relaxed">
+            Gestão inteligente, agendamentos rápidos e segurança total para o seu salão ou clínica.
+          </p>
+
+          <div className="flex flex-col sm:flex-row gap-4">
+            <button 
+              onClick={() => navigate('/dashboard')}
+              className="group bg-amber-500 text-black font-black px-10 py-6 rounded-2xl flex items-center justify-center gap-3 transition-all hover:bg-amber-400 hover:scale-[1.02] active:scale-95"
+            >
+              ENTRAR NO PAINEL
+              <ArrowRight className="transition-transform group-hover:translate-x-1" />
+            </button>
+            
+            <div className="flex items-center gap-6 px-4">
+              <div className="flex flex-col">
+                <span className="text-xl font-bold">100%</span>
+                <span className="text-[10px] text-zinc-500 uppercase font-black">Seguro</span>
+              </div>
+              <div className="w-[1px] h-8 bg-white/10" />
+              <div className="flex flex-col">
+                <span className="text-xl font-bold">24/7</span>
+                <span className="text-[10px] text-zinc-500 uppercase font-black">Suporte</span>
+              </div>
+            </div>
           </div>
         </div>
-      </main>
 
-      <footer className="relative z-10 py-12 border-t border-white/5 text-center text-zinc-600 text-sm font-bold uppercase tracking-widest">
-        © 2026 BELEZA LINK PREMIUM • NEXO OS
-      </footer>
+        {/* Footer com diferenciais */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-32 border-t border-white/5 pt-16">
+          <div className="flex items-start gap-4">
+            <div className="bg-white/5 p-3 rounded-xl text-amber-500"><Zap size={24} /></div>
+            <div>
+              <h3 className="font-bold mb-1 uppercase text-sm">Alta Performance</h3>
+              <p className="text-zinc-500 text-xs">Sistema otimizado para agendamentos em segundos.</p>
+            </div>
+          </div>
+          <div className="flex items-start gap-4">
+            <div className="bg-white/5 p-3 rounded-xl text-amber-500"><Shield size={24} /></div>
+            <div>
+              <h3 className="font-bold mb-1 uppercase text-sm">Dados Protegidos</h3>
+              <p className="text-zinc-500 text-xs">Seus clientes e finanças com criptografia total.</p>
+            </div>
+          </div>
+          <div className="flex items-start gap-4">
+            <div className="bg-white/5 p-3 rounded-xl text-amber-500"><Star size={24} /></div>
+            <div>
+              <h3 className="font-bold mb-1 uppercase text-sm">Interface Premium</h3>
+              <p className="text-zinc-500 text-xs">Design moderno que valoriza a sua marca profissional.</p>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
