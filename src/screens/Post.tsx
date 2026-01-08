@@ -1,17 +1,16 @@
-import { useParams, useNavigate } from 'react-router-dom';
-import { ArrowLeft, Calendar, Share2, Image as ImageIcon } from 'lucide-react';
+﻿import { useParams, useNavigate } from "react-router-dom";
+import { ArrowLeft, Calendar, Share2, Image as ImageIcon } from "lucide-react";
 
 export default function Post() {
   const { id } = useParams();
   const navigate = useNavigate();
 
-  // Conteúdo real dos artigos
   const content: Record<string, any> = {
     "1": {
       title: "5 Tendências de Cortes para 2026",
       date: "06 Jan, 2026",
       category: "Tendências",
-      body: "O ano de 2026 traz o retorno do 'Luxury Shag' e cortes ultra-estruturados. Especialistas apontam que a personalização baseada na inteligência artificial do formato do rosto será o grande diferencial nos salões. Espere ver muitas camadas e franjas cortinas com acabamento acetinado."
+      body: "O ano de 2026 traz o retorno do Luxury Shag e cortes ultra-estruturados. Especialistas apontam que a personalização baseada na inteligência artificial do formato do rosto será o grande diferencial nos salões. Espere ver muitas camadas e franjas cortinas com acabamento acetinado."
     },
     "2": {
       title: "Como Dobrar seu Faturamento com a Agenda",
@@ -21,25 +20,20 @@ export default function Post() {
     }
   };
 
-  // Busca o artigo ou usa o 1 como padrão se não encontrar
   const article = content[id || "1"];
 
-  // Caso o ID seja inválido e não exista nem o padrão
   if (!article) {
     return (
       <div className="min-h-screen bg-black text-white flex flex-col items-center justify-center">
         <p className="text-zinc-500 italic mb-4">Artigo não encontrado.</p>
-        <button onClick={() => navigate('/blog')} className="text-amber-500 font-black uppercase text-xs">Voltar ao Blog</button>
+        <button onClick={() => navigate("/blog")} className="text-amber-500 font-black uppercase text-xs">Voltar ao Blog</button>
       </div>
     );
   }
 
   return (
     <div className="min-h-screen bg-black text-white p-6 md:p-12 pb-32">
-      <button 
-        onClick={() => navigate('/blog')} 
-        className="flex items-center gap-2 text-amber-500 mb-8 font-black uppercase text-[10px] tracking-widest hover:gap-4 transition-all"
-      >
+      <button onClick={() => navigate("/blog")} className="flex items-center gap-2 text-amber-500 mb-8 font-black uppercase text-[10px] tracking-widest hover:gap-4 transition-all">
         <ArrowLeft size={16} /> Voltar para o Editorial
       </button>
 
@@ -56,10 +50,7 @@ export default function Post() {
           <div className="flex items-center gap-2">
             <Calendar size={14} className="text-amber-500" /> {article.date}
           </div>
-          <button 
-            onClick={() => navigator.share?.({ title: article.title, url: window.location.href })}
-            className="flex items-center gap-2 cursor-pointer hover:text-white transition-colors"
-          >
+          <button onClick={() => navigator.share?.({ title: article.title, url: window.location.href })} className="flex items-center gap-2 cursor-pointer hover:text-white transition-colors">
             <Share2 size={14} className="text-amber-500" /> Compartilhar
           </button>
         </div>
@@ -78,4 +69,3 @@ export default function Post() {
     </div>
   );
 }
-
