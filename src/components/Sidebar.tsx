@@ -1,51 +1,37 @@
-﻿import { Link, useLocation } from "react-router-dom";
-import { LayoutDashboard, Calendar, Users, Brain, Wallet, GraduationCap, MessageSquare, Settings } from "lucide-react";
-
-const menuItems = [
-  { icon: LayoutDashboard, label: "Painel", path: "/painel" },
-  { icon: Calendar, label: "Agenda", path: "/agenda" },
-  { icon: Users, label: "Clientes", path: "/clientes" },
-  { icon: Brain, label: "IA Preditora", path: "/ia" },
-  { icon: Wallet, label: "Carteira", path: "/wallet" },
-  { icon: GraduationCap, label: "Academy", path: "/academy" },
-  { icon: MessageSquare, label: "Comunidade", path: "/comunidade" },
-];
+﻿import { useNavigate, useLocation } from "react-router-dom";
+import { LayoutDashboard, Calendar, Users, Brain, Wallet, MessageSquare, Video, FileText, LogOut } from "lucide-react";
 
 export default function Sidebar() {
+  const navigate = useNavigate();
   const location = useLocation();
+  const menuItems = [
+    { label: "Painel", icon: LayoutDashboard, path: "/painel" },
+    { label: "Agenda", icon: Calendar, path: "/agenda" },
+    { label: "Clientes", icon: Users, path: "/clientes" },
+    { label: "IA", icon: Brain, path: "/ia" },
+    { label: "Financeiro", icon: Wallet, path: "/wallet" },
+    { label: "Comunidade", icon: MessageSquare, path: "/comunidade" },
+    { label: "Live", icon: Video, path: "/live" },
+    { label: "Blog", icon: FileText, path: "/blog" }
+  ];
 
   return (
-    <aside className="fixed left-0 top-0 h-screen w-64 bg-[#050505] border-r border-zinc-900 z-[100] flex flex-col p-6 shadow-2xl">
-      <div className="mb-12 px-2">
-        <h1 className="text-xl font-black italic tracking-tighter text-white">
-          BELEZA <span className="text-[#F97316]">LINK</span>
-        </h1>
+    <aside className="hidden lg:flex h-screen w-64 bg-black border-r border-white/5 flex-col fixed left-0 top-0 z-50">
+      <div className="p-8">
+        <h2 className="text-xl font-light tracking-[0.3em] uppercase text-white">BELEZA <span className="text-[#F97316] font-bold">LINK</span></h2>
       </div>
-
-      <nav className="flex-1 space-y-2 overflow-y-auto">
-        {menuItems.map((item) => {
-          const isActive = location.pathname === item.path;
-          return (
-            <Link
-              key={item.path}
-              to={item.path}
-              className={`flex items-center gap-4 px-4 py-3 rounded-xl font-bold text-[11px] uppercase tracking-widest transition-all duration-300 group ${
-                isActive 
-                ? "bg-[#F97316] text-black shadow-[0_0_30px_rgba(249,115,22,0.4)]" 
-                : "text-zinc-500 hover:text-white hover:bg-zinc-900/50"
-              }`}
-            >
-              <item.icon size={18} className={isActive ? "animate-pulse" : "group-hover:text-[#F97316]"} />
-              {item.label}
-            </Link>
-          );
-        })}
+      <nav className="flex-1 px-4 space-y-1">
+        {menuItems.map((item) => (
+          <button key={item.path} onClick={() => navigate(item.path)} className={`w-full flex items-center gap-4 p-4 rounded-xl transition-all ${location.pathname === item.path ? "bg-[#F97316]/10 text-[#F97316]" : "text-zinc-500 hover:text-white"}`}>
+            <item.icon size={20} />
+            <span className="text-[10px] font-bold uppercase tracking-widest">{item.label}</span>
+          </button>
+        ))}
       </nav>
-
-      <div className="pt-6 border-t border-zinc-900">
-        <button className="flex items-center gap-4 px-4 py-3 text-zinc-500 hover:text-white transition-all w-full text-[11px] font-bold uppercase tracking-widest group">
-          <Settings size={18} className="group-hover:rotate-90 transition-transform duration-500" />
-          Ajustes
+      <div className="p-6">
+        <button onClick={() => window.location.reload()} className="flex items-center gap-4 text-zinc-600 hover:text-red-500 w-full p-2">
+          <LogOut size={18} />
+          <span className="text-[10px] font-black uppercase tracking-widest">Sair</span>
         </button>
       </div>
     </aside>

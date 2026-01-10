@@ -1,0 +1,1 @@
+﻿export default function Live() { return <div className='p-8 text-white'><h1>Tela Live</h1><p>Em desenvolvimento...</p></div>; }

@@ -1,64 +1,112 @@
-﻿import { Calendar as CalendarIcon, Clock, User, Scissors, ChevronRight, Plus } from "lucide-react";
-import { motion } from "framer-motion";
+﻿import { useEffect, useState } from "react";
+import { supabase } from "../lib/supabase";
+import { Clock, Loader2, Trash2 } from "lucide-react";
 
 export default function Agenda() {
-  const agendamentos = [
-    { id: 1, cliente: "Marcos Oliveira", servico: "Corte Degradê", hora: "14:30", status: "Confirmado" },
-    { id: 2, cliente: "Cláudio Silva", servico: "Barba & Toalha Quente", hora: "15:45", status: "Em espera" },
-    { id: 3, cliente: "Ricardo Santos", servico: "Combo Premium", hora: "17:00", status: "Confirmado" },
-  ];
+  const [loading, setLoading] = useState(false);
+  const [fetching, setFetching] = useState(true);
+  const [clientes, setClientes] = useState<any[]>([]);
+  const [agendamentos, setAgendamentos] = useState<any[]>([]);
+  const [selectedClient, setSelectedClient] = useState("");
+  const [data, setData] = useState("");
+  const [hora, setHora] = useState("");
+  const [servico, setServico] = useState("");
+
+  const carregarDados = async () => {
+    setFetching(true);
+    try {
+      const { data: cData } = await supabase.from("clientes").select("id, nome");
+      if (cData) setClientes(cData);
+      
+      const { data: aData } = await supabase
+        .from("appointments")
+        .select("id, data_hora, servico, clientes ( nome )")
+        .order("data_hora", { ascending: true });
+      
+      if (aData) setAgendamentos(aData);
+    } catch (error) { 
+      console.error("Erro ao carregar:", error); 
+    } finally {
+      setFetching(false);
+    }
+  };
+
+  useEffect(() => { carregarDados(); }, []);
+
+  const handleSave = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setLoading(true);
+    const { error } = await supabase.from("appointments").insert([
+      { client_id: selectedClient, data_hora: `${data}T${hora}:00Z`, servico: servico }
+    ]);
+    if (!error) {
+      setServico(""); setSelectedClient(""); setData(""); setHora(""); 
+      carregarDados();
+    }
+    setLoading(false);
+  };
+
+  const deletarAgendamento = async (id: string) => {
+    if (confirm("Deseja realmente cancelar este horário?")) {
+      await supabase.from("appointments").delete().eq("id", id);
+      carregarDados();
+    }
+  };
 
   return (
-    <motion.div 
-      initial={{ opacity: 0, x: 20 }} 
-      animate={{ opacity: 1, x: 0 }} 
-      className="space-y-8 text-left"
-    >
-      <header className="flex justify-between items-end">
-        <div>
-          <h1 className="text-3xl font-black uppercase italic tracking-tighter">
-            Sua <span className="text-[#F97316]">Agenda</span>
-          </h1>
-          <p className="text-zinc-500 text-[10px] uppercase tracking-[0.3em] font-bold">Quinta-feira, 08 de Janeiro</p>
-        </div>
-        <button className="bg-[#F97316] text-black p-3 rounded-xl hover:scale-110 transition-transform shadow-lg shadow-[#F97316]/20">
-          <Plus size={20} strokeWidth={3} />
-        </button>
+    <div className="p-4 space-y-8 max-w-4xl mx-auto pb-32 text-left">
+      <header>
+        <h1 className="text-3xl font-black italic uppercase text-white tracking-tighter">AGENDA <span className="text-[#F97316]">PREMIUM</span></h1>
       </header>
 
-      <div className="grid gap-4">
-        {agendamentos.map((item) => (
-          <div key={item.id} className="bg-zinc-900/40 border border-zinc-800 p-5 rounded-[2rem] flex items-center justify-between hover:bg-zinc-900/60 transition-all group">
-            <div className="flex items-center gap-6">
-              <div className="w-12 h-12 bg-zinc-800 rounded-2xl flex items-center justify-center text-[#F97316] group-hover:bg-[#F97316] group-hover:text-black transition-all">
-                <Clock size={24} />
-              </div>
-              <div>
-                <div className="flex items-center gap-2 mb-1">
-                  <User size={12} className="text-zinc-500" />
-                  <h3 className="text-sm font-bold uppercase italic">{item.cliente}</h3>
-                </div>
-                <div className="flex items-center gap-2">
-                  <Scissors size={12} className="text-[#F97316]" />
-                  <p className="text-[10px] uppercase font-black text-zinc-500 tracking-widest">{item.servico} • {item.hora}</p>
-                </div>
-              </div>
-            </div>
-            
-            <div className="flex items-center gap-4">
-              <span className={`text-[9px] font-black uppercase px-3 py-1 rounded-full border ${item.status === "Confirmado" ? "border-emerald-500/50 text-emerald-500 bg-emerald-500/10" : "border-amber-500/50 text-amber-500 bg-amber-500/10"}`}>
-                {item.status}
-              </span>
-              <ChevronRight size={18} className="text-zinc-700" />
-            </div>
-          </div>
-        ))}
-      </div>
+      <form onSubmit={handleSave} className="bg-zinc-900/50 p-6 rounded-[2.5rem] border border-white/5 space-y-4">
+        <h2 className="text-[10px] font-black text-[#F97316] uppercase tracking-[0.2em] italic">Marcar Horário</h2>
+        <select required value={selectedClient} onChange={(e) => setSelectedClient(e.target.value)} className="w-full bg-black border border-white/5 p-4 rounded-2xl text-white text-xs font-bold uppercase outline-none focus:border-[#F97316]">
+          <option value="">Selecione o Cliente...</option>
+          {clientes.map(c => <option key={c.id} value={c.id}>{c.nome}</option>)}
+        </select>
+        
+        <div className="grid grid-cols-2 gap-4">
+          <input required type="date" value={data} onChange={(e) => setData(e.target.value)} className="bg-black border border-white/5 p-4 rounded-2xl text-xs text-white outline-none focus:border-[#F97316]" />
+          <input required type="time" value={hora} onChange={(e) => setHora(e.target.value)} className="bg-black border border-white/5 p-4 rounded-2xl text-xs text-white outline-none focus:border-[#F97316]" />
+        </div>
+        
+        <input required placeholder="QUAL O SERVIÇO?" value={servico} onChange={(e) => setServico(e.target.value.toUpperCase())} className="w-full bg-black border border-white/5 p-4 rounded-2xl text-xs font-bold text-white outline-none focus:border-[#F97316]" />
+        
+        <button type="submit" disabled={loading} className="w-full bg-[#F97316] text-black font-black py-5 rounded-[2rem] text-xs flex items-center justify-center gap-2 hover:bg-orange-600 transition-colors">
+          {loading ? <Loader2 className="animate-spin" size={18} /> : "AGENDAR AGORA"}
+        </button>
+      </form>
 
-      <div className="bg-zinc-900/20 border border-zinc-800 border-dashed p-8 rounded-[2.5rem] flex flex-col items-center justify-center text-center">
-        <CalendarIcon size={32} className="text-zinc-800 mb-2" />
-        <p className="text-zinc-600 uppercase text-[9px] font-black tracking-widest">Fim da agenda de hoje</p>
-      </div>
-    </motion.div>
+      <section className="space-y-4">
+        <h2 className="text-[10px] font-black text-zinc-500 uppercase tracking-[0.2em] italic">Próximos Clientes</h2>
+        
+        {fetching ? (
+          <div className="flex justify-center py-10"><Loader2 className="animate-spin text-[#F97316]" /></div>
+        ) : agendamentos.length === 0 ? (
+          <p className="text-zinc-600 text-xs font-bold uppercase text-center py-10">Nenhum agendamento encontrado.</p>
+        ) : (
+          agendamentos.map(a => (
+            <div key={a.id} className="bg-zinc-900/30 border border-white/5 p-5 rounded-[2rem] flex justify-between items-center group hover:bg-zinc-900/60 transition-all">
+              <div className="flex gap-4 items-center">
+                <div className="bg-[#F97316]/10 p-4 rounded-2xl text-[#F97316]">
+                  <Clock size={20} />
+                </div>
+                <div>
+                  <p className="font-black text-sm uppercase italic text-white">{(a.clientes as any)?.nome || "CLIENTE EXCLUÍDO"}</p>
+                  <p className="text-zinc-500 text-[9px] font-bold uppercase mt-1">
+                    {new Date(a.data_hora).toLocaleDateString("pt-BR")} às {new Date(a.data_hora).toLocaleTimeString("pt-BR", { hour: "2-digit", minute: "2-digit" })}
+                  </p>
+                  <div className="inline-block px-2 py-0.5 bg-[#F97316]/10 rounded text-[#F97316] text-[8px] font-black uppercase mt-2">{a.servico}</div>
+                </div>
+              </div>
+              <button onClick={() => deletarAgendamento(a.id)} className="text-zinc-800 hover:text-red-500 transition-colors p-3">
+                <Trash2 size={18} />
+              </button>
+            </div>
+          ))
+        )}
+      </section>
+    </div>
   );
 }

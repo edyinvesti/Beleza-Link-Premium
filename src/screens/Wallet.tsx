@@ -1,0 +1,1 @@
+﻿export default function Wallet() { return <div className='p-8 text-white'><h1>Tela Wallet</h1><p>Em desenvolvimento...</p></div>; }

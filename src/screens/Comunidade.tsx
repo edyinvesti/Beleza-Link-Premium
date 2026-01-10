@@ -1,0 +1,1 @@
+﻿export default function Comunidade() { return <div className='p-8 text-white'><h1>Tela Comunidade</h1><p>Em desenvolvimento...</p></div>; }
