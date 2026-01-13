@@ -1,4 +1,5 @@
 ﻿import { ArrowRight, Clock, Hash, Search } from "lucide-react";
+import BackHeader from "../components/BackHeader";
 
 export default function Blog() {
     const articles = [
@@ -26,8 +27,10 @@ export default function Blog() {
     ];
 
     return (
-        <div className="min-h-screen bg-black text-white p-6 pt-20 md:p-12 overflow-x-hidden">
-            <div className="max-w-7xl mx-auto space-y-12">
+        <div className="min-h-screen bg-black text-white pb-20 overflow-x-hidden">
+            <BackHeader title="Beleza News" />
+            
+            <div className="max-w-7xl mx-auto p-6 md:p-12 space-y-12">
 
                 {/* Header */}
                 <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 border-b border-white/5 pb-8">
