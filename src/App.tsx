@@ -2,7 +2,8 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { LayoutDashboard, Calendar, Users, LogOut, ChevronDown, Radio, Newspaper, Database, MapPin, GraduationCap, Lock } from "lucide-react";
 import SplashScreen from "./components/SplashScreen";
-import Live from "./screens/Live";
+import Live from './screens/Live';
+import CRM from './screens/CRM';
 import Blog from "./screens/Blog";
 import Comunidade from "./screens/Comunidade";
 import Academy from "./screens/Academy";
