@@ -5,6 +5,7 @@ import SplashScreen from "./components/SplashScreen";
 import Live from "./screens/Live";
 import Blog from "./screens/Blog";
 import Comunidade from "./screens/Comunidade";
+import Academy from "./screens/Academy";
 
 export default function App() {
   const [finished, setFinished] = useState(false);
@@ -14,6 +15,7 @@ export default function App() {
   const [showLive, setShowLive] = useState(false);
   const [showBlog, setShowBlog] = useState(false);
   const [showComunidade, setShowComunidade] = useState(false);
+  const [showAcademy, setShowAcademy] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   useEffect(() => {
@@ -90,6 +92,10 @@ export default function App() {
             </button>
             <Comunidade />
           </motion.div>
+        ) : showAcademy ? (
+          <motion.div key="academy" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="min-h-screen bg-black relative">
+            <Academy onBack={() => setShowAcademy(false)} />
+          </motion.div>
         ) : showSystem && !isLoggedIn ? (
           <motion.div key="login" initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="fixed inset-0 flex items-center justify-center bg-black/90 backdrop-blur-xl z-[500] p-6">
             <div className="w-full max-w-sm bg-zinc-900 border-t-8 border-[#F97316] p-10 rounded-[30px] text-center shadow-[0_20px_50px_rgba(0,0,0,1)]">
@@ -125,7 +131,8 @@ export default function App() {
                     const isLive = item.name === "Live";
                     const isBlog = item.name === "Blog";
                     const isComunidade = item.name === "Comunidade";
-                    const isFree = isLive || isBlog || isComunidade;
+                    const isAcademy = item.name === "Curso";
+                    const isFree = isLive || isBlog || isComunidade || isAcademy;
 
                     return (
                       <div key={item.name}
@@ -133,6 +140,7 @@ export default function App() {
                           if (isLive) setShowLive(true);
                           else if (isBlog) setShowBlog(true);
                           else if (isComunidade) setShowComunidade(true);
+                          else if (isAcademy) setShowAcademy(true);
                           else setShowSystem(true);
                         }}
                         className="bg-zinc-900/50 backdrop-blur-sm p-8 rounded-[25px] shadow-2xl cursor-pointer transition-all group hover:bg-[#F97316]/10 hover:shadow-[#F97316]/20 hover:scale-105 active:scale-95">

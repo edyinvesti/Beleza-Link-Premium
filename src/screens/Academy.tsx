@@ -1,6 +1,6 @@
 ﻿import { Play, BookOpen, Award, Users, Scissors, Star } from "lucide-react";
 
-export default function Academy() {
+export default function Academy({ onBack }: { onBack: () => void }) {
   const categories = [
     { title: "Corte & Estilo", icon: Scissors, color: "text-amber-500", desc: "Técnicas avançadas" },
     { title: "Visagismo", icon: Star, color: "text-amber-500", desc: "Harmonia facial" },
@@ -11,8 +11,14 @@ export default function Academy() {
   ];
 
   return (
-    <div className="p-6 md:p-12 text-white min-h-screen bg-[#050505] pb-24">
-      <header className="mb-12">
+    <div className="p-6 md:p-12 text-white min-h-screen bg-[#050505] pb-24 relative">
+      <button
+        onClick={onBack}
+        className="absolute top-6 left-6 z-50 text-white/50 hover:text-white uppercase text-[10px] font-black tracking-widest flex items-center gap-2"
+      >
+        ← Voltar
+      </button>
+      <header className="mb-12 mt-12 md:mt-0">
         <h1 className="text-5xl font-black italic uppercase tracking-tighter leading-none mb-2">
           ACADEMY
         </h1>
