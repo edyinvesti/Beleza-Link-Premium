@@ -15,28 +15,43 @@ export default function Academy({ onBack }: { onBack: () => void }) {
   const [purchasedCourses, setPurchasedCourses] = useState<string[]>([]);
 
   // Player State
+  const [currentModuleIdx, setCurrentModuleIdx] = useState(0);
   const [currentLessonIdx, setCurrentLessonIdx] = useState(0);
-  const [completedLessons, setCompletedLessons] = useState<number[]>([]);
+  const [completedLessons, setCompletedLessons] = useState<string[]>([]); // id: "moduleIdx-lessonIdx"
 
   const categories = [
     { id: 'corte', title: "Corte & Estilo", icon: Scissors, color: "text-amber-500", desc: "Técnicas avançadas de tesoura e máquina", status: "NOVO", price: "R$ 197,90" },
     { id: 'visagismo', title: "Visagismo", icon: Star, color: "text-amber-400", desc: "Harmonia facial e consultoria de imagem", price: "R$ 147,00" },
     { id: 'masterclass', title: "Masterclass", icon: Play, color: "text-red-500", desc: "Aulas ao vivo com grandes mestres", status: "AO VIVO", price: "R$ 297,00" },
     { id: 'gestao', title: "Gestão", icon: BookOpen, color: "text-blue-400", desc: "Marketing, Vendas e Atendimento de Elite", price: "R$ 197,90" },
-    { id: 'certificados', title: "Certificados", icon: Award, color: "text-green-400", desc: "Acompanhe sua evolução profissional", price: "GRÁTIS" },
+    { id: 'certificados', icon: Award, color: "text-green-400", desc: "Acompanhe sua evolução profissional", price: "GRÁTIS" },
     { id: 'comunidade', title: "Comunidade", icon: Users, color: "text-purple-400", desc: "Troca de experiências e networking", price: "GRÁTIS" }
   ];
 
-  const lessons = [
-    { title: "Boas-vindas e Introdução", duration: "05:20" },
-    { title: "Fundamentos da Tesoura de Elite", duration: "15:45" },
-    { title: "Técnicas de Angularidade", duration: "22:10" },
-    { title: "Degradê de Alta Performance", duration: "18:30" },
-    { title: "Finalização e Styling Premium", duration: "12:15" },
-    { title: "Conclusão do Módulo", duration: "08:00" }
+  const modules = [
+    {
+      title: "Módulo 01: Fundamentos de Elite",
+      lessons: [
+        { title: "Boas-vindas e Mentalidade", duration: "05:20", desc: "Prepare-se para elevar o nível do seu salão com uma mentalidade de abundância e técnica.", instructor: "Mestre Rodrigo" },
+        { title: "Controle de Tesoura", duration: "15:45", desc: "Exercícios práticos para dominar o manuseio e a precisão da tesoura.", instructor: "Mestre Rodrigo" },
+        { title: "Geometria do Corte", duration: "22:10", desc: "A base teórica de como as formas e ângulos transformam o rosto.", instructor: "Mestre Rodrigo" }
+      ]
+    },
+    {
+      title: "Módulo 02: Prática Avançada",
+      lessons: [
+        { title: "Degradê High-Fade", duration: "18:30", desc: "Técnica passo a passo para um degradê limpo e sem marcas em tempo recorde.", instructor: "Mestre Rodrigo" },
+        { title: "Texturização Moderna", duration: "12:15", desc: "Como criar movimento e volume usando diferentes ferramentas.", instructor: "Mestre Rodrigo" },
+        { title: "Conclusão e Certificação", duration: "08:00", desc: "Revisão dos pontos-chave e orientações para o seu certificado.", instructor: "Equipe Link" }
+      ]
+    }
   ];
 
-  const progress = Math.round((completedLessons.length / lessons.length) * 100);
+  const allLessonsCount = modules.reduce((acc, mod) => acc + mod.lessons.length, 0);
+  const progress = Math.round((completedLessons.length / allLessonsCount) * 100);
+
+  const currentLesson = modules[currentModuleIdx].lessons[currentLessonIdx];
+  const currentLessonId = `${currentModuleIdx}-${currentLessonIdx}`;
 
   const handleCategoryClick = (category: any) => {
     setSelectedCategory(category);
@@ -48,19 +63,25 @@ export default function Academy({ onBack }: { onBack: () => void }) {
   };
 
   const handlePurchase = () => {
-    // Simula a compra e libera o curso
     setPurchasedCourses([...purchasedCourses, selectedCategory.id]);
     setView('player');
   };
 
   const toggleLessonCompletion = () => {
-    if (completedLessons.includes(currentLessonIdx)) {
-      setCompletedLessons(completedLessons.filter(idx => idx !== currentLessonIdx));
+    if (completedLessons.includes(currentLessonId)) {
+      setCompletedLessons(completedLessons.filter(id => id !== currentLessonId));
     } else {
-      setCompletedLessons([...completedLessons, currentLessonIdx]);
-      // Move para a próxima aula se não for a última
-      if (currentLessonIdx < lessons.length - 1) {
-        setTimeout(() => setCurrentLessonIdx(currentLessonIdx + 1), 500);
+      setCompletedLessons([...completedLessons, currentLessonId]);
+
+      // Auto-next logic
+      const currentModule = modules[currentModuleIdx];
+      if (currentLessonIdx < currentModule.lessons.length - 1) {
+        setTimeout(() => setCurrentLessonIdx(currentLessonIdx + 1), 600);
+      } else if (currentModuleIdx < modules.length - 1) {
+        setTimeout(() => {
+          setCurrentModuleIdx(currentModuleIdx + 1);
+          setCurrentLessonIdx(0);
+        }, 600);
       }
     }
   };
@@ -221,10 +242,10 @@ export default function Academy({ onBack }: { onBack: () => void }) {
               <div className="relative aspect-video bg-zinc-900 rounded-[2.5rem] overflow-hidden border border-white/5 shadow-2xl group mb-8">
                 <AnimatePresence mode="wait">
                   <motion.div
-                    key={currentLessonIdx}
-                    initial={{ opacity: 0, scale: 0.9 }}
+                    key={currentLessonId}
+                    initial={{ opacity: 0, scale: 0.95 }}
                     animate={{ opacity: 1, scale: 1 }}
-                    exit={{ opacity: 0, scale: 1.1 }}
+                    exit={{ opacity: 0, scale: 1.05 }}
                     className="absolute inset-0 flex items-center justify-center"
                   >
                     <div className="w-24 h-24 bg-amber-500 rounded-full flex items-center justify-center cursor-pointer hover:scale-110 transition-transform shadow-[0_0_60px_rgba(245,158,11,0.4)]">
@@ -233,75 +254,96 @@ export default function Academy({ onBack }: { onBack: () => void }) {
                   </motion.div>
                 </AnimatePresence>
 
-                {/* Mock Progress Bar */}
                 <div className="absolute bottom-0 left-0 right-0 h-1.5 bg-white/10 group-hover:h-3 transition-all">
                   <motion.div
                     initial={{ width: "0%" }}
-                    animate={{ width: "45%" }}
+                    animate={{ width: "65%" }}
                     className="h-full bg-amber-500 rounded-r-full shadow-[0_0_15px_rgba(245,158,11,0.8)]"
                   />
                 </div>
 
                 <div className="absolute bottom-6 left-8 right-8 flex justify-between items-end">
                   <div>
-                    <h4 className="text-[10px] font-black text-amber-500 uppercase tracking-widest mb-1">Aula {String(currentLessonIdx + 1).padStart(2, '0')} • Módulo 01</h4>
-                    <p className="text-2xl font-black uppercase italic tracking-tighter">{lessons[currentLessonIdx].title}</p>
+                    <h4 className="text-[10px] font-black text-amber-500 uppercase tracking-widest mb-1">
+                      {String(currentLessonIdx + 1).padStart(2, '0')} • {modules[currentModuleIdx].title}
+                    </h4>
+                    <p className="text-2xl font-black uppercase italic tracking-tighter">{currentLesson.title}</p>
                   </div>
                   <div className="bg-black/60 backdrop-blur-xl px-4 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest border border-white/5">
-                    {lessons[currentLessonIdx].duration}
+                    {currentLesson.duration}
                   </div>
                 </div>
               </div>
 
-              <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
-                <div>
-                  <h2 className="text-4xl font-black uppercase tracking-tighter mb-2 italic">{selectedCategory?.title}</h2>
-                  <div className="flex items-center gap-4 text-zinc-500 text-[9px] font-black uppercase tracking-widest">
-                    <span>Módulo 01</span>
-                    <span className="w-1.5 h-1.5 bg-zinc-800 rounded-full"></span>
+              <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-8 mb-12">
+                <div className="flex-1">
+                  <h2 className="text-4xl font-black uppercase tracking-tighter mb-3 italic">{selectedCategory?.title}</h2>
+                  <div className="flex items-center gap-4 text-zinc-500 text-[9px] font-black uppercase tracking-widest mb-6">
                     <span className="text-amber-500">{progress}% Concluído</span>
-                    <div className="w-32 h-1.5 bg-zinc-900 rounded-full overflow-hidden">
+                    <div className="w-48 h-1.5 bg-zinc-900 rounded-full overflow-hidden">
                       <motion.div animate={{ width: `${progress}%` }} className="h-full bg-amber-500" />
                     </div>
                   </div>
+                  <p className="text-zinc-400 text-sm leading-relaxed max-w-2xl bg-white/5 p-6 rounded-3xl border border-white/5">
+                    {currentLesson.desc}
+                  </p>
                 </div>
-                <button
-                  onClick={toggleLessonCompletion}
-                  className={`font-black px-10 py-5 rounded-2xl uppercase text-[10px] tracking-[0.3em] transition-all flex items-center gap-3 ${completedLessons.includes(currentLessonIdx) ? 'bg-green-500 text-black' : 'bg-white text-black hover:bg-amber-500'}`}
-                >
-                  {completedLessons.includes(currentLessonIdx) ? <CheckCircle2 size={16} /> : null}
-                  {completedLessons.includes(currentLessonIdx) ? 'Concluída' : 'Marcar como Concluída'}
-                </button>
+                <div className="flex flex-col gap-4 w-full md:w-auto">
+                  <button
+                    onClick={toggleLessonCompletion}
+                    className={`font-black px-10 py-5 rounded-2xl uppercase text-[10px] tracking-[0.3em] transition-all flex items-center justify-center gap-3 ${completedLessons.includes(currentLessonId) ? 'bg-green-500 text-black' : 'bg-white text-black hover:bg-amber-500'}`}
+                  >
+                    {completedLessons.includes(currentLessonId) ? <CheckCircle2 size={16} /> : null}
+                    {completedLessons.includes(currentLessonId) ? 'Concluída' : 'Marcar como Concluída'}
+                  </button>
+                  <div className="bg-zinc-900 p-4 rounded-2xl border border-white/5 flex items-center gap-4">
+                    <div className="w-10 h-10 bg-amber-500/10 rounded-xl flex items-center justify-center text-amber-500">
+                      <Users size={20} />
+                    </div>
+                    <div>
+                      <span className="text-[8px] font-black text-zinc-500 uppercase tracking-widest block">Instrutor</span>
+                      <span className="text-[10px] font-black uppercase tracking-widest">{currentLesson.instructor}</span>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
 
             {/* Sidebar: Lesson List */}
-            <div className="w-full lg:w-[450px] bg-zinc-950/50 backdrop-blur-3xl border-l border-white/5 p-8 overflow-y-auto max-h-[600px] lg:max-h-screen">
+            <div className="w-full lg:w-[480px] bg-zinc-950/50 backdrop-blur-3xl border-l border-white/5 p-8 overflow-y-auto max-h-[600px] lg:max-h-screen">
               <h3 className="text-[11px] font-black uppercase tracking-[0.5em] text-zinc-600 mb-10 px-2 flex items-center justify-between">
-                Trilha de Aulas <span className="text-amber-500">{lessons.length} Aulas</span>
+                Trilha do Curso <span className="text-amber-500">{allLessonsCount} Aulas</span>
               </h3>
 
-              <div className="space-y-4">
-                {lessons.map((lesson, idx) => (
-                  <motion.div
-                    key={idx}
-                    whileTap={{ scale: 0.98 }}
-                    onClick={() => setCurrentLessonIdx(idx)}
-                    className={`p-6 rounded-[2rem] flex items-center gap-5 transition-all cursor-pointer border-2 ${currentLessonIdx === idx ? 'bg-amber-500 border-amber-500 text-black shadow-[0_15px_30px_rgba(245,158,11,0.2)]' : 'bg-transparent border-white/5 hover:border-white/10 hover:bg-white/5 text-white/50 hover:text-white'}`}
-                  >
-                    <div className={`w-12 h-12 rounded-2xl flex items-center justify-center flex-shrink-0 ${currentLessonIdx === idx ? 'bg-black/10' : completedLessons.includes(idx) ? 'bg-green-500/10 text-green-500' : 'bg-zinc-900'}`}>
-                      {completedLessons.includes(idx) ? <CheckCircle2 size={22} strokeWidth={3} /> : <span className="text-[11px] font-black">{String(idx + 1).padStart(2, '0')}</span>}
+              <div className="space-y-8">
+                {modules.map((module, mIdx) => (
+                  <div key={mIdx}>
+                    <h4 className="text-[9px] font-black text-amber-500/50 uppercase tracking-[0.3em] mb-4 px-2">{module.title}</h4>
+                    <div className="space-y-3">
+                      {module.lessons.map((lesson, lIdx) => {
+                        const isSelected = currentModuleIdx === mIdx && currentLessonIdx === lIdx;
+                        const isDone = completedLessons.includes(`${mIdx}-${lIdx}`);
+                        return (
+                          <motion.div
+                            key={lIdx}
+                            whileTap={{ scale: 0.98 }}
+                            onClick={() => { setCurrentModuleIdx(mIdx); setCurrentLessonIdx(lIdx); }}
+                            className={`p-5 rounded-[1.8rem] flex items-center gap-5 transition-all cursor-pointer border-2 ${isSelected ? 'bg-amber-500 border-amber-500 text-black shadow-lg shadow-amber-500/10' : 'bg-transparent border-white/5 hover:border-white/10 hover:bg-white/5 text-white/50 hover:text-white'}`}
+                          >
+                            <div className={`w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0 ${isSelected ? 'bg-black/10' : isDone ? 'bg-green-500/10 text-green-500' : 'bg-zinc-900 border border-white/5'}`}>
+                              {isDone ? <CheckCircle2 size={18} strokeWidth={3} /> : <span className="text-[10px] font-black">{String(lIdx + 1).padStart(2, '0')}</span>}
+                            </div>
+                            <div className="flex-1 min-w-0">
+                              <h4 className="text-[10px] font-black uppercase tracking-widest mb-1 truncate">{lesson.title}</h4>
+                              <div className="flex items-center gap-2 text-[8px] font-black opacity-60 uppercase">
+                                <Clock size={10} /> {lesson.duration}
+                              </div>
+                            </div>
+                          </motion.div>
+                        );
+                      })}
                     </div>
-                    <div className="flex-1 min-w-0">
-                      <h4 className="text-xs font-black uppercase tracking-widest mb-1 truncate">{lesson.title}</h4>
-                      <div className="flex items-center gap-2 text-[8px] font-black opacity-60 uppercase">
-                        <Clock size={10} /> {lesson.duration}
-                      </div>
-                    </div>
-                    {currentLessonIdx === idx && (
-                      <motion.div layoutId="active-indicator" className="w-2 h-2 bg-black rounded-full" />
-                    )}
-                  </motion.div>
+                  </div>
                 ))}
               </div>
             </div>
