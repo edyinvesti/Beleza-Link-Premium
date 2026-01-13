@@ -20,7 +20,7 @@ export default function Academy({ onBack }: { onBack: () => void }) {
   const [completedLessons, setCompletedLessons] = useState<string[]>([]); // id: "moduleIdx-lessonIdx"
 
   const categories = [
-    { id: 'corte', title: "Corte & Estilo", icon: Scissors, color: "text-amber-500", desc: "Técnicas avançadas de tesoura e máquina", status: "NOVO", price: "R$ 197,90" },
+    { id: 'corte', title: "Corte & Estilo", icon: Scissors, color: "text-amber-500", desc: "Técnicas avançadas de tesoura e máquina", status: "NOVO", price: "R$ 197,90", image: "/Beleza-Link/corte-estilo-thumb.png" },
     { id: 'visagismo', title: "Visagismo", icon: Star, color: "text-amber-400", desc: "Harmonia facial e consultoria de imagem", price: "R$ 147,00" },
     { id: 'masterclass', title: "Masterclass", icon: Play, color: "text-red-500", desc: "Aulas ao vivo com grandes mestres", status: "AO VIVO", price: "R$ 297,00" },
     { id: 'gestao', title: "Gestão", icon: BookOpen, color: "text-blue-400", desc: "Marketing, Vendas e Atendimento de Elite", price: "R$ 197,90" },
@@ -175,16 +175,31 @@ export default function Academy({ onBack }: { onBack: () => void }) {
                     animate={{ opacity: 1, y: 0, transition: { delay: idx * 0.1 } }}
                     whileHover={{ y: -5 }}
                     onClick={() => handleCategoryClick(item)}
-                    className="bg-zinc-900/40 backdrop-blur-md p-8 rounded-[2.5rem] flex flex-col items-start gap-6 hover:bg-zinc-800/60 transition-all cursor-pointer group shadow-2xl relative"
+                    className="bg-zinc-900/40 backdrop-blur-md rounded-[2.5rem] overflow-hidden flex flex-col items-start hover:bg-zinc-800/60 transition-all cursor-pointer group shadow-2xl relative min-h-[280px]"
                   >
-                    {!isPurchased && <div className="absolute top-8 right-8 text-zinc-600 group-hover:text-amber-500 transition-colors"><Lock size={16} /></div>}
-                    <div className="bg-zinc-800/50 p-5 rounded-3xl group-hover:scale-110 transition-all"><item.icon className={item.color} size={32} /></div>
-                    <div>
-                      <div className="flex items-center gap-3 mb-2">
-                        <h3 className="font-black uppercase text-sm tracking-widest">{item.title}</h3>
-                        {item.status && <span className={`text-[8px] font-black px-2 py-0.5 rounded-full ${item.status === 'AO VIVO' ? 'bg-red-500' : 'bg-amber-500'} text-black`}>{item.status}</span>}
+                    {/* Background Image for Card */}
+                    {item.image && (
+                      <div className="absolute inset-0 z-0">
+                        <img src={item.image} alt={item.title} className="w-full h-full object-cover opacity-40 group-hover:opacity-60 transition-opacity duration-500 transform group-hover:scale-110" />
+                        <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent"></div>
                       </div>
-                      <p className="text-[10px] text-zinc-500 font-bold uppercase tracking-tight">{item.desc}</p>
+                    )}
+
+                    <div className="relative z-10 p-8 h-full flex flex-col justify-between w-full">
+                      <div className="flex justify-between items-start w-full">
+                        <div className="bg-zinc-800/50 backdrop-blur-xl p-4 rounded-2xl group-hover:scale-110 transition-all border border-white/5">
+                          <item.icon className={item.color} size={24} />
+                        </div>
+                        {!isPurchased && <div className="text-zinc-400/50 group-hover:text-amber-500 transition-colors bg-black/40 backdrop-blur-md p-2 rounded-lg border border-white/5"><Lock size={14} /></div>}
+                      </div>
+
+                      <div>
+                        <div className="flex items-center gap-3 mb-2">
+                          <h3 className="font-black uppercase text-sm tracking-widest text-white shadow-sm">{item.title}</h3>
+                          {item.status && <span className={`text-[8px] font-black px-2 py-0.5 rounded-full ${item.status === 'AO VIVO' ? 'bg-red-500' : 'bg-amber-500'} text-black`}>{item.status}</span>}
+                        </div>
+                        <p className="text-[10px] text-zinc-300 font-bold uppercase tracking-tight line-clamp-2">{item.desc}</p>
+                      </div>
                     </div>
                   </motion.div>
                 );
