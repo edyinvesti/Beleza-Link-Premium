@@ -1,4 +1,4 @@
-﻿import { ArrowRight, Clock, Hash, Search } from "lucide-react";
+﻿import { ArrowRight, Clock } from "lucide-react";
 import BackHeader from "../components/BackHeader";
 
 export default function Blog() {
@@ -44,10 +44,10 @@ export default function Blog() {
                         className="absolute inset-0 w-full h-full object-cover"
                         alt="Destaque"
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent"></div>
+                    <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent"></div>
                     <div className="absolute bottom-0 left-0 p-8 md:p-12">
                         <div className="bg-[#F97316] text-black text-[10px] font-black uppercase px-3 py-1 rounded-full w-fit mb-4">Destaque</div>
-                        <h2 className="text-3xl md:text-5xl font-black uppercase mb-4">O Futuro dos Salões</h2>
+                        <h2 className="text-3xl md:text-5xl font-black uppercase mb-4 leading-none">O Futuro <br/> dos Salões</h2>
                         <div className="flex items-center gap-6 text-zinc-300 text-xs font-bold uppercase">
                             <span className="flex items-center gap-2"><Clock size={14} className="text-[#F97316]" /> 15 min</span>
                         </div>
