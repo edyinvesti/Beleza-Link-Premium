@@ -20,7 +20,7 @@ export default function Academy({ onBack }: { onBack: () => void }) {
       </button>
       <header className="mb-12 mt-12 md:mt-0">
         <h1 className="text-5xl font-black italic uppercase tracking-tighter leading-none mb-2">
-          ACADEMY
+          TREINAMENTO <span className="text-amber-500">LINK</span>
         </h1>
         <p className="text-zinc-500 font-bold uppercase text-[10px] tracking-[0.3em]">Treinamento de Elite</p>
       </header>
