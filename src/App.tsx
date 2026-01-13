@@ -37,6 +37,7 @@ export default function App() {
     else if (partner === "NATURAL LISS") number = "5562985811896";
     else if (partner === "AKY LISSO") number = "5562993047719";
     else if (partner === "SELAGEM 3D") number = "5511940635561";
+    else if (partner === "ONILISS") number = "5562985811896";
     const message = `Olá! Vim pelo Beleza Link e quero saber mais sobre a marca ${partner}`;
     return `https://wa.me/${number}?text=${encodeURIComponent(message)}`;
   };
