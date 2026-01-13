@@ -124,9 +124,9 @@ export default function App() {
                     { name: "Live", icon: Radio },
                     { name: "Blog", icon: Newspaper },
                     { name: "Comunidade", icon: Users },
+                    { name: "Curso", icon: GraduationCap },
                     { name: "CRM", icon: Database },
-                    { name: "Geolocalização", icon: MapPin },
-                    { name: "Curso", icon: GraduationCap }
+                    { name: "Geolocalização", icon: MapPin }
                   ].map((item) => {
                     const isLive = item.name === "Live";
                     const isBlog = item.name === "Blog";
