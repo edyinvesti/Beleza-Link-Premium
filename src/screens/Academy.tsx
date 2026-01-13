@@ -24,7 +24,7 @@ export default function Academy({ onBack }: { onBack: () => void }) {
     { id: 'visagismo', title: "Visagismo", icon: Star, color: "text-amber-400", desc: "Harmonia facial e consultoria de imagem", price: "R$ 147,00" },
     { id: 'masterclass', title: "Masterclass", icon: Play, color: "text-red-500", desc: "Aulas ao vivo com grandes mestres", status: "AO VIVO", price: "R$ 297,00" },
     { id: 'gestao', title: "Gestão", icon: BookOpen, color: "text-blue-400", desc: "Marketing, Vendas e Atendimento de Elite", price: "R$ 197,90" },
-    { id: 'certificados', icon: Award, color: "text-green-400", desc: "Acompanhe sua evolução profissional", price: "GRÁTIS" },
+    { id: 'certificados', title: "Certificados", icon: Award, color: "text-green-400", desc: "Acompanhe sua evolução profissional", price: "GRÁTIS" },
     { id: 'comunidade', title: "Comunidade", icon: Users, color: "text-purple-400", desc: "Troca de experiências e networking", price: "GRÁTIS" }
   ];
 
