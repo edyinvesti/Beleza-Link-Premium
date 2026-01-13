@@ -122,9 +122,9 @@ export default function App() {
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                   {[
                     { name: "Live", icon: Radio },
-                    { name: "Blog", icon: Newspaper },
-                    { name: "Comunidade", icon: Users },
                     { name: "Curso", icon: GraduationCap },
+                    { name: "Comunidade", icon: Users },
+                    { name: "Blog", icon: Newspaper },
                     { name: "CRM", icon: Database },
                     { name: "Geolocalização", icon: MapPin }
                   ].map((item) => {
