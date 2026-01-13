@@ -1,14 +1,11 @@
 ﻿import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import { Target, Star, AlertCircle, MessageSquare, ArrowUpRight, CheckCircle2, X, Send, Gift } from "lucide-react";
+// import { useNavigate } from "react-router-dom"; // removed
+import { Target, Star, AlertCircle, MessageSquare, ArrowUpRight } from "lucide-react";
 import { supabase } from "../lib/supabase";
 import BackHeader from "../components/BackHeader";
 
 export default function CRM() {
-  const navigate = useNavigate();
-  const [vips, setVips] = useState([]);
-  const [totalLeads, setTotalLeads] = useState(0);
-  const [showCampaignModal, setShowCampaignModal] = useState(false);
+  const [vips, setVips] = useState<any[]>([]);
 
   useEffect(() => {
     async function fetchCRMData() {
@@ -18,17 +15,12 @@ export default function CRM() {
         .gt("total_spent", 300)
         .order("total_spent", { ascending: false });
 
-      const { count } = await supabase
-        .from("clients")
-        .select("*", { count: "exact", head: true });
-
       if (vipData) setVips(vipData);
-      if (count !== null) setTotalLeads(count);
     }
     fetchCRMData();
   }, []);
 
-  const handleWhatsApp = (phone, name) => {
+  const handleWhatsApp = (phone: any, name: any) => {
     const msg = encodeURIComponent(`Olá ${name}! ✨ Notamos que você é um cliente especial na Barbearia do Edy. Temos um voucher exclusivo te esperando para este mês!`);
     window.open(`https://wa.me/${phone.replace(/\D/g, "")}?text=${msg}`, "_blank");
   };
@@ -80,7 +72,7 @@ export default function CRM() {
           <AlertCircle size={32} className="mb-4" />
           <h3 className="text-2xl font-black uppercase leading-tight mb-2 italic">Aumente sua Retenção</h3>
           <p className="text-black/80 text-sm font-bold mb-6">Crie campanhas para trazer clientes de volta.</p>
-          <button onClick={() => setShowCampaignModal(true)} className="w-full bg-black text-white font-black py-4 rounded-2xl text-[10px] uppercase tracking-widest flex items-center justify-center gap-2 shadow-xl">
+          <button className="w-full bg-black text-white font-black py-4 rounded-2xl text-[10px] uppercase tracking-widest flex items-center justify-center gap-2 shadow-xl hover:bg-zinc-800 transition-colors">
             CRIAR CAMPANHA <ArrowUpRight size={14} />
           </button>
         </div>

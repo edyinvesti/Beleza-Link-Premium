@@ -1,4 +1,4 @@
-﻿import { Zap, Store, MessageCircle } from "lucide-react";
+﻿import { Zap } from "lucide-react";
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 

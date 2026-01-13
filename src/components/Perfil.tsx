@@ -1,0 +1,1 @@
+﻿export default function Perfil() { return <div className="p-10 uppercase text-zinc-500">Configurações de Perfil</div> }

@@ -1,10 +1,9 @@
 ﻿import { useState, useEffect } from "react";
-import { DollarSign, ArrowUpCircle, ArrowDownCircle, Plus, Trash2, Wallet } from "lucide-react";
+import { ArrowUpCircle, ArrowDownCircle, Plus, Wallet } from "lucide-react";
 import { supabase } from "../lib/supabase";
 
 export default function Financeiro() {
   const [transactions, setTransactions] = useState<any[]>([]);
-  const [loading, setLoading] = useState(true);
   const [description, setDescription] = useState("");
   const [amount, setAmount] = useState("");
   const [type, setType] = useState<"income" | "outcome">("income");
@@ -12,19 +11,17 @@ export default function Financeiro() {
   useEffect(() => { fetchTransactions(); }, []);
 
   async function fetchTransactions() {
-    setLoading(true);
     const { data } = await supabase.from("transactions").select("*").order("created_at", { ascending: false });
     if (data) setTransactions(data);
-    setLoading(false);
   }
 
   async function handleAdd(e: React.FormEvent) {
     e.preventDefault();
     if (!description || !amount) return;
-    const { error } = await supabase.from("transactions").insert([{ 
-      description, 
-      amount: parseFloat(amount), 
-      type 
+    const { error } = await supabase.from("transactions").insert([{
+      description,
+      amount: parseFloat(amount),
+      type
     }]);
     if (!error) {
       setDescription(""); setAmount("");
@@ -52,7 +49,7 @@ export default function Financeiro() {
         <div className="bg-zinc-900 border border-white/5 p-8 rounded-[2rem]">
           <p className="text-zinc-500 text-[10px] font-black uppercase tracking-widest mb-2">Saldo Total</p>
           <p className={`text-4xl font-black italic ${balance >= 0 ? "text-white" : "text-red-500"}`}>
-            R$ {balance.toLocaleString("pt-BR", {minimumFractionDigits: 2})}
+            R$ {balance.toLocaleString("pt-BR", { minimumFractionDigits: 2 })}
           </p>
         </div>
         <div className="bg-zinc-900 border border-white/5 p-8 rounded-[2rem]">
@@ -60,7 +57,7 @@ export default function Financeiro() {
             <ArrowUpCircle size={14} /> Entradas
           </div>
           <p className="text-4xl font-black italic text-emerald-500">
-            R$ {totalIncome.toLocaleString("pt-BR", {minimumFractionDigits: 2})}
+            R$ {totalIncome.toLocaleString("pt-BR", { minimumFractionDigits: 2 })}
           </p>
         </div>
         <div className="bg-zinc-900 border border-white/5 p-8 rounded-[2rem]">
@@ -68,7 +65,7 @@ export default function Financeiro() {
             <ArrowDownCircle size={14} /> Saídas
           </div>
           <p className="text-4xl font-black italic text-red-500">
-            R$ {totalOutcome.toLocaleString("pt-BR", {minimumFractionDigits: 2})}
+            R$ {totalOutcome.toLocaleString("pt-BR", { minimumFractionDigits: 2 })}
           </p>
         </div>
       </div>
@@ -104,7 +101,7 @@ export default function Financeiro() {
                 </div>
                 <div className="flex items-center gap-6">
                   <p className={`font-black italic ${t.type === "income" ? "text-emerald-500" : "text-red-500"}`}>
-                    {t.type === "income" ? "+" : "-"} R$ {t.amount.toLocaleString("pt-BR", {minimumFractionDigits: 2})}
+                    {t.type === "income" ? "+" : "-"} R$ {t.amount.toLocaleString("pt-BR", { minimumFractionDigits: 2 })}
                   </p>
                 </div>
               </div>

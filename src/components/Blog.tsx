@@ -1,0 +1,1 @@
+﻿export default function Blog() { return <div className="p-10 uppercase text-zinc-500">Blog em desenvolvimento</div> }
