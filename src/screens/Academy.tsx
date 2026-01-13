@@ -2,8 +2,8 @@
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Play, BookOpen, Award, Users, Scissors, Star,
-  ChevronRight, Zap, Lock, CheckCircle2,
-  Clock, BarChart3, ArrowLeft, CreditCard,
+  ChevronRight, Lock, CheckCircle2,
+  Clock, BarChart3, CreditCard,
   ShieldCheck, Sparkles
 } from "lucide-react";
 
