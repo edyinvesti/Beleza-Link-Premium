@@ -32,17 +32,53 @@ export default function Academy({ onBack }: { onBack: () => void }) {
     {
       title: "Módulo 01: Fundamentos de Elite",
       lessons: [
-        { title: "Boas-vindas e Mentalidade", duration: "05:20", desc: "Prepare-se para elevar o nível do seu salão com uma mentalidade de abundância e técnica.", instructor: "Mestre Rodrigo" },
-        { title: "Controle de Tesoura", duration: "15:45", desc: "Exercícios práticos para dominar o manuseio e a precisão da tesoura.", instructor: "Mestre Rodrigo" },
-        { title: "Geometria do Corte", duration: "22:10", desc: "A base teórica de como as formas e ângulos transformam o rosto.", instructor: "Mestre Rodrigo" }
+        {
+          title: "Boas-vindas e Mentalidade",
+          duration: "05:20",
+          desc: "Prepare-se para elevar o nível do seu salão com uma mentalidade de abundância e técnica.",
+          instructor: "Mestre Rodrigo",
+          videoUrl: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
+        },
+        {
+          title: "Controle de Tesoura",
+          duration: "15:45",
+          desc: "Exercícios práticos para dominar o manuseio e a precisão da tesoura.",
+          instructor: "Mestre Rodrigo",
+          videoUrl: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4"
+        },
+        {
+          title: "Geometria do Corte",
+          duration: "22:10",
+          desc: "A base teórica de como as formas e ângulos transformam o rosto.",
+          instructor: "Mestre Rodrigo",
+          videoUrl: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4"
+        }
       ]
     },
     {
       title: "Módulo 02: Prática Avançada",
       lessons: [
-        { title: "Degradê High-Fade", duration: "18:30", desc: "Técnica passo a passo para um degradê limpo e sem marcas em tempo recorde.", instructor: "Mestre Rodrigo" },
-        { title: "Texturização Moderna", duration: "12:15", desc: "Como criar movimento e volume usando diferentes ferramentas.", instructor: "Mestre Rodrigo" },
-        { title: "Conclusão e Certificação", duration: "08:00", desc: "Revisão dos pontos-chave e orientações para o seu certificado.", instructor: "Equipe Link" }
+        {
+          title: "Degradê High-Fade",
+          duration: "18:30",
+          desc: "Técnica passo a passo para um degradê limpo e sem marcas em tempo recorde.",
+          instructor: "Mestre Rodrigo",
+          videoUrl: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4"
+        },
+        {
+          title: "Texturização Moderna",
+          duration: "12:15",
+          desc: "Como criar movimento e volume usando diferentes ferramentas.",
+          instructor: "Mestre Rodrigo",
+          videoUrl: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerFun.mp4"
+        },
+        {
+          title: "Conclusão e Certificação",
+          duration: "08:00",
+          desc: "Revisão dos pontos-chave e orientações para o seu certificado.",
+          instructor: "Equipe Link",
+          videoUrl: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerJoyrides.mp4"
+        }
       ]
     }
   ];
@@ -239,35 +275,32 @@ export default function Academy({ onBack }: { onBack: () => void }) {
                 ← Voltar para cursos
               </button>
 
-              <div className="relative aspect-video bg-zinc-900 rounded-[2.5rem] overflow-hidden border border-white/5 shadow-2xl group mb-8">
+              <div className="relative aspect-video bg-zinc-950 rounded-[2.5rem] overflow-hidden border border-white/5 shadow-2xl group mb-8">
                 <AnimatePresence mode="wait">
                   <motion.div
                     key={currentLessonId}
-                    initial={{ opacity: 0, scale: 0.95 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    exit={{ opacity: 0, scale: 1.05 }}
-                    className="absolute inset-0 flex items-center justify-center"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    className="absolute inset-0 w-full h-full"
                   >
-                    <div className="w-24 h-24 bg-amber-500 rounded-full flex items-center justify-center cursor-pointer hover:scale-110 transition-transform shadow-[0_0_60px_rgba(245,158,11,0.4)]">
-                      <Play size={40} className="text-black ml-1" fill="currentColor" />
-                    </div>
+                    <video
+                      key={currentLesson.videoUrl}
+                      src={currentLesson.videoUrl}
+                      controls
+                      autoPlay
+                      className="w-full h-full object-cover"
+                      poster="/Beleza-Link/placeholder-video.jpg"
+                    />
                   </motion.div>
                 </AnimatePresence>
 
-                <div className="absolute bottom-0 left-0 right-0 h-1.5 bg-white/10 group-hover:h-3 transition-all">
-                  <motion.div
-                    initial={{ width: "0%" }}
-                    animate={{ width: "65%" }}
-                    className="h-full bg-amber-500 rounded-r-full shadow-[0_0_15px_rgba(245,158,11,0.8)]"
-                  />
-                </div>
-
-                <div className="absolute bottom-6 left-8 right-8 flex justify-between items-end">
-                  <div>
+                <div className="absolute top-6 left-8 right-8 flex justify-between items-start pointer-events-none">
+                  <div className="bg-black/40 backdrop-blur-xl p-4 rounded-2xl border border-white/5">
                     <h4 className="text-[10px] font-black text-amber-500 uppercase tracking-widest mb-1">
                       {String(currentLessonIdx + 1).padStart(2, '0')} • {modules[currentModuleIdx].title}
                     </h4>
-                    <p className="text-2xl font-black uppercase italic tracking-tighter">{currentLesson.title}</p>
+                    <p className="text-xl font-black uppercase italic tracking-tighter">{currentLesson.title}</p>
                   </div>
                   <div className="bg-black/60 backdrop-blur-xl px-4 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest border border-white/5">
                     {currentLesson.duration}
