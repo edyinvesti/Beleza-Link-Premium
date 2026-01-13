@@ -21,7 +21,7 @@ export default function Academy() {
 
       <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
         {categories.map((item, idx) => (
-          <div key={idx} className="bg-zinc-900/40 border border-white/5 p-6 rounded-[2rem] flex flex-col items-center text-center gap-4 hover:border-amber-500/50 transition-all cursor-pointer group shadow-xl">
+          <div key={idx} className="bg-zinc-900/40 p-6 rounded-[2rem] flex flex-col items-center text-center gap-4 hover:bg-zinc-800/50 transition-all cursor-pointer group shadow-xl">
             <div className="bg-zinc-800/50 p-4 rounded-2xl group-hover:scale-110 transition-transform">
               <item.icon className={item.color} size={28} />
             </div>

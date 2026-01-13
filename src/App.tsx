@@ -103,7 +103,7 @@ export default function App() {
           </motion.div>
         ) : (
           <motion.div key="site" initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
-            <nav className="p-6 flex justify-between items-center sticky top-0 z-[100] bg-black/80 backdrop-blur-md border-b-4 border-white/5">
+            <nav className="p-6 flex justify-between items-center sticky top-0 z-[100] bg-black/80 backdrop-blur-md">
               <h1 className="text-sm font-black tracking-[0.5em] uppercase italic">BELEZA <span className="text-[#F97316]">LINK</span></h1>
             </nav>
             <main className="max-w-7xl mx-auto px-6 py-12">
@@ -134,7 +134,7 @@ export default function App() {
                           else if (isComunidade) setShowComunidade(true);
                           else setShowSystem(true);
                         }}
-                        className="bg-zinc-900/50 backdrop-blur-sm p-8 rounded-[25px] border border-white/5 shadow-xl cursor-pointer transition-all group hover:bg-[#F97316]/10 hover:border-[#F97316]/50 hover:scale-105 active:scale-95">
+                        className="bg-zinc-900/50 backdrop-blur-sm p-8 rounded-[25px] shadow-2xl cursor-pointer transition-all group hover:bg-[#F97316]/10 hover:shadow-[#F97316]/20 hover:scale-105 active:scale-95">
                         <div className="flex justify-between items-start mb-6">
                           <div className="p-3 bg-zinc-800 rounded-2xl group-hover:bg-[#F97316] transition-colors relative">
                             <item.icon size={24} className="text-white" />
@@ -188,7 +188,7 @@ export default function App() {
                     ].map((p, i) => (
                       <div key={i}
                         onClick={(e) => { e.stopPropagation(); window.open(getWhatsAppLink(p.name), "_blank"); }}
-                        className={`absolute w-[180px] md:w-[320px] h-[80px] md:h-[120px] flex items-center justify-center rounded-[20px] shadow-2xl cursor-pointer active:scale-95 transition-all hover:bg-[#F97316] group overflow-hidden ${p.name === "LAED" ? "bg-white" : p.name === "KYHEROS" ? "bg-[#F97316]" : p.name === "ONILISS" ? "bg-[#8B1A1A]" : p.name === "AKY LISSO" ? "bg-[#0081C9]" : "bg-zinc-900"}`}
+                        className={`absolute w-[180px] md:w-[320px] h-[80px] md:h-[120px] flex items-center justify-center rounded-[20px] cursor-pointer active:scale-95 transition-all hover:bg-[#F97316] group overflow-hidden ${p.name === "LAED" ? "bg-white" : p.name === "KYHEROS" ? "bg-[#F97316]" : p.name === "ONILISS" ? "bg-[#8B1A1A]" : p.name === "AKY LISSO" ? "bg-[#0081C9]" : "bg-zinc-900"}`}
                         style={{
                           transform: isMobile ? `rotateX(${(i * 360) / 10}deg) translateZ(220px)` : `rotateY(${(i * 360) / 10}deg) translateZ(450px)`,
                           backfaceVisibility: "hidden"
