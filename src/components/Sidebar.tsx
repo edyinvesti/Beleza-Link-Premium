@@ -1,5 +1,5 @@
 ﻿import { useNavigate, useLocation } from "react-router-dom";
-import { LayoutDashboard, Calendar, Users, Brain, Wallet, MessageSquare, Video, FileText, LogOut } from "lucide-react";
+import { LayoutDashboard, Calendar, Users, Wallet, LogOut } from "lucide-react";
 
 export default function Sidebar() {
   const navigate = useNavigate();
@@ -8,11 +8,7 @@ export default function Sidebar() {
     { label: "Painel", icon: LayoutDashboard, path: "/painel" },
     { label: "Agenda", icon: Calendar, path: "/agenda" },
     { label: "Clientes", icon: Users, path: "/clientes" },
-    { label: "IA", icon: Brain, path: "/ia" },
-    { label: "Financeiro", icon: Wallet, path: "/wallet" },
-    { label: "Comunidade", icon: MessageSquare, path: "/comunidade" },
-    { label: "Live", icon: Video, path: "/live" },
-    { label: "Blog", icon: FileText, path: "/blog" }
+    { label: "Financeiro", icon: Wallet, path: "/wallet" }
   ];
 
   return (
