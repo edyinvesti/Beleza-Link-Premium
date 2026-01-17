@@ -39,7 +39,7 @@ export default function App() {
   
   if (currentView !== "home") {
     const views: { [key: string]: any } = { 
-      live: <Live />, blog: <Blog />, crm: <CRM />, comunidades: <Curso />, curso: <Comunidade />, geo: <Geo />
+      live: <Live />, blog: <Blog />, crm: <CRM />, comunidades: <Comunidade />, curso: <Curso />, geo: <Geo />
     };
     return (
       <div className="relative bg-black min-h-screen">
