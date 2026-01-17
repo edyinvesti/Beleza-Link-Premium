@@ -28,6 +28,18 @@ export default function Live() {
     return () => clearInterval(interval);
   }, []);
 
+  const handleCopy = () => {
+    navigator.clipboard.writeText(window.location.href);
+    setCopied(true);
+    setTimeout(() => { setCopied(false); setIsSharing(false); }, 2000);
+  };
+
+  const handleWA = () => {
+    const text = encodeURIComponent(`Vem ver essa Masterclass no Beleza Link: ${window.location.href}`);
+    window.open(`https://wa.me/?text=${text}`, '_blank');
+    setIsSharing(false);
+  };
+
   const handleSend = (e: React.FormEvent) => {
     e.preventDefault();
     if (!msg.trim()) return;
@@ -35,14 +47,8 @@ export default function Live() {
     setMsg("");
   };
 
-  const handleCopy = () => {
-    navigator.clipboard.writeText(window.location.href);
-    setCopied(true);
-    setTimeout(() => { setCopied(false); setIsSharing(false); }, 1500);
-  };
-
   return (
-    <div className="min-h-screen bg-[#050505] text-white pt-24 pb-12 px-4 md:px-12 font-sans selection:bg-[#F97316]">
+    <div className="min-h-screen bg-[#050505] text-white pt-24 pb-12 px-4 md:px-12 font-sans">
       <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-4 gap-8">
         <div className="lg:col-span-3 space-y-8">
           <header className="flex flex-col md:flex-row md:items-end justify-between gap-6">
@@ -57,21 +63,11 @@ export default function Live() {
             </div>
           </header>
 
-          {/* VÍDEO DE ALTA DISPONIBILIDADE (TESTADO PARA SITES DE LUXO) */}
+          {/* VÍDEO PEXELS (ALTA ESTABILIDADE) */}
           <div className="aspect-video bg-zinc-900 rounded-[50px] border border-white/5 relative overflow-hidden shadow-2xl">
-             <video 
-               className="w-full h-full object-cover" 
-               autoPlay 
-               loop 
-               muted 
-               playsInline 
-             >
-               <source src="https://videocdn.cdnpromo.com/640f7b9627685c7075210166/loop.mp4" type="video/mp4" />
-               Seu navegador não suporta vídeos.
+             <video className="w-full h-full object-cover" autoPlay loop muted playsInline>
+               <source src="https://player.vimeo.com/external/494440494.sd.mp4?s=ad50689ef06277029b40026e6f9889658d5594b2&profile_id=164" type="video/mp4" />
              </video>
-             <div className="absolute top-6 right-6 bg-black/40 backdrop-blur-xl border border-white/10 px-4 py-1 rounded-full">
-                <span className="text-[8px] font-black tracking-widest text-white uppercase italic">Ultra HD</span>
-             </div>
           </div>
 
           <div className="flex items-center justify-between bg-zinc-900/30 backdrop-blur-xl p-6 rounded-[35px] border border-white/5">
@@ -80,16 +76,16 @@ export default function Live() {
                 <AnimatePresence mode="wait">
                   {!isSharing ? (
                     <motion.button 
-                      key="sh-b" onClick={() => setIsSharing(true)}
+                      key="btn-sh" onClick={() => setIsSharing(true)}
                       className="bg-white text-black px-10 py-5 rounded-[22px] font-black text-[10px] uppercase tracking-widest hover:bg-[#F97316] hover:text-white transition-all"
                     >
-                      Compartilhar
+                      <Share2 size={16} className="inline mr-2"/> Compartilhar
                     </motion.button>
                   ) : (
-                    <motion.div key="sh-a" initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="flex items-center gap-2 bg-zinc-800 p-2 rounded-[24px]">
-                       <button onClick={() => window.open('https://wa.me/?text='+window.location.href)} className="p-4 hover:bg-[#25D366] rounded-xl"><MessageSquare size={18} /></button>
-                       <button onClick={handleCopy} className="p-4 hover:bg-[#F97316] rounded-xl">{copied ? <Check size={18} /> : <Copy size={18} />}</button>
-                       <button onClick={() => setIsSharing(false)} className="p-4 text-zinc-500"><X size={18} /></button>
+                    <motion.div key="menu-sh" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} className="flex items-center gap-2 bg-zinc-800 p-2 rounded-[24px] border border-white/10">
+                       <button onClick={handleWA} className="p-4 hover:bg-[#25D366] rounded-xl transition-colors"><MessageSquare size={18} /></button>
+                       <button onClick={handleCopy} className="p-4 hover:bg-[#F97316] rounded-xl transition-colors">{copied ? <Check size={18} /> : <Copy size={18} />}</button>
+                       <button onClick={() => setIsSharing(false)} className="p-4 text-zinc-500 hover:text-white"><X size={18} /></button>
                     </motion.div>
                   )}
                 </AnimatePresence>
@@ -105,15 +101,11 @@ export default function Live() {
            <div ref={chatRef} className="flex-1 overflow-y-auto space-y-6 scrollbar-hide mb-4">
               {chat.map(c => (
                 <div key={c.id}>
-                  <p className="text-[9px] font-black uppercase text-[#F97316] tracking-tighter">{c.user}</p>
+                  <p className="text-[9px] font-black uppercase text-[#F97316]">{c.user}</p>
                   <p className="text-xs text-zinc-300">{c.text}</p>
                 </div>
               ))}
            </div>
-           <form onSubmit={handleSend} className="pt-4 border-t border-white/5 flex gap-2">
-              <input value={msg} onChange={(e) => setMsg(e.target.value)} placeholder="Diga algo..." className="flex-1 bg-white/5 rounded-xl px-4 py-3 text-xs outline-none" />
-              <button type="submit" className="bg-[#F97316] p-2 rounded-xl"><Send size={14}/></button>
-           </form>
         </div>
       </div>
     </div>
