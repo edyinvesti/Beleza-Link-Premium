@@ -40,6 +40,24 @@ export default function Live() {
     return () => clearInterval(interval);
   }, []);
 
+    const handleShare = async () => {
+    const shareData = {
+      title: 'Beleza Link - Ao Vivo',
+      text: 'Vem conferir essa Masterclass incrível no Beleza Link!',
+      url: window.location.href
+    };
+
+    try {
+      if (navigator.share) {
+        await navigator.share(shareData);
+      } else {
+        await navigator.clipboard.writeText(window.location.href);
+        alert("Link copiado para a área de transferência!");
+      }
+    } catch (err) {
+      console.log("Erro ao compartilhar:", err);
+    }
+  };
   const handleSend = (e: React.FormEvent) => {
     e.preventDefault();
     if (!msg.trim()) return;
@@ -77,7 +95,7 @@ export default function Live() {
                Nesta aula ao vivo, o mestre demonstra as técnicas de fixação e texturização 
                que duram até 12 horas. Prepare suas dúvidas para o chat lateral!
              </p>
-             <button className="w-full md:w-auto flex items-center justify-center gap-3 bg-white text-black hover:bg-[#F97316] hover:text-white px-8 py-4 rounded-2xl transition-all font-black text-[10px] uppercase tracking-widest">
+             <button onClick={handleShare} className="w-full md:w-auto flex items-center justify-center gap-3 bg-white text-black hover:bg-[#F97316] hover:text-white px-8 py-4 rounded-2xl transition-all font-black text-[10px] uppercase tracking-widest cursor-pointer">
                 <Share2 size={16}/> Compartilhar
              </button>
           </div>
