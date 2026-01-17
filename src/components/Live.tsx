@@ -1,113 +1,109 @@
-﻿import { useState, useEffect, useRef } from "react";
-import { Users, MessageCircle, Share2, Heart, Volume2 } from "lucide-react";
+﻿import { useState } from "react";
+import { Play, Users, MessageCircle, Share2, ShieldCheck, Zap } from "lucide-react";
+import { motion } from "framer-motion";
 
 export default function Live() {
-  const [isMuted, setIsMuted] = useState(true);
-  const [hasStarted, setHasStarted] = useState(false);
-  const [chat, setChat] = useState([
-    { id: 1, user: "SISTEMA", text: "Bem-vindo à transmissão oficial Beleza Link!", color: "#F97316" }
-  ]);
-
-  const videoId = "5VvEe0nlx9w"; 
-  const chatEndRef = useRef<HTMLDivElement>(null);
-
-  // EFEITO CHAT VIVO: Simula pessoas entrando e comentando
-  useEffect(() => {
-    if (hasStarted) {
-      const users = ["Studio_Ana", "Marcos_Hair", "Beleza_VIP", "Corte_Master", "Elite_Beauty"];
-      const messages = [
-        "Essa técnica é surreal! 😱",
-        "O som está perfeito aqui.",
-        "Beleza Link sempre inovando!",
-        "Qual o nome desse produto?",
-        "Top demais essa live! 🔥",
-        "Melhor canal de estética."
-      ];
-
-      const interval = setInterval(() => {
-        const randomUser = users[Math.floor(Math.random() * users.length)];
-        const randomMsg = messages[Math.floor(Math.random() * messages.length)];
-        const colors = ["#ec4899", "#a855f7", "#3b82f6", "#10b981", "#f59e0b"];
-        
-        setChat(prev => [...prev.slice(-10), { 
-          id: Date.now(), 
-          user: randomUser, 
-          text: randomMsg, 
-          color: colors[Math.floor(Math.random() * colors.length)] 
-        }]);
-      }, 4000); // Nova mensagem a cada 4 segundos
-
-      return () => clearInterval(interval);
-    }
-  }, [hasStarted]);
-
-  useEffect(() => {
-    chatEndRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, [chat]);
+  const [msg, setMsg] = useState("");
+  
+  const proximasLives = [
+    { id: 1, titulo: "Colorimetria Avançada", data: "Amanhã, 20h", icon: <Zap size={14}/> },
+    { id: 2, titulo: "Gestão de Salão", data: "Quinta, 19h", icon: <ShieldCheck size={14}/> }
+  ];
 
   return (
-    <div className="min-h-screen bg-black text-white p-4 md:p-8 flex flex-col items-center justify-center pt-24 font-sans">
-      <div className="max-w-6xl w-full grid grid-cols-1 lg:grid-cols-4 gap-6">
+    <div className="min-h-screen bg-[#050505] text-white pt-24 pb-12 px-4 md:px-12 font-sans">
+      <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-4 gap-8">
         
+        {/* COLUNA DO VÍDEO (3/4 da tela) */}
         <div className="lg:col-span-3 space-y-6">
-          <div className="relative aspect-video bg-zinc-900 rounded-[50px] border-b-8 border-r-8 border-[#F97316]/20 overflow-hidden shadow-2xl">
-            
-            <iframe
-              className="absolute inset-0 w-full h-full pointer-events-none"
-              style={{ borderRadius: "50px" }}
-              src={`https://www.youtube.com/embed/${videoId}?autoplay=1&mute=${isMuted ? 1 : 0}&loop=1&playlist=${videoId}&controls=0&modestbranding=1&rel=0&playsinline=1&enablejsapi=1`}
-              allow="autoplay; encrypted-media"
-            ></iframe>
-
-            {!hasStarted && (
-              <div className="absolute inset-0 bg-black/80 backdrop-blur-md flex flex-col items-center justify-center z-40">
-                <button 
-                  onClick={() => { setIsMuted(false); setHasStarted(true); }}
-                  className="bg-[#F97316] text-black px-10 py-5 rounded-[25px] font-black uppercase tracking-[0.2em] flex items-center gap-4 hover:scale-105 transition-all shadow-2xl"
-                >
-                  <Volume2 size={24} /> ENTRAR NA LIVE
-                </button>
+          <header className="flex flex-wrap items-center justify-between gap-4">
+            <div>
+              <div className="inline-flex items-center gap-2 bg-red-600 px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest mb-3 animate-pulse">
+                <span className="w-2 h-2 bg-white rounded-full"></span> AO VIVO AGORA
               </div>
-            )}
-            
-            {/* PISCA-PISCA AO VIVO */}
-            <div className="absolute top-8 left-8 flex items-center gap-2 bg-red-600 px-4 py-1.5 rounded-full shadow-lg z-50 animate-[pulse_1s_infinite]">
-              <div className="w-2 h-2 bg-white rounded-full"></div>
-              <span className="text-[10px] font-black uppercase tracking-widest text-white">AO VIVO</span>
+              <h2 className="text-3xl md:text-5xl font-black uppercase tracking-tighter italic">
+                Masterclass: <span className="text-[#F97316]">Penteados de Noiva</span>
+              </h2>
             </div>
+            <div className="flex gap-4">
+              <div className="bg-zinc-900 border border-white/5 px-4 py-2 rounded-2xl flex items-center gap-2">
+                <Users size={18} className="text-[#F97316]" />
+                <span className="font-black text-sm">1.2k</span>
+              </div>
+            </div>
+          </header>
 
-            <div className="absolute top-8 right-8 flex items-center gap-2 bg-black/50 backdrop-blur-md px-4 py-1.5 rounded-full border border-white/10 z-50">
-              <Users size={14} className="text-[#F97316]" />
-              <span className="text-[10px] font-black tracking-widest text-white">4.2K</span>
+          {/* PLAYER (Simulação) */}
+          <div className="aspect-video bg-zinc-900 rounded-[40px] border border-white/10 relative overflow-hidden group shadow-2xl shadow-[#F97316]/5">
+            <div className="absolute inset-0 flex items-center justify-center">
+              <motion.button 
+                whileHover={{ scale: 1.1 }}
+                whileTap={{ scale: 0.9 }}
+                className="w-20 h-20 bg-[#F97316] rounded-full flex items-center justify-center pl-1 shadow-2xl shadow-[#F97316]/40"
+              >
+                <Play size={32} fill="black" className="text-black" />
+              </motion.button>
+            </div>
+            <div className="absolute bottom-8 left-8 right-8 flex justify-between items-center opacity-0 group-hover:opacity-100 transition-opacity">
+               <div className="h-1 w-full bg-white/20 rounded-full overflow-hidden">
+                  <div className="h-full w-1/3 bg-[#F97316]"></div>
+               </div>
             </div>
           </div>
 
-          <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 bg-zinc-950 p-8 rounded-[40px] border-l-8 border-[#F97316] shadow-xl">
-            <div>
-              <h2 className="text-2xl font-black uppercase tracking-tighter text-white italic">BELEZA LINK <span className="text-[#F97316] not-italic">TV</span></h2>
-              <p className="text-zinc-500 text-[10px] font-black uppercase tracking-widest mt-1">Sintonizado • Chat em Tempo Real</p>
-            </div>
-            <div className="flex gap-3">
-              <button className="p-4 bg-zinc-900 rounded-2xl hover:text-[#F97316] transition-all"><Share2 size={20}/></button>
-              <button className="p-4 bg-zinc-900 rounded-2xl hover:text-red-500 transition-all"><Heart size={20}/></button>
-            </div>
+          {/* DESCRIÇÃO E AÇÕES */}
+          <div className="flex justify-between items-center bg-zinc-900/40 p-6 rounded-[30px] border border-white/5">
+             <p className="text-zinc-400 text-sm max-w-xl">
+               Nesta aula ao vivo, o mestre demonstra as técnicas de fixação e texturização 
+               que duram até 12 horas. Prepare suas dúvidas para o chat lateral!
+             </p>
+             <button className="flex items-center gap-2 bg-white/5 hover:bg-white/10 px-6 py-3 rounded-2xl transition-all font-black text-[10px] uppercase tracking-widest">
+                <Share2 size={16}/> Compartilhar
+             </button>
           </div>
         </div>
 
-        {/* CHAT INTERATIVO VIVO */}
-        <div className="lg:col-span-1 bg-zinc-950 rounded-[40px] border border-white/5 flex flex-col h-[500px] lg:h-auto shadow-2xl overflow-hidden">
-          <div className="p-6 border-b border-white/5 bg-white/5 flex items-center gap-3">
-            <MessageCircle size={18} className="text-[#F97316]" />
-            <h3 className="text-[10px] font-black uppercase tracking-widest">Chat ao vivo</h3>
-          </div>
-          <div className="flex-1 p-6 overflow-y-auto space-y-4 scrollbar-hide">
-            {chat.map((m) => (
-              <div key={m.id} className="flex flex-col gap-1 animate-in fade-in slide-in-from-bottom-2 duration-500">
-                <span style={{ color: m.color }} className="text-[9px] font-black uppercase tracking-widest">{m.user}</span>
-                <p className="text-zinc-300 text-[10px] font-bold uppercase tracking-wider bg-white/5 p-3 rounded-2xl border border-white/5">{m.text}</p>
+        {/* COLUNA DO CHAT (1/4 da tela) */}
+        <div className="lg:col-span-1 flex flex-col gap-6">
+          <div className="flex-1 bg-zinc-900/60 border border-white/10 rounded-[40px] flex flex-col overflow-hidden h-[500px] lg:h-auto">
+            <div className="p-6 border-b border-white/5 flex items-center justify-between">
+              <h3 className="font-black text-[11px] uppercase tracking-[0.2em] flex items-center gap-2">
+                <MessageCircle size={16} className="text-[#F97316]"/> Chat da Live
+              </h3>
+            </div>
+            
+            <div className="flex-1 p-6 overflow-y-auto space-y-4 text-sm scrollbar-hide">
+              <p><span className="text-[#F97316] font-bold uppercase text-[10px]">Ana Silva:</span> Top demais essa técnica!</p>
+              <p><span className="text-zinc-500 font-bold uppercase text-[10px]">Bruno Hair:</span> Qual spray você usou?</p>
+              <p><span className="text-[#F97316] font-bold uppercase text-[10px]">Carla Mendes:</span> Cheguei agora, vai ficar gravado?</p>
+            </div>
+
+            <div className="p-4 bg-black/40">
+              <div className="relative">
+                <input 
+                  type="text" 
+                  value={msg}
+                  onChange={(e) => setMsg(e.target.value)}
+                  placeholder="Envie sua mensagem..."
+                  className="w-full bg-zinc-800 border-none rounded-2xl py-4 px-5 text-xs outline-none focus:ring-1 focus:ring-[#F97316]/50 transition-all"
+                />
               </div>
-            ))}
-            <div ref={chatEndRef} />
+            </div>
+          </div>
+
+          {/* PRÓXIMAS LIVES */}
+          <div className="bg-[#F97316] p-6 rounded-[40px] text-black">
+            <h4 className="font-black text-[11px] uppercase tracking-widest mb-4 flex items-center gap-2">
+               Agendadas
+            </h4>
+            <div className="space-y-4">
+              {proximasLives.map(l => (
+                <div key={l.id} className="bg-black/10 p-4 rounded-2xl border border-black/5">
+                   <p className="font-black text-sm uppercase leading-none mb-1">{l.titulo}</p>
+                   <span className="text-[9px] font-bold opacity-70">{l.data}</span>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
 
