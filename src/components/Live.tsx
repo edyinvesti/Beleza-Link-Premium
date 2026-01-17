@@ -68,13 +68,20 @@ export default function Live() {
             </div>
           </header>
 
-          {/* PLAYER CINEMATOGRÁFICO */}
-          <div className="aspect-video bg-black rounded-[50px] border border-white/5 relative overflow-hidden shadow-2xl shadow-[#F97316]/5">
-             <video className="w-full h-full object-cover" autoPlay loop muted playsInline>
-               <source src="https://player.vimeo.com/external/459389137.sd.mp4?s=913426e2794476077759d57a9f7833075e84000d&profile_id=164" type="video/mp4" />
+          <div className="aspect-video bg-zinc-900 rounded-[50px] border border-white/5 relative overflow-hidden shadow-2xl">
+             <video 
+               className="w-full h-full object-cover" 
+               autoPlay 
+               loop 
+               muted 
+               playsInline 
+               poster="https://images.unsplash.com/photo-1562322140-8baeececf3df?auto=format&fit=crop&q=80&w=1000"
+             >
+               <source src="https://v.ftcdn.net/04/86/03/40/700_F_486034057_kLhC5W6T6VvS9vU9S9G8Vv9J9Z9v9Z9v_ST.mp4" type="video/mp4" />
+               Seu navegador não suporta vídeos.
              </video>
              <div className="absolute top-6 right-6 bg-black/40 backdrop-blur-xl border border-white/10 px-4 py-1 rounded-full">
-                <span className="text-[8px] font-black tracking-widest text-white uppercase">UHD 4K Stream</span>
+                <span className="text-[8px] font-black tracking-widest text-white uppercase">HD Stream Active</span>
              </div>
           </div>
 
@@ -106,7 +113,7 @@ export default function Live() {
               <div className="w-2 h-2 rounded-full bg-[#F97316]"></div>
               <h3 className="text-[10px] font-black uppercase tracking-[0.3em] text-zinc-400">Comunidade</h3>
            </div>
-           <div ref={chatRef} className="flex-1 overflow-y-auto space-y-6 scrollbar-hide mb-4">
+           <div ref={chatRef} className="flex-1 overflow-y-auto space-y-6 scrollbar-hide mb-4 text-left">
               {chat.map(c => (
                 <div key={c.id}>
                   <p className="text-[9px] font-black uppercase text-[#F97316] tracking-tighter">{c.user}</p>
