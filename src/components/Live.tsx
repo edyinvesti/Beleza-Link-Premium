@@ -1,135 +1,106 @@
 ﻿import { useState, useEffect, useRef } from "react";
-import { Play, Users, MessageCircle, Share2, ShieldCheck, Zap, Send, X, Copy, MessageSquare } from "lucide-react";
+import { Play, Users, MessageCircle, Share2, Send, X, Copy, MessageSquare, Check } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
 export default function Live() {
   const [msg, setMsg] = useState("");
-  const [showShare, setShowShare] = useState(false);
+  const [isSharing, setIsSharing] = useState(false);
   const [copied, setCopied] = useState(false);
-  const [chat, setChat] = useState([
-    { id: 1, user: "Ana Silva", text: "Top demais essa técnica!", color: "#F97316" },
-    { id: 2, user: "Bruno Hair", text: "Qual spray você usou?", color: "#71717a" }
-  ]);
   const [espectadores, setEspectadores] = useState(1240);
   const chatRef = useRef<HTMLDivElement>(null);
 
-  const handleCopyLink = () => {
+  const handleCopy = () => {
     navigator.clipboard.writeText(window.location.href);
     setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
+    setTimeout(() => { setCopied(false); setIsSharing(false); }, 1500);
   };
 
   const shareWA = () => {
-    const url = `https://api.whatsapp.com/send?text=Vem ver essa Masterclass no Beleza Link: ${window.location.href}`;
-    window.open(url, '_blank');
-  };
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setEspectadores(prev => prev + Math.floor(Math.random() * 5) - 2);
-    }, 3000);
-    return () => clearInterval(interval);
-  }, []);
-
-  const handleSend = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!msg.trim()) return;
-    setChat(prev => [...prev, { id: Date.now(), user: "VOCÊ", text: msg, color: "#fff" }]);
-    setMsg("");
+    window.open(`https://api.whatsapp.com/send?text=Acesse agora: ${window.location.href}`, '_blank');
+    setIsSharing(false);
   };
 
   return (
-    <div className="min-h-screen bg-[#050505] text-white pt-24 pb-12 px-4 md:px-12 font-sans relative overflow-hidden">
-      
-      {/* PAINEL DE COMPARTILHAMENTO PREMIUM */}
-      <AnimatePresence>
-        {showShare && (
-          <>
-            <motion.div 
-              initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
-              onClick={() => setShowShare(false)}
-              className="fixed inset-0 bg-black/80 backdrop-blur-sm z-[700]" 
-            />
-            <motion.div 
-              initial={{ y: "100%" }} animate={{ y: 0 }} exit={{ y: "100%" }}
-              transition={{ type: "spring", damping: 25, stiffness: 200 }}
-              className="fixed bottom-0 left-0 right-0 bg-zinc-900 border-t border-white/10 rounded-t-[40px] z-[701] p-10 pb-16"
-            >
-              <div className="max-w-md mx-auto">
-                <div className="flex justify-between items-center mb-8">
-                  <h3 className="text-xl font-black uppercase tracking-widest">Compartilhar</h3>
-                  <button onClick={() => setShowShare(false)} className="p-2 bg-white/5 rounded-full"><X size={20}/></button>
-                </div>
-                
-                <div className="grid grid-cols-2 gap-4">
-                  <button onClick={shareWA} className="flex flex-col items-center gap-3 bg-[#25D366]/10 hover:bg-[#25D366]/20 p-6 rounded-[30px] border border-[#25D366]/20 transition-all">
-                    <MessageSquare size={32} className="text-[#25D366]" />
-                    <span className="text-[10px] font-black uppercase tracking-widest">WhatsApp</span>
-                  </button>
-                  
-                  <button onClick={handleCopyLink} className="flex flex-col items-center gap-3 bg-white/5 hover:bg-white/10 p-6 rounded-[30px] border border-white/10 transition-all">
-                    <Copy size={32} className="text-[#F97316]" />
-                    <span className="text-[10px] font-black uppercase tracking-widest">
-                      {copied ? "Copiado!" : "Copiar Link"}
-                    </span>
-                  </button>
-                </div>
-              </div>
-            </motion.div>
-          </>
-        )}
-      </AnimatePresence>
-
+    <div className="min-h-screen bg-[#050505] text-white pt-24 pb-12 px-4 md:px-12 font-sans selection:bg-[#F97316]">
       <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-4 gap-8">
-        <div className="lg:col-span-3 space-y-6">
-          <header className="flex flex-wrap items-center justify-between gap-4">
-            <div>
-              <div className="inline-flex items-center gap-2 bg-red-600 px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest mb-3 animate-pulse">
-                <span className="w-2 h-2 bg-white rounded-full"></span> AO VIVO AGORA
+        
+        <div className="lg:col-span-3 space-y-8">
+          {/* Header Minimalista */}
+          <header className="flex flex-col md:flex-row md:items-end justify-between gap-6">
+            <div className="space-y-2">
+              <div className="flex items-center gap-3">
+                <span className="flex h-2 w-2 rounded-full bg-red-600 animate-ping"></span>
+                <span className="text-[10px] font-black tracking-[0.3em] uppercase text-red-600">Live Streaming</span>
               </div>
-              <h2 className="text-3xl md:text-5xl font-black uppercase tracking-tighter italic leading-tight">
-                Masterclass: <span className="text-[#F97316]">Penteados de Noiva</span>
+              <h2 className="text-4xl md:text-6xl font-black uppercase tracking-tighter leading-[0.9] italic">
+                Masterclass <br/> <span className="text-[#F97316]">Penteados Noiva</span>
               </h2>
             </div>
-            <div className="bg-zinc-900 border border-white/5 px-6 py-3 rounded-2xl flex items-center gap-3 shadow-xl">
-              <Users size={20} className="text-[#F97316]" />
-              <span className="font-black text-lg tabular-nums">{espectadores.toLocaleString()}</span>
+            <div className="flex items-center gap-4 bg-zinc-900/50 backdrop-blur-md border border-white/5 p-4 rounded-3xl">
+              <Users size={18} className="text-[#F97316]" />
+              <span className="text-sm font-black tabular-nums">{espectadores.toLocaleString()}</span>
             </div>
           </header>
 
-          <div className="aspect-video bg-zinc-900 rounded-[40px] border border-white/10 relative overflow-hidden group shadow-2xl shadow-[#F97316]/10">
-            <div className="absolute inset-0 flex items-center justify-center bg-black/40">
-              <motion.button whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }} className="w-24 h-24 bg-[#F97316] rounded-full flex items-center justify-center pl-2 shadow-2xl shadow-[#F97316]/40">
-                <Play size={40} fill="black" className="text-black" />
-              </motion.button>
-            </div>
+          {/* Player com bordas infinitas */}
+          <div className="aspect-video bg-zinc-900 rounded-[50px] border border-white/5 relative overflow-hidden shadow-2xl group">
+             <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+             <div className="absolute inset-0 flex items-center justify-center">
+                <motion.button whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} className="w-24 h-24 bg-white rounded-full flex items-center justify-center pl-2 shadow-2xl">
+                   <Play size={32} fill="black" className="text-black" />
+                </motion.button>
+             </div>
           </div>
 
-          <div className="flex flex-col md:flex-row justify-between items-start md:items-center bg-zinc-900/40 p-8 rounded-[40px] border border-white/5 gap-6">
-             <p className="text-zinc-400 text-sm max-w-xl leading-relaxed">
-               Nesta aula ao vivo, o mestre demonstra as técnicas de fixação e texturização 
-               que duram até 12 horas.
-             </p>
-             <button 
-                onClick={() => setShowShare(true)}
-                className="w-full md:w-auto flex items-center justify-center gap-3 bg-white text-black hover:bg-[#F97316] hover:text-white px-8 py-4 rounded-2xl transition-all font-black text-[10px] uppercase tracking-widest cursor-pointer"
-             >
-                <Share2 size={16}/> Compartilhar
-             </button>
+          {/* Barra de Ações de Luxo */}
+          <div className="flex items-center justify-between bg-zinc-900/30 backdrop-blur-xl p-6 rounded-[35px] border border-white/5">
+             <p className="hidden md:block text-zinc-500 text-xs font-medium tracking-wide">Técnicas de fixação e texturização avançada para 12 horas.</p>
+             
+             <div className="relative">
+                <AnimatePresence mode="wait">
+                  {!isSharing ? (
+                    <motion.button 
+                      key="btn-share"
+                      initial={{ opacity: 0, scale: 0.8 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.8 }}
+                      onClick={() => setIsSharing(true)}
+                      className="flex items-center gap-3 bg-white text-black px-10 py-5 rounded-[22px] font-black text-[10px] uppercase tracking-[0.2em] hover:bg-[#F97316] hover:text-white transition-all shadow-lg"
+                    >
+                      <Share2 size={16}/> Compartilhar
+                    </motion.button>
+                  ) : (
+                    <motion.div 
+                      key="share-actions"
+                      initial={{ width: 0, opacity: 0 }} animate={{ width: "auto", opacity: 1 }} exit={{ width: 0, opacity: 0 }}
+                      className="flex items-center gap-2 bg-zinc-800 p-2 rounded-[24px] border border-white/10 overflow-hidden"
+                    >
+                       <button onClick={shareWA} className="p-4 hover:bg-[#25D366] rounded-xl transition-all group">
+                          <MessageSquare size={18} className="group-hover:text-white" />
+                       </button>
+                       <button onClick={handleCopy} className="p-4 hover:bg-[#F97316] rounded-xl transition-all group">
+                          {copied ? <Check size={18} className="text-white" /> : <Copy size={18} className="group-hover:text-white" />}
+                       </button>
+                       <button onClick={() => setIsSharing(false)} className="p-4 hover:bg-white/10 rounded-xl transition-all text-zinc-500">
+                          <X size={18} />
+                       </button>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+             </div>
           </div>
         </div>
 
-        <div className="lg:col-span-1 flex flex-col gap-6">
-           <div className="flex-1 bg-zinc-900/60 border border-white/10 rounded-[40px] flex flex-col h-[500px] overflow-hidden">
-             {/* Chat aqui simplificado para o exemplo */}
-             <div className="p-6 border-b border-white/5 font-black text-[11px] uppercase tracking-widest">Chat em Tempo Real</div>
-             <div className="flex-1 p-6 overflow-y-auto space-y-4">
-                {chat.map(c => (
-                  <div key={c.id} className="text-xs">
-                    <span style={{color: c.color}} className="font-bold uppercase tracking-tighter">{c.user}:</span> {c.text}
-                  </div>
-                ))}
-             </div>
+        {/* Chat Minimal */}
+        <div className="lg:col-span-1 h-[600px] md:h-auto bg-zinc-900/20 border border-white/5 rounded-[50px] p-8 flex flex-col">
+           <div className="flex items-center gap-3 mb-8">
+              <div className="w-2 h-2 rounded-full bg-[#F97316]"></div>
+              <h3 className="text-[10px] font-black uppercase tracking-[0.3em] text-zinc-400">Interaction</h3>
+           </div>
+           <div className="flex-1 overflow-y-auto space-y-6 text-[13px] text-zinc-300">
+              <p><span className="text-[#F97316] font-bold uppercase text-[10px]">Ana:</span> Maravilhoso!</p>
+              <p><span className="text-zinc-500 font-bold uppercase text-[10px]">Expert:</span> Qual o spray?</p>
+           </div>
+           <div className="mt-6 pt-6 border-t border-white/5">
+              <input placeholder="Enviar..." className="w-full bg-transparent border-none text-xs outline-none py-2" />
            </div>
         </div>
       </div>
