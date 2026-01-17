@@ -12,9 +12,9 @@ export default function Comunidade() {
       <div className="max-w-3xl mx-auto">
         <header className="text-center mb-16">
           <div className="inline-flex items-center gap-2 bg-[#F97316]/10 text-[#F97316] px-4 py-1 rounded-full text-[9px] font-black uppercase tracking-widest mb-4 border border-[#F97316]/20">
-            <Sparkles size={12}/> Espaço Exclusivo
+            <Sparkles size={12}/> Cursos Exclusivos
           </div>
-          <h2 className="text-5xl md:text-7xl font-black uppercase tracking-tighter italic leading-none">Círculo <br/><span className="text-[#F97316]">Beleza Link</span></h2>
+          <h2 className="text-5xl md:text-7xl font-black uppercase tracking-tighter italic leading-none">Cursos <br/><span className="text-[#F97316]">Beleza Link</span></h2>
         </header>
 
         <div className="bg-zinc-900/60 border border-white/10 p-6 rounded-[35px] mb-12 flex flex-col gap-4">
