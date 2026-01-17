@@ -117,7 +117,7 @@ export default function Curso() {
                      </div>
                    ))}
                 </div>
-                <button onClick={() => setShowLock(true)} className="w-full bg-white text-black py-6 rounded-3xl font-black uppercase text-[11px] tracking-[0.2em] active:scale-95 shadow-xl">Continuar Aula</button>
+                <button onClick={() => setShowLock(true)} className="w-full bg-white text-black py-6 rounded-3xl font-black uppercase text-[11px] tracking-[0.2em] active:scale-95 shadow-xl">Acessar Bloco →</button>
                 {showLock && (
                   <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="text-center py-8 border-t border-white/5 mt-8">
                     <p className="text-zinc-400 text-[10px] font-bold uppercase mb-8 tracking-[0.2em]">Libere o acesso Vitalício na Hotmart</p>
