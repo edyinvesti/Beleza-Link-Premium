@@ -70,7 +70,7 @@ export default function Live() {
             </div>
           </header>
 
-                    <div className="aspect-video bg-black rounded-[50px] border border-white/5 relative overflow-hidden shadow-2xl">
+                              <div className="aspect-video bg-black rounded-[50px] border border-white/5 relative overflow-hidden shadow-2xl group">
              <video 
                className="w-full h-full object-cover"
                autoPlay 
@@ -78,10 +78,18 @@ export default function Live() {
                muted 
                playsInline
              >
-               <source src="https://assets.mixkit.co/videos/preview/mixkit-stylist-combing-the-hair-of-a-client-44431-large.mp4" type="video/mp4" />
+               <source src="https://player.vimeo.com/external/459389137.sd.mp4?s=913426e2794476077759d57a9f7833075e84000d&profile_id=164&oauth2_token_id=57447761" type="video/mp4" />
                Seu navegador não suporta vídeos.
              </video>
-             <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent pointer-events-none"></div>
+             
+             {/* Filtro de Luxo sobre o vídeo */}
+             <div className="absolute inset-0 bg-gradient-to-tr from-black/60 via-transparent to-transparent pointer-events-none"></div>
+             
+             {/* Badge de "Qualidade 4K" para impressionar parceiros */}
+             <div className="absolute top-6 right-6 bg-black/40 backdrop-blur-xl border border-white/10 px-4 py-1 rounded-full">
+                <span className="text-[8px] font-black tracking-widest text-white uppercase">UHD 4K Stream</span>
+             </div>
+          </div>
           </div>
 
           <div className="flex items-center justify-between bg-zinc-900/30 backdrop-blur-xl p-6 rounded-[35px] border border-white/5">
