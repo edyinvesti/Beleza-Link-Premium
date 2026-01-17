@@ -1,25 +1,23 @@
-﻿import { PlayCircle, Clock, Star, Share2, MoreVertical, Sparkles } from "lucide-react";
+﻿import { MessageSquare, Heart, Share2, MoreVertical, Sparkles } from "lucide-react";
 import { motion } from "framer-motion";
 
-export default function Cursos() {
-  const aulas = [
+export default function Comunidade() {
+  const posts = [
     { 
       id: 1, 
-      instrutor: "Mestre dos Cortes", 
-      tempo: "Nova Aula", 
-      titulo: "Técnica de Camadas Invisíveis",
-      desc: "Aprenda a criar volume sem marcar o corte. Técnica exclusiva para cabelos médios.", 
-      duracao: "25 min", 
-      alunos: 124 
+      user: "Mestre dos Cortes", 
+      time: "2h atrás", 
+      content: "Qual a melhor técnica para finalização em cabelos cacheados no verão?", 
+      likes: 45, 
+      comments: 12 
     },
     { 
       id: 2, 
-      instrutor: "Especialista em Cor", 
-      tempo: "Atualizado", 
-      titulo: "Neutralização de Tons Acobreados",
-      desc: "Como chegar ao platinado perfeito utilizando a estrela de oswald de forma prática.", 
-      duracao: "40 min", 
-      alunos: 89 
+      user: "Nail Designer Pro", 
+      time: "5h atrás", 
+      content: "A nova coleção de esmaltes em gel da marca X está incrível! Alguém já testou?", 
+      likes: 89, 
+      comments: 24 
     }
   ];
 
@@ -35,10 +33,27 @@ export default function Cursos() {
           </h2>
         </header>
 
+        {/* ÁREA DE POSTAGEM */}
+        <div className="bg-zinc-900/60 border border-white/10 p-6 rounded-[35px] mb-12 flex flex-col gap-4">
+          <textarea 
+            placeholder="O que você está criando hoje?" 
+            className="w-full bg-transparent border-none text-lg font-medium outline-none resize-none h-24 placeholder:text-zinc-700" 
+          />
+          <div className="flex justify-between items-center pt-4 border-t border-white/5">
+            <div className="flex gap-4 text-zinc-500">
+               {/* Espaço reservado para anexos futuros */}
+            </div>
+            <button className="bg-white text-black px-8 py-3 rounded-2xl text-[10px] font-black uppercase tracking-widest hover:bg-[#F97316] transition-colors active:scale-95">
+              Publicar
+            </button>
+          </div>
+        </div>
+
+        {/* FEED DE POSTS */}
         <div className="space-y-6">
-          {aulas.map((a) => (
+          {posts.map((p) => (
             <motion.div 
-              key={a.id} 
+              key={p.id} 
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
@@ -46,29 +61,26 @@ export default function Cursos() {
             >
               <div className="flex justify-between items-start mb-6">
                 <div className="flex items-center gap-4">
-                  <div className="w-12 h-12 rounded-full bg-zinc-800 flex items-center justify-center border border-white/10">
-                    <PlayCircle className="text-[#F97316]" size={24} />
-                  </div>
+                  <div className="w-12 h-12 rounded-full bg-gradient-to-tr from-[#F97316] to-orange-300 shadow-lg shadow-orange-500/20" />
                   <div>
-                    <h4 className="font-black text-[10px] text-zinc-500 uppercase tracking-widest">{a.instrutor}</h4>
-                    <p className="text-[#F97316] text-[10px] font-bold italic">{a.tempo}</p>
+                    <h4 className="font-black text-[12px] uppercase tracking-wide">{p.user}</h4>
+                    <p className="text-zinc-600 text-[10px] font-bold italic">{p.time}</p>
                   </div>
                 </div>
                 <button className="text-zinc-700 hover:text-white transition-colors"><MoreVertical size={20}/></button>
               </div>
               
-              <h3 className="text-xl font-black uppercase italic mb-2">{a.titulo}</h3>
-              <p className="text-zinc-400 text-sm leading-relaxed mb-8">{a.desc}</p>
+              <p className="text-zinc-300 leading-relaxed mb-8">{p.content}</p>
               
               <div className="flex gap-8 border-t border-white/5 pt-6">
-                <button className="flex items-center gap-2 text-zinc-500 text-[10px] font-black uppercase tracking-widest">
-                  <Clock size={18} className="text-[#F97316]"/> {a.duracao}
+                <button className="flex items-center gap-2 text-zinc-500 text-[10px] font-black uppercase tracking-widest hover:text-[#F97316] transition-colors">
+                  <Heart size={18}/> {p.likes}
                 </button>
-                <button className="flex items-center gap-2 text-zinc-500 text-[10px] font-black uppercase tracking-widest">
-                  <Star size={18} className="text-[#F97316]"/> {a.alunos} Alunos
+                <button className="flex items-center gap-2 text-zinc-500 text-[10px] font-black uppercase tracking-widest hover:text-white transition-colors">
+                  <MessageSquare size={18}/> {p.comments}
                 </button>
-                <button className="ml-auto bg-[#F97316] text-black px-4 py-2 rounded-xl text-[9px] font-black uppercase tracking-widest active:scale-95">
-                  Assistir
+                <button className="ml-auto text-zinc-700 hover:text-white transition-colors">
+                  <Share2 size={18}/>
                 </button>
               </div>
             </motion.div>
