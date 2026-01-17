@@ -43,13 +43,20 @@ export default function Live() {
           </header>
 
           {/* Player com bordas infinitas */}
-          <div className="aspect-video bg-zinc-900 rounded-[50px] border border-white/5 relative overflow-hidden shadow-2xl group">
-             <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-             <div className="absolute inset-0 flex items-center justify-center">
-                <motion.button whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} className="w-24 h-24 bg-white rounded-full flex items-center justify-center pl-2 shadow-2xl">
-                   <Play size={32} fill="black" className="text-black" />
-                </motion.button>
-             </div>
+                    <div className="aspect-video bg-black rounded-[50px] border border-white/5 relative overflow-hidden shadow-2xl group">
+             {/* Player Real do YouTube (Pode ser trocado por qualquer link de Live) */}
+             <iframe 
+               className="w-full h-full"
+               src="https://www.youtube.com/embed/5qap5aO4i9A?autoplay=1&mute=1&controls=0&modestbranding=1&rel=0" 
+               title="Live Stream" 
+               frameBorder="0" 
+               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+               allowFullScreen>
+             </iframe>
+             
+             {/* Overlay de Luxo (Opcional: aparece apenas no hover) */}
+             <div className="absolute inset-0 pointer-events-none border-[10px] border-black/20 rounded-[50px]"></div>
+          </div>
           </div>
 
           {/* Barra de Ações de Luxo */}
