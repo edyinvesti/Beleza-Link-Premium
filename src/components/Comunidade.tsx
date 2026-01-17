@@ -28,10 +28,10 @@ export default function Cursos() {
       <div className="max-w-3xl mx-auto">
         <header className="text-center mb-16">
           <div className="inline-flex items-center gap-2 bg-[#F97316]/10 text-[#F97316] px-4 py-1 rounded-full text-[9px] font-black uppercase tracking-widest mb-4 border border-[#F97316]/20">
-            <Sparkles size={12}/> Conteúdo Premium
+            <Sparkles size={12}/> Feed Social
           </div>
           <h2 className="text-5xl md:text-7xl font-black uppercase tracking-tighter italic leading-none">
-            Cursos <br/><span className="text-[#F97316]">Beleza Link</span>
+            Redes <br/><span className="text-[#F97316]">Sociais</span>
           </h2>
         </header>
 
