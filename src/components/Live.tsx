@@ -70,12 +70,18 @@ export default function Live() {
             </div>
           </header>
 
-          <div className="aspect-video bg-black rounded-[50px] border border-white/5 relative overflow-hidden shadow-2xl">
-             <iframe 
-               className="w-full h-full"
-               src="https://www.youtube.com/embed/h_m6m0r9T6E?autoplay=1&mute=1&controls=0&modestbranding=1" 
-               title="Live Stream" frameBorder="0" allowFullScreen>
-             </iframe>
+                    <div className="aspect-video bg-black rounded-[50px] border border-white/5 relative overflow-hidden shadow-2xl">
+             <video 
+               className="w-full h-full object-cover"
+               autoPlay 
+               loop 
+               muted 
+               playsInline
+             >
+               <source src="https://assets.mixkit.co/videos/preview/mixkit-stylist-combing-the-hair-of-a-client-44431-large.mp4" type="video/mp4" />
+               Seu navegador não suporta vídeos.
+             </video>
+             <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent pointer-events-none"></div>
           </div>
 
           <div className="flex items-center justify-between bg-zinc-900/30 backdrop-blur-xl p-6 rounded-[35px] border border-white/5">
