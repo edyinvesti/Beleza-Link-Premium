@@ -1,5 +1,5 @@
 ﻿import { useState, useEffect, useRef } from "react";
-import { Play, Users, MessageCircle, Share2, Send, X, Copy, MessageSquare, Check } from "lucide-react";
+import { Play, Users, MessageCircle, Share2, X, Copy, MessageSquare, Check } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
 export default function Live() {
@@ -16,21 +16,27 @@ export default function Live() {
   };
 
   const shareWA = () => {
-    window.open(`https://api.whatsapp.com/send?text=Acesse agora: ${window.location.href}`, '_blank');
+    window.open(`https://api.whatsapp.com/send?text=Acesse agora a Live no Beleza Link: ${window.location.href}`, '_blank');
     setIsSharing(false);
   };
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setEspectadores(prev => prev + Math.floor(Math.random() * 5) - 2);
+    }, 3000);
+    return () => clearInterval(interval);
+  }, []);
 
   return (
     <div className="min-h-screen bg-[#050505] text-white pt-24 pb-12 px-4 md:px-12 font-sans selection:bg-[#F97316]">
       <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-4 gap-8">
         
         <div className="lg:col-span-3 space-y-8">
-          {/* Header Minimalista */}
           <header className="flex flex-col md:flex-row md:items-end justify-between gap-6">
             <div className="space-y-2">
               <div className="flex items-center gap-3">
                 <span className="flex h-2 w-2 rounded-full bg-red-600 animate-ping"></span>
-                <span className="text-[10px] font-black tracking-[0.3em] uppercase text-red-600">Live Streaming</span>
+                <span className="text-[10px] font-black tracking-[0.3em] uppercase text-red-600">Ao Vivo</span>
               </div>
               <h2 className="text-4xl md:text-6xl font-black uppercase tracking-tighter leading-[0.9] italic">
                 Masterclass <br/> <span className="text-[#F97316]">Penteados Noiva</span>
@@ -42,9 +48,8 @@ export default function Live() {
             </div>
           </header>
 
-          {/* Player com bordas infinitas */}
-                    <div className="aspect-video bg-black rounded-[50px] border border-white/5 relative overflow-hidden shadow-2xl group">
-             {/* Player Real do YouTube (Pode ser trocado por qualquer link de Live) */}
+          {/* PLAYER COM VÍDEO REAL */}
+          <div className="aspect-video bg-black rounded-[50px] border border-white/5 relative overflow-hidden shadow-2xl group">
              <iframe 
                className="w-full h-full"
                src="https://www.youtube.com/embed/5qap5aO4i9A?autoplay=1&mute=1&controls=0&modestbranding=1&rel=0" 
@@ -53,15 +58,10 @@ export default function Live() {
                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
                allowFullScreen>
              </iframe>
-             
-             {/* Overlay de Luxo (Opcional: aparece apenas no hover) */}
-             <div className="absolute inset-0 pointer-events-none border-[10px] border-black/20 rounded-[50px]"></div>
-          </div>
           </div>
 
-          {/* Barra de Ações de Luxo */}
           <div className="flex items-center justify-between bg-zinc-900/30 backdrop-blur-xl p-6 rounded-[35px] border border-white/5">
-             <p className="hidden md:block text-zinc-500 text-xs font-medium tracking-wide">Técnicas de fixação e texturização avançada para 12 horas.</p>
+             <p className="hidden md:block text-zinc-500 text-xs font-medium tracking-wide">Técnicas de luxo para profissionais de elite.</p>
              
              <div className="relative">
                 <AnimatePresence mode="wait">
@@ -96,18 +96,23 @@ export default function Live() {
           </div>
         </div>
 
-        {/* Chat Minimal */}
         <div className="lg:col-span-1 h-[600px] md:h-auto bg-zinc-900/20 border border-white/5 rounded-[50px] p-8 flex flex-col">
            <div className="flex items-center gap-3 mb-8">
               <div className="w-2 h-2 rounded-full bg-[#F97316]"></div>
               <h3 className="text-[10px] font-black uppercase tracking-[0.3em] text-zinc-400">Interaction</h3>
            </div>
-           <div className="flex-1 overflow-y-auto space-y-6 text-[13px] text-zinc-300">
+           <div ref={chatRef} className="flex-1 overflow-y-auto space-y-6 text-[13px] text-zinc-300 scrollbar-hide">
               <p><span className="text-[#F97316] font-bold uppercase text-[10px]">Ana:</span> Maravilhoso!</p>
               <p><span className="text-zinc-500 font-bold uppercase text-[10px]">Expert:</span> Qual o spray?</p>
+              <p><span className="text-white/40 font-bold uppercase text-[10px]">Sistema:</span> Bem-vindo ao chat!</p>
            </div>
            <div className="mt-6 pt-6 border-t border-white/5">
-              <input placeholder="Enviar..." className="w-full bg-transparent border-none text-xs outline-none py-2" />
+              <input 
+                value={msg} 
+                onChange={(e) => setMsg(e.target.value)}
+                placeholder="Enviar..." 
+                className="w-full bg-transparent border-none text-xs outline-none py-2" 
+              />
            </div>
         </div>
       </div>
