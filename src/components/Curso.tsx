@@ -56,7 +56,7 @@ export default function Curso() {
       {/* --- CABEÇALHO --- */}
       <header className="mb-12 relative z-10 max-w-7xl mx-auto w-full text-left">
         <h2 className="text-[2.4rem] md:text-7xl font-black uppercase tracking-tighter mb-8 leading-[0.85] text-white">
-          Seu Futuro na <br className="hidden md:block"/>
+          Sua Carreira na <br className="hidden md:block"/>
           <span className="text-[#F97316]">Beleza Começa Aqui</span> 
         </h2>
         <div className="flex gap-2 overflow-x-auto pb-4 no-scrollbar -mx-4 px-4 md:mx-0 md:px-0">

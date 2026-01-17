@@ -1,7 +1,7 @@
 ﻿import { PlayCircle, Clock, Star, Share2, MoreVertical, Sparkles } from "lucide-react";
 import { motion } from "framer-motion";
 
-export default function Comunidade() {
+export default function Cursos() {
   const aulas = [
     { 
       id: 1, 
