@@ -52,7 +52,7 @@ export default function Live() {
           <div className="aspect-video bg-black rounded-[50px] border border-white/5 relative overflow-hidden shadow-2xl group">
              <iframe 
                className="w-full h-full"
-               src="https://www.youtube.com/embed/3SzoW8W8_vA?autoplay=1&mute=1&controls=0&modestbranding=1&rel=0" 
+               src="https://www.youtube.com/embed/h_m6m0r9T6E?autoplay=1&mute=1&controls=0&modestbranding=1&rel=0" 
                title="Live Stream" 
                frameBorder="0" 
                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
