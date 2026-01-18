@@ -1,5 +1,5 @@
 ﻿import { useState, useEffect, useRef } from "react";
-import { Share2, X, Copy, MessageSquare, Check, Volume2, VolumeX, Calendar, Bell, BellRing, ShoppingBag, ArrowRight } from "lucide-react";
+import { Share2, X, Copy, MessageSquare, Check, Volume2, VolumeX, Calendar, Bell, BellRing, ArrowRight, Flame } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
 export default function Live() {
@@ -7,6 +7,7 @@ export default function Live() {
   const [copied, setCopied] = useState(false);
   const [isMuted, setIsMuted] = useState(true);
   const [reminded, setReminded] = useState(false);
+  const [stock, setStock] = useState(7);
   const [chat, setChat] = useState([
     { id: 1, user: "Beleza Link", text: "Bem-vindos à Masterclass!", color: "#F97316" },
     { id: 2, user: "Suporte", text: "Produtos da live com 20% OFF.", color: "#71717a" }
@@ -18,23 +19,19 @@ export default function Live() {
     { id: 102, hora: "15:00", titulo: "Gestão de Salão 5.0", dia: "Amanhã" }
   ];
 
-  const produtosEmDestaque = [
-    { id: 1, nome: "Kit Expert Shine", preco: "R$ 189,90", image: "https://images.unsplash.com/photo-1526947425960-945c6e72858f?auto=format&fit=crop&q=80&w=200" }
-  ];
+  const produto = { id: 1, nome: "Kit Expert Shine", preco: "R$ 189,90", image: "https://images.unsplash.com/photo-1526947425960-945c6e72858f?auto=format&fit=crop&q=80&w=200" };
 
   useEffect(() => {
-    const nomes = ["Ana Pro", "Carlos Hair", "Studio VIP", "Lucas Barber"];
-    const textos = ["Que produto é esse?", "Amei o resultado!", "Já quero comprar!", "Top demais."];
-    const interval = setInterval(() => {
-      const novaMsg = {
-        id: Date.now(),
-        user: nomes[Math.floor(Math.random() * nomes.length)],
-        text: textos[Math.floor(Math.random() * textos.length)],
-        color: Math.random() > 0.5 ? "#F97316" : "#71717a"
-      };
-      setChat(prev => [...prev.slice(-8), novaMsg]);
-    }, 4000);
-    return () => clearInterval(interval);
+    // Simulação de chat e redução de stock para urgência
+    const intervalChat = setInterval(() => {
+      const nomes = ["Ana Pro", "Studio VIP", "Lucas Barber", "Cida Unhas"];
+      const textos = ["Acabei de comprar!", "Resta pouco no stock!", "Garantam o vosso!", "Preço imbatível."];
+      setChat(prev => [...prev.slice(-8), { id: Date.now(), user: nomes[Math.floor(Math.random() * nomes.length)], text: textos[Math.floor(Math.random() * textos.length)], color: "#F97316" }]);
+      
+      // Diminuir stock aleatoriamente até 1
+      setStock(s => (s > 1 && Math.random() > 0.7) ? s - 1 : s);
+    }, 5000);
+    return () => clearInterval(intervalChat);
   }, []);
 
   const toggleMute = () => {
@@ -65,15 +62,18 @@ export default function Live() {
                src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
              ></video>
              
-             {/* VITRINE DE PRODUTO EM DESTAQUE NA LIVE */}
-             <div className="absolute bottom-6 left-6 right-auto z-40 max-w-[280px]">
-                <motion.div initial={{ x: -50, opacity: 0 }} animate={{ x: 0, opacity: 1 }} className="bg-black/80 backdrop-blur-2xl p-4 rounded-[30px] border border-white/10 flex items-center gap-4">
-                   <img src={produtosEmDestaque[0].image} className="w-16 h-16 rounded-2xl object-cover border border-white/10" alt="Produto" />
-                   <div className="flex-1">
-                      <p className="text-[8px] uppercase font-bold text-[#F97316]">Oferta da Live</p>
-                      <p className="text-[10px] font-black uppercase leading-tight mb-1">{produtosEmDestaque[0].nome}</p>
-                      <button onClick={() => window.open('https://wa.me/SEUNUMERO?text=Vim%20pela%20Live%20e%20quero%20o%20Kit%20Expert%20Shine')} className="bg-white text-black px-3 py-1 rounded-full text-[8px] font-black uppercase flex items-center gap-1 hover:bg-[#F97316] hover:text-white transition-all">
-                        Comprar <ArrowRight size={10} />
+             {/* VITRINE COM GATILHO DE STOCK */}
+             <div className="absolute bottom-6 left-6 z-40 max-w-[280px]">
+                <motion.div initial={{ x: -20, opacity: 0 }} animate={{ x: 0, opacity: 1 }} className="bg-black/90 backdrop-blur-2xl p-4 rounded-[30px] border border-white/10 flex items-center gap-4 relative overflow-hidden">
+                   <div className="absolute top-0 right-0 bg-[#F97316] px-2 py-1 rounded-bl-xl flex items-center gap-1">
+                      <Flame size={10} className="text-white animate-pulse" />
+                      <span className="text-[7px] font-black uppercase">Só {stock} restantes</span>
+                   </div>
+                   <img src={produto.image} className="w-16 h-16 rounded-2xl object-cover border border-white/10" alt="Produto" />
+                   <div className="flex-1 mt-2">
+                      <p className="text-[10px] font-black uppercase leading-tight">{produto.nome}</p>
+                      <button onClick={() => window.open('https://wa.me/SEUNUMERO?text=Quero%20o%20Kit%20Expert%20Shine')} className="mt-2 bg-white text-black px-4 py-2 rounded-full text-[8px] font-black uppercase flex items-center gap-1 hover:bg-[#F97316] hover:text-white transition-all w-full justify-center">
+                        Comprar Agora <ArrowRight size={10} />
                       </button>
                    </div>
                 </motion.div>
@@ -84,6 +84,7 @@ export default function Live() {
              </button>
           </div>
 
+          {/* BARRA DE DIVULGAÇÃO E AGENDA */}
           <div className="flex flex-col md:flex-row gap-4 items-center justify-between bg-zinc-900/30 backdrop-blur-xl p-6 rounded-[35px] border border-white/5">
              <div className="flex flex-wrap gap-4">
                 {proximasLives.map((live) => (
@@ -98,19 +99,17 @@ export default function Live() {
                   </div>
                 ))}
              </div>
-             
-             <div className="flex items-center gap-2">
-                <button onClick={() => setIsSharing(true)} className="bg-white text-black px-8 py-5 rounded-[22px] font-black text-[10px] uppercase tracking-widest hover:bg-[#F97316] hover:text-white transition-all">
-                  <Share2 size={16} className="inline mr-2"/> Divulgar
-                </button>
-             </div>
+             <button onClick={() => setIsSharing(true)} className="bg-white text-black px-8 py-5 rounded-[22px] font-black text-[10px] uppercase tracking-widest hover:bg-[#F97316] hover:text-white transition-all">
+                Divulgar Live
+             </button>
           </div>
         </div>
 
+        {/* CHAT COM PROVA SOCIAL */}
         <div className="lg:col-span-1 h-[600px] flex flex-col bg-zinc-900/20 border border-white/5 rounded-[40px] p-8 shadow-2xl">
            <div className="flex-1 overflow-y-auto space-y-6 scrollbar-hide">
               <div className="flex items-center gap-2 mb-4 text-zinc-500">
-                <MessageSquare size={14} /> <span className="text-[10px] font-bold uppercase tracking-widest">Chat em Tempo Real</span>
+                <MessageSquare size={14} /> <span className="text-[10px] font-bold uppercase tracking-widest">Chat Direto</span>
               </div>
               {chat.map(c => (
                 <div key={c.id}>
