@@ -72,7 +72,7 @@ export default function Live() {
                    <div className="flex-1">
                       <p className="text-[8px] uppercase font-bold text-[#F97316]">Oferta da Live</p>
                       <p className="text-[10px] font-black uppercase leading-tight mb-1">{produtosEmDestaque[0].nome}</p>
-                      <button className="bg-white text-black px-3 py-1 rounded-full text-[8px] font-black uppercase flex items-center gap-1 hover:bg-[#F97316] hover:text-white transition-all">
+                      <button onClick={() => window.open('https://wa.me/SEUNUMERO?text=Vim%20pela%20Live%20e%20quero%20o%20Kit%20Expert%20Shine')} className="bg-white text-black px-3 py-1 rounded-full text-[8px] font-black uppercase flex items-center gap-1 hover:bg-[#F97316] hover:text-white transition-all">
                         Comprar <ArrowRight size={10} />
                       </button>
                    </div>
