@@ -1,9 +1,8 @@
 ﻿import { useState, useEffect, useRef } from "react";
-import { Users, Share2, X, Copy, MessageSquare, Check, Send } from "lucide-react";
+import { Users, Share2, X, Copy, MessageSquare, Check } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
 export default function Live() {
-  const [msg, setMsg] = useState("");
   const [isSharing, setIsSharing] = useState(false);
   const [copied, setCopied] = useState(false);
   const [espectadores, setEspectadores] = useState(1240);
@@ -56,28 +55,25 @@ export default function Live() {
             </div>
           </header>
 
-          {/* PLAYER COM VÍDEO DE ALTA COMPATIBILIDADE */}
-          <div className="aspect-video bg-zinc-900 rounded-[50px] border border-white/5 relative overflow-hidden shadow-2xl">
-             <video 
-               className="w-full h-full object-cover" 
-               autoPlay 
-               loop 
-               muted 
-               playsInline 
-               key="video-player-beauty"
-             >
-               <source src="https://v.ftcdn.net/04/86/03/40/700_F_486034057_kLhC5W6T6VvS9vU9S9G8Vv9J9Z9v9Z9v_ST.mp4" type="video/mp4" />
-               Seu navegador não suporta vídeos.
-             </video>
-             <div className="absolute top-6 right-6 bg-black/40 backdrop-blur-xl border border-white/10 px-4 py-1 rounded-full">
-                <span className="text-[8px] font-black tracking-widest text-white uppercase italic">Stream On</span>
+          {/* PLAYER YOUTUBE - O MÉTODO MAIS COMPATÍVEL DO MUNDO */}
+          <div className="aspect-video bg-black rounded-[50px] border border-white/5 relative overflow-hidden shadow-2xl">
+             <iframe 
+               className="absolute inset-0 w-full h-full"
+               src="https://www.youtube.com/embed/S_8n076JpG8?autoplay=1&mute=1&controls=0&modestbranding=1&rel=0&loop=1&playlist=S_8n076JpG8" 
+               title="Beleza Live" 
+               frameBorder="0" 
+               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+               allowFullScreen>
+             </iframe>
+             <div className="absolute top-6 right-6 bg-black/40 backdrop-blur-xl border border-white/10 px-4 py-1 rounded-full pointer-events-none">
+                <span className="text-[8px] font-black tracking-widest text-white uppercase">Ao Vivo</span>
              </div>
           </div>
 
           <div className="flex items-center justify-between bg-zinc-900/30 backdrop-blur-xl p-6 rounded-[35px] border border-white/5">
              <p className="hidden md:block text-zinc-500 text-[10px] uppercase font-bold tracking-[0.2em]">Workshop Profissional - Beleza Link</p>
              
-             {/* BOTAO DE COMPARTILHAR - MANTIDO E PROTEGIDO */}
+             {/* BOTAO DE COMPARTILHAR - EXATAMENTE ONDE VOCÊ PEDIU */}
              <div className="relative">
                 <AnimatePresence mode="wait">
                   {!isSharing ? (
@@ -102,7 +98,7 @@ export default function Live() {
         <div className="lg:col-span-1 h-[600px] flex flex-col bg-zinc-900/20 border border-white/5 rounded-[50px] p-8 shadow-2xl">
            <div className="flex items-center gap-3 mb-8 border-b border-white/5 pb-4">
               <div className="w-2 h-2 rounded-full bg-[#F97316]"></div>
-              <h3 className="text-[10px] font-black uppercase tracking-[0.3em] text-zinc-400">Ao Vivo</h3>
+              <h3 className="text-[10px] font-black uppercase tracking-[0.3em] text-zinc-400">Público</h3>
            </div>
            <div ref={chatRef} className="flex-1 overflow-y-auto space-y-6 scrollbar-hide mb-4">
               {chat.map(c => (
