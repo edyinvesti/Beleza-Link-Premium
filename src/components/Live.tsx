@@ -10,6 +10,7 @@ export default function Live() {
     { id: 1, user: "Studio Hair", text: "Técnica impecável!", color: "#F97316" },
     { id: 2, user: "Duda Estética", text: "Beleza Link mudando o jogo.", color: "#71717a" }
   ]);
+  const videoRef = useRef<HTMLVideoElement>(null);
   const chatRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -26,6 +27,13 @@ export default function Live() {
     }, 4000);
     return () => clearInterval(interval);
   }, []);
+
+  const toggleMute = () => {
+    if (videoRef.current) {
+      videoRef.current.muted = !isMuted;
+      setIsMuted(!isMuted);
+    }
+  };
 
   const handleCopy = () => {
     navigator.clipboard.writeText(window.location.href);
@@ -49,26 +57,29 @@ export default function Live() {
             </div>
           </header>
 
-          <div className="aspect-video bg-black rounded-[50px] border border-white/5 relative overflow-hidden shadow-2xl group">
-             {/* O link agora reage ao estado isMuted */}
-             <iframe 
-               className="absolute inset-0 w-full h-full pointer-events-none"
-               src={`https://www.youtube.com/embed/hI0KiAK_HrQ?autoplay=1&mute=${isMuted ? 1 : 0}&controls=0&modestbranding=1&rel=0`} 
-               title="Beleza Live" 
-               frameBorder="0" 
-               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture">
-             </iframe>
-
-             {/* BOTÃO DE SOM (UX DE APP) */}
-             <button 
-               onClick={() => setIsMuted(!isMuted)}
-               className="absolute bottom-6 right-6 z-20 bg-black/60 backdrop-blur-md p-4 rounded-full border border-white/10 hover:scale-110 transition-all"
+          <div className="aspect-video bg-black rounded-[50px] border border-white/5 relative overflow-hidden shadow-2xl">
+             {/* Player Nativo: Som não faz o vídeo sumir */}
+             <video 
+               ref={videoRef}
+               className="w-full h-full object-cover"
+               autoPlay 
+               loop 
+               muted 
+               playsInline
              >
-               {isMuted ? <VolumeX size={20} className="text-red-500" /> : <Volume2 size={20} className="text-[#F97316]" />}
+               <source src="https://v.ftcdn.net/04/86/03/40/700_F_486034057_kLhC5W6T6VvS9vU9S9G8Vv9J9Z9v9Z9v_ST.mp4" type="video/mp4" />
+             </video>
+
+             {/* BOTÃO DE SOM - INTERAÇÃO INSTANTÂNEA */}
+             <button 
+               onClick={toggleMute}
+               className="absolute bottom-6 right-6 z-30 bg-black/60 backdrop-blur-md p-5 rounded-full border border-white/10 active:scale-95 transition-all"
+             >
+               {isMuted ? <VolumeX size={24} className="text-red-500" /> : <Volume2 size={24} className="text-[#F97316]" />}
              </button>
 
              <div className="absolute top-6 left-6 bg-black/40 backdrop-blur-xl border border-white/10 px-4 py-1 rounded-full">
-                <span className="text-[8px] font-black tracking-widest text-white uppercase italic">Áudio {isMuted ? 'Desativado' : 'Ativo'}</span>
+                <span className="text-[8px] font-black tracking-widest text-white uppercase italic">Stream On</span>
              </div>
           </div>
 
