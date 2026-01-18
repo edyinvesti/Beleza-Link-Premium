@@ -1,16 +1,14 @@
 ﻿import { useState, useEffect, useRef } from "react";
-import { Users, Share2, X, Copy, MessageSquare, Check, Volume2, VolumeX } from "lucide-react";
+import { Users, Share2, X, Copy, MessageSquare, Check, Volume2 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
 export default function Live() {
   const [isSharing, setIsSharing] = useState(false);
   const [copied, setCopied] = useState(false);
-  const [isMuted, setIsMuted] = useState(true);
   const [chat, setChat] = useState([
     { id: 1, user: "Studio Hair", text: "Técnica impecável!", color: "#F97316" },
     { id: 2, user: "Duda Estética", text: "Beleza Link mudando o jogo.", color: "#71717a" }
   ]);
-  const videoRef = useRef<HTMLVideoElement>(null);
   const chatRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -27,13 +25,6 @@ export default function Live() {
     }, 4000);
     return () => clearInterval(interval);
   }, []);
-
-  const toggleMute = () => {
-    if (videoRef.current) {
-      videoRef.current.muted = !isMuted;
-      setIsMuted(!isMuted);
-    }
-  };
 
   const handleCopy = () => {
     navigator.clipboard.writeText(window.location.href);
@@ -58,28 +49,20 @@ export default function Live() {
           </header>
 
           <div className="aspect-video bg-black rounded-[50px] border border-white/5 relative overflow-hidden shadow-2xl">
-             {/* Player Nativo: Som não faz o vídeo sumir */}
-             <video 
-               ref={videoRef}
-               className="w-full h-full object-cover"
-               autoPlay 
-               loop 
-               muted 
-               playsInline
-             >
-               <source src="https://v.ftcdn.net/04/86/03/40/700_F_486034057_kLhC5W6T6VvS9vU9S9G8Vv9J9Z9v9Z9v_ST.mp4" type="video/mp4" />
-             </video>
-
-             {/* BOTÃO DE SOM - INTERAÇÃO INSTANTÂNEA */}
-             <button 
-               onClick={toggleMute}
-               className="absolute bottom-6 right-6 z-30 bg-black/60 backdrop-blur-md p-5 rounded-full border border-white/10 active:scale-95 transition-all"
-             >
-               {isMuted ? <VolumeX size={24} className="text-red-500" /> : <Volume2 size={24} className="text-[#F97316]" />}
-             </button>
-
-             <div className="absolute top-6 left-6 bg-black/40 backdrop-blur-xl border border-white/10 px-4 py-1 rounded-full">
-                <span className="text-[8px] font-black tracking-widest text-white uppercase italic">Stream On</span>
+             {/* Player Vimeo: Melhor para Mobile e Som */}
+             <iframe 
+               src="https://player.vimeo.com/video/494440494?autoplay=1&loop=1&muted=0&background=0" 
+               className="absolute inset-0 w-full h-full"
+               frameBorder="0" 
+               allow="autoplay; fullscreen; picture-in-picture" 
+               allowFullScreen>
+             </iframe>
+             
+             {/* Dica de áudio para o usuário no celular */}
+             <div className="absolute bottom-4 left-6 bg-black/60 backdrop-blur-md px-4 py-2 rounded-full border border-white/10 pointer-events-none">
+                <span className="text-[10px] font-bold text-white flex items-center gap-2">
+                  <Volume2 size={12} className="text-[#F97316]" /> Use os botões laterais do celular para o som
+                </span>
              </div>
           </div>
 
