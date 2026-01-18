@@ -1,15 +1,16 @@
 ﻿import { useState, useEffect, useRef } from "react";
-import { Users, Share2, X, Copy, MessageSquare, Check, Volume2 } from "lucide-react";
+import { Users, Share2, X, Copy, MessageSquare, Check, Volume2, VolumeX } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
 export default function Live() {
   const [isSharing, setIsSharing] = useState(false);
   const [copied, setCopied] = useState(false);
+  const [isMuted, setIsMuted] = useState(true);
   const [chat, setChat] = useState([
     { id: 1, user: "Studio Hair", text: "Técnica impecável!", color: "#F97316" },
     { id: 2, user: "Duda Estética", text: "Beleza Link mudando o jogo.", color: "#71717a" }
   ]);
-  const chatRef = useRef<HTMLDivElement>(null);
+  const videoRef = useRef<HTMLVideoElement>(null);
 
   useEffect(() => {
     const nomes = ["Bia Cabelos", "Marcos Barber", "Luxo Salon", "Renata Expert"];
@@ -25,6 +26,13 @@ export default function Live() {
     }, 4000);
     return () => clearInterval(interval);
   }, []);
+
+  const toggleMute = () => {
+    if (videoRef.current) {
+      videoRef.current.muted = !videoRef.current.muted;
+      setIsMuted(videoRef.current.muted);
+    }
+  };
 
   const handleCopy = () => {
     navigator.clipboard.writeText(window.location.href);
@@ -48,40 +56,46 @@ export default function Live() {
             </div>
           </header>
 
-          <div className="aspect-video bg-black rounded-[50px] border border-white/5 relative overflow-hidden shadow-2xl">
-             {/* Player Vimeo: Melhor para Mobile e Som */}
-             <iframe 
-               src="https://player.vimeo.com/video/494440494?autoplay=1&loop=1&muted=0&background=0" 
-               className="absolute inset-0 w-full h-full"
-               frameBorder="0" 
-               allow="autoplay; fullscreen; picture-in-picture" 
-               allowFullScreen>
-             </iframe>
-             
-             {/* Dica de áudio para o usuário no celular */}
-             <div className="absolute bottom-4 left-6 bg-black/60 backdrop-blur-md px-4 py-2 rounded-full border border-white/10 pointer-events-none">
-                <span className="text-[10px] font-bold text-white flex items-center gap-2">
-                  <Volume2 size={12} className="text-[#F97316]" /> Use os botões laterais do celular para o som
-                </span>
-             </div>
+          <div className="aspect-video bg-zinc-900 rounded-[40px] md:rounded-[50px] border border-white/5 relative overflow-hidden shadow-2xl">
+             {/* VÍDEO REAL: LINK TESTADO DE MP4 DIRETO */}
+             <video 
+               ref={videoRef}
+               className="w-full h-full object-cover"
+               autoPlay 
+               loop 
+               muted 
+               playsInline
+               webkit-playsinline="true"
+             >
+               <source src="https://assets.mixkit.co/videos/preview/mixkit-beauty-treatment-of-a-young-woman-in-a-spa-39875-large.mp4" type="video/mp4" />
+               Seu navegador não suporta este vídeo.
+             </video>
+
+             <button 
+               onClick={toggleMute}
+               className="absolute bottom-4 right-4 z-30 bg-black/60 backdrop-blur-md p-4 rounded-full border border-white/10"
+             >
+               {isMuted ? <VolumeX size={20} className="text-white/70" /> : <Volume2 size={20} className="text-[#F97316]" />}
+             </button>
           </div>
 
-          <div className="flex items-center justify-between bg-zinc-900/30 backdrop-blur-xl p-6 rounded-[35px] border border-white/5">
+          <div className="flex items-center justify-between bg-zinc-900/30 backdrop-blur-xl p-6 rounded-[30px] border border-white/5">
              <p className="hidden md:block text-zinc-500 text-[10px] uppercase font-bold tracking-[0.2em]">Workshop Profissional - Beleza Link</p>
              
+             {/* BOTÃO COMPARTILHAR: PROTEGIDO E NO LUGAR */}
              <div className="relative">
                 <AnimatePresence mode="wait">
                   {!isSharing ? (
                     <motion.button 
                       key="btn-sh" onClick={() => setIsSharing(true)}
-                      className="bg-white text-black px-10 py-5 rounded-[22px] font-black text-[10px] uppercase tracking-widest hover:bg-[#F97316] hover:text-white transition-all shadow-lg"
+                      className="bg-white text-black px-8 md:px-10 py-4 md:py-5 rounded-[20px] font-black text-[10px] uppercase tracking-widest hover:bg-[#F97316]"
                     >
                       <Share2 size={16} className="inline mr-2"/> Compartilhar
                     </motion.button>
                   ) : (
-                    <motion.div key="menu-sh" initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} className="flex items-center gap-2 bg-zinc-800 p-2 rounded-[24px] border border-white/10">
-                       <button onClick={() => window.open(`https://wa.me/?text=${window.location.href}`)} className="p-4 hover:bg-[#25D366] rounded-xl"><MessageSquare size={18} /></button>
-                       <button onClick={handleCopy} className="p-4 hover:bg-[#F97316] rounded-xl">{copied ? <Check size={18} /> : <Copy size={18} />}</button>
+                    <motion.div key="menu-sh" initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="flex items-center gap-2 bg-zinc-800 p-2 rounded-[24px]">
+                       <button onClick={() => window.open(`https://wa.me/?text=${window.location.href}`)} className="p-4 hover:bg-[#25D366] rounded-xl transition-colors"><MessageSquare size={18} /></button>
+                       <button onClick={handleCopy} className="p-4 hover:bg-[#F97316] rounded-xl transition-colors">{copied ? <Check size={18} /> : <Copy size={18} />}</button>
                        <button onClick={() => setIsSharing(false)} className="p-4 text-zinc-500 hover:text-white"><X size={18} /></button>
                     </motion.div>
                   )}
@@ -90,12 +104,8 @@ export default function Live() {
           </div>
         </div>
 
-        <div className="lg:col-span-1 h-[600px] flex flex-col bg-zinc-900/20 border border-white/5 rounded-[50px] p-8 shadow-2xl">
-           <div className="flex items-center gap-3 mb-8 border-b border-white/5 pb-4">
-              <div className="w-2 h-2 rounded-full bg-[#F97316]"></div>
-              <h3 className="text-[10px] font-black uppercase tracking-[0.3em] text-zinc-400">Público</h3>
-           </div>
-           <div ref={chatRef} className="flex-1 overflow-y-auto space-y-6 scrollbar-hide mb-4">
+        <div className="lg:col-span-1 h-[400px] md:h-[600px] flex flex-col bg-zinc-900/20 border border-white/5 rounded-[40px] p-6 shadow-2xl">
+           <div className="flex-1 overflow-y-auto space-y-6 scrollbar-hide mb-4">
               {chat.map(c => (
                 <div key={c.id}>
                   <p className="text-[9px] font-black uppercase text-[#F97316] tracking-tighter">{c.user}</p>
