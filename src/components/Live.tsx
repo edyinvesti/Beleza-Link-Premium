@@ -1,78 +1,103 @@
 ﻿import { useState, useEffect, useRef } from "react";
-import { Share2, X, Copy, MessageSquare, Check, Volume2, VolumeX, Calendar, Bell, BellRing, ArrowRight, Flame, Send } from "lucide-react";
+import { Share2, X, Copy, MessageSquare, Check, Volume2, VolumeX, Calendar, Bell, BellRing, ArrowRight, Flame, Send, ChevronLeft } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
 export default function Live() {
-  const [isSharing, setIsSharing] = useState(false);
-  const [copied, setCopied] = useState(false);
-  const [isMuted, setIsMuted] = useState(true);
-  const [reminded, setReminded] = useState(false);
-  const [stock, setStock] = useState(7);
   const [msgInput, setMsgInput] = useState("");
+  const [isMuted, setIsMuted] = useState(true);
+  const [stock, setStock] = useState(6);
   const [chat, setChat] = useState([
-    { id: 1, user: "Beleza Link", text: "Chat liberado! Diga oi.", color: "#F97316" }
+    { id: 1, user: "BELEZA LINK", text: "Bem-vindos ao maior canal de elite!", color: "#F97316" }
   ]);
   
-  const chatEndRef = useRef<HTMLDivElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
-
-  const scrollToBottom = () => chatEndRef.current?.scrollIntoView({ behavior: "smooth" });
-  useEffect(() => { scrollToBottom(); }, [chat]);
 
   const handleSend = (e: React.FormEvent) => {
     e.preventDefault();
     if (!msgInput.trim()) return;
-    setChat([...chat, { id: Date.now(), user: "Você", text: msgInput, color: "#F97316" }]);
+    setChat([...chat, { id: Date.now(), user: "VOCÊ", text: msgInput, color: "#F97316" }]);
     setMsgInput("");
   };
 
   return (
-    <div className="min-h-screen bg-[#050505] text-white pt-24 pb-12 px-4 md:px-12 font-sans">
-      <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-4 gap-8">
-        <div className="lg:col-span-3 space-y-8">
-          <header className="space-y-2">
-            <div className="flex items-center gap-3">
-              <span className="flex h-2 w-2 rounded-full bg-red-600 animate-ping"></span>
-              <span className="text-[10px] font-black uppercase text-red-600 tracking-widest">Ao Vivo</span>
-            </div>
-            <h2 className="text-5xl md:text-7xl font-black uppercase tracking-tighter italic">Canal <span className="text-[#F97316]">Beleza Link</span></h2>
-          </header>
+    <div className="min-h-screen bg-black text-white font-sans selection:bg-[#F97316]">
+      {/* HEADER MOBILE FIXO */}
+      <nav className="fixed top-0 w-full z-50 bg-black/80 backdrop-blur-lg border-b border-white/5 p-4 flex items-center justify-between">
+        <button className="bg-[#F97316] text-black px-4 py-2 rounded-xl font-black text-[10px] uppercase flex items-center gap-2">
+          <ChevronLeft size={14} /> Voltar
+        </button>
+        <div className="flex flex-col items-end">
+          <span className="text-[8px] font-black text-red-600 animate-pulse uppercase tracking-[0.2em]">Ao Vivo</span>
+          <span className="text-[10px] font-bold">1.2k assistindo</span>
+        </div>
+      </nav>
 
-          <div className="relative aspect-video bg-zinc-900 rounded-[40px] md:rounded-[60px] border border-white/5 overflow-hidden shadow-2xl">
-             <video ref={videoRef} className="w-full h-full object-cover" autoPlay loop muted playsInline src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4" />
-             <div className="absolute bottom-8 left-8 z-40 w-full max-w-[300px]">
-                <div className="bg-black/95 backdrop-blur-3xl p-5 rounded-[35px] border border-white/10 relative">
-                   <div className="absolute -top-3 right-6 bg-[#F97316] px-3 py-1 rounded-full text-[9px] font-black uppercase text-white">Só {stock} Restantes</div>
-                   <p className="text-lg font-black uppercase tracking-tighter mb-3 text-white">Kit Expert Shine Pro</p>
-                   <button onClick={() => window.open('https://wa.me/5511999999999')} className="bg-white text-black w-full py-3 rounded-2xl text-[10px] font-black uppercase flex items-center justify-center gap-2 font-bold">Comprar Agora <ArrowRight size={14} /></button>
-                </div>
-             </div>
-             <button onClick={() => {if(videoRef.current) videoRef.current.muted = !videoRef.current.muted; setIsMuted(!isMuted)}} className="absolute bottom-8 right-8 z-30 bg-black/60 p-5 rounded-full border border-white/10">
-               {isMuted ? <VolumeX size={24} className="text-white/70" /> : <Volume2 size={24} className="text-[#F97316]" />}
-             </button>
+      <main className="pt-20 pb-10 px-4 max-w-md mx-auto space-y-6">
+        {/* TÍTULO DE IMPACTO */}
+        <header className="py-4">
+          <h1 className="text-5xl font-black uppercase tracking-tighter leading-none">
+            CANAL <br/> <span className="text-[#F97316] italic">BELEZA LINK</span>
+          </h1>
+        </header>
+
+        {/* PLAYER DE VÍDEO SEGURO */}
+        <div className="relative aspect-[9/16] md:aspect-video bg-zinc-900 rounded-[40px] overflow-hidden border border-white/10 shadow-2xl">
+          <video 
+            ref={videoRef}
+            className="w-full h-full object-cover"
+            autoPlay loop muted playsInline
+            src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
+          />
+          
+          {/* OFERTA FLUTUANTE OTIMIZADA */}
+          <div className="absolute top-6 right-6 left-6 z-40">
+            <motion.div initial={{ y: -20 }} animate={{ y: 0 }} className="bg-black/90 backdrop-blur-xl p-4 rounded-[30px] border border-white/10 relative">
+               <div className="absolute -top-2 -right-2 bg-[#F97316] px-3 py-1 rounded-full text-[8px] font-black">SÓ {stock} UNIDADES</div>
+               <div className="flex items-center gap-4">
+                 <img src="https://images.unsplash.com/photo-1612817288484-6f916006741a?w=150" className="w-16 h-16 rounded-2xl object-cover" />
+                 <div className="flex-1">
+                   <p className="text-[10px] font-bold text-zinc-500 uppercase">Oferta Exclusiva</p>
+                   <p className="text-sm font-black uppercase leading-tight">Kit Expert Shine Pro</p>
+                   <button onClick={() => window.open('https://wa.me/5511999999999')} className="mt-2 bg-white text-black w-full py-2 rounded-xl text-[9px] font-black uppercase">Comprar Agora</button>
+                 </div>
+               </div>
+            </motion.div>
           </div>
+
+          <button onClick={() => {if(videoRef.current) videoRef.current.muted = !videoRef.current.muted; setIsMuted(!isMuted)}} className="absolute bottom-6 right-6 bg-black/50 p-4 rounded-full border border-white/10">
+            {isMuted ? <VolumeX size={20} /> : <Volume2 size={20} className="text-[#F97316]" />}
+          </button>
         </div>
 
-        <div className="lg:col-span-1 h-[600px] bg-zinc-900/40 border border-white/10 rounded-[50px] flex flex-col overflow-hidden shadow-2xl mt-20 md:mt-0">
-           <div className="p-6 border-b border-white/5 bg-white/5">
-              <p className="text-[10px] font-black uppercase tracking-[0.3em] text-zinc-400 font-bold">Chat Real</p>
-           </div>
-           <div className="flex-1 overflow-y-auto p-6 space-y-4 scrollbar-hide">
-              {chat.map(c => (
-                <div key={c.id} className="animate-in fade-in slide-in-from-right-2">
-                  <p className="text-[9px] font-black uppercase text-[#F97316] tracking-tighter">{c.user}</p>
-                  <p className="text-sm text-zinc-300 leading-snug font-medium">{c.text}</p>
-                </div>
-              ))}
-              <div ref={chatEndRef} />
-           </div>
-           <form onSubmit={handleSend} className="p-4 bg-black/40 border-t border-white/10 flex items-center gap-2">
-              <input type="text" value={msgInput} onChange={(e) => setMsgInput(e.target.value)} placeholder="Escreva aqui..."
-                className="flex-1 bg-white/5 border border-white/10 rounded-2xl px-4 py-3 text-sm focus:outline-none focus:border-[#F97316] text-white" />
-              <button type="submit" className="bg-[#F97316] p-3 rounded-2xl text-white hover:scale-105 active:scale-95 transition-all"><Send size={18} /></button>
-           </form>
+        {/* PRÓXIMAS LIVES */}
+        <div className="bg-zinc-900/50 rounded-[35px] p-6 border border-white/5">
+          <div className="flex items-center justify-between mb-4">
+            <div>
+              <p className="text-[8px] font-black text-[#F97316] uppercase tracking-widest">Hoje • 20:00</p>
+              <p className="text-xs font-bold uppercase">Técnica Microblading</p>
+            </div>
+            <button className="bg-white/10 p-3 rounded-2xl"><Bell size={16} /></button>
+          </div>
+          <button onClick={() => {navigator.clipboard.writeText(window.location.href)}} className="w-full bg-white text-black py-4 rounded-2xl font-black text-xs uppercase tracking-widest">Divulgar Canal</button>
         </div>
-      </div>
+
+        {/* CHAT MOBILE */}
+        <div className="bg-zinc-900/30 rounded-[35px] border border-white/5 h-[400px] flex flex-col overflow-hidden">
+          <div className="p-4 border-b border-white/5 text-[9px] font-black uppercase tracking-widest text-zinc-500">Chat da Comunidade</div>
+          <div className="flex-1 overflow-y-auto p-4 space-y-4">
+            {chat.map(c => (
+              <div key={c.id}>
+                <span className="text-[8px] font-black text-[#F97316] mr-2">{c.user}</span>
+                <span className="text-xs text-zinc-300">{c.text}</span>
+              </div>
+            ))}
+          </div>
+          <form onSubmit={handleSend} className="p-4 bg-black/40 border-t border-white/5 flex gap-2">
+            <input value={msgInput} onChange={(e) => setMsgInput(e.target.value)} placeholder="Escreva..." className="flex-1 bg-white/5 border border-white/10 rounded-xl px-4 py-2 text-xs outline-none focus:border-[#F97316]" />
+            <button type="submit" className="bg-[#F97316] p-2 rounded-xl"><Send size={16} /></button>
+          </form>
+        </div>
+      </main>
     </div>
   );
 }
