@@ -49,12 +49,12 @@ export default function Live() {
             </div>
           </header>
 
-          {/* PLAYER YOUTUBE NOCOOKIE (CARREGAMENTO GLOBAL GARANTIDO) */}
           <div className="aspect-video bg-black rounded-[40px] md:rounded-[50px] border border-white/5 relative overflow-hidden shadow-2xl">
+             {/* VÍDEO SEGURO - Técnica L’Oréal (ID: h7_tH9eB9y8 como exemplo estável) */}
              <iframe 
                className="absolute inset-0 w-full h-full"
-               src={`https://www.youtube-nocookie.com/embed/S_8n076JpG8?autoplay=1&mute=${isMuted ? 1 : 0}&controls=0&modestbranding=1&rel=0&loop=1&playlist=S_8n076JpG8`} 
-               title="Beleza Live" 
+               src={`https://www.youtube-nocookie.com/embed/h7_tH9eB9y8?autoplay=1&mute=${isMuted ? 1 : 0}&controls=0&modestbranding=1&rel=0&loop=1&playlist=h7_tH9eB9y8`} 
+               title="Beleza Link Live" 
                frameBorder="0" 
                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
                allowFullScreen>
@@ -71,7 +71,7 @@ export default function Live() {
           <div className="flex items-center justify-between bg-zinc-900/30 backdrop-blur-xl p-6 rounded-[30px] border border-white/5">
              <p className="hidden md:block text-zinc-500 text-[10px] uppercase font-bold tracking-[0.2em]">Workshop Profissional - Beleza Link</p>
              
-             {/* BOTÃO COMPARTILHAR - PRESERVADO */}
+             {/* BOTÃO DE COMPARTILHAR - IMUTÁVEL E FUNCIONAL */}
              <div className="relative">
                 <AnimatePresence mode="wait">
                   {!isSharing ? (
@@ -93,7 +93,7 @@ export default function Live() {
           </div>
         </div>
 
-        <div className="lg:col-span-1 h-[400px] md:h-[600px] flex flex-col bg-zinc-900/20 border border-white/5 rounded-[40px] p-8 shadow-2xl">
+        <div className="lg:col-span-1 h-[600px] flex flex-col bg-zinc-900/20 border border-white/5 rounded-[40px] p-8 shadow-2xl">
            <div className="flex-1 overflow-y-auto space-y-6 scrollbar-hide">
               {chat.map(c => (
                 <div key={c.id}>
