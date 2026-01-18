@@ -5,16 +5,16 @@ import { motion, AnimatePresence } from "framer-motion";
 export default function Live() {
   const [isSharing, setIsSharing] = useState(false);
   const [copied, setCopied] = useState(false);
-  const [espectadores, setEspectadores] = useState(1240);
+  const [espectadores] = useState(1240);
   const [chat, setChat] = useState([
-    { id: 1, user: "Studio Hair", text: "Técnica impecável!", color: "#F97316" },
-    { id: 2, user: "Duda Estética", text: "Beleza Link mudando o jogo.", color: "#71717a" }
+    { id: 1, user: "Studio Hair", text: "Essa técnica é fundamental!", color: "#F97316" },
+    { id: 2, user: "Duda Estética", text: "Beleza Link facilitando as aulas.", color: "#71717a" }
   ]);
   const chatRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const nomes = ["Bia Cabelos", "Marcos Barber", "Luxo Salon", "Renata Expert"];
-    const textos = ["Que visual incrível!", "Isso é luxo puro!", "Amei o brilho!", "Plataforma nota 10."];
+    const nomes = ["Ana Professional", "Carlos Hair", "Luxo Beauty", "Erika Nails"];
+    const textos = ["Aula incrível!", "Muito bom esse ângulo!", "Show de técnica!", "Plataforma nota 10."];
     const interval = setInterval(() => {
       const novaMsg = {
         id: Date.now(),
@@ -34,7 +34,7 @@ export default function Live() {
   };
 
   const handleWA = () => {
-    const text = encodeURIComponent(`Vem ver essa Masterclass no Beleza Link: ${window.location.href}`);
+    const text = encodeURIComponent(`Assista à Masterclass no Beleza Link: ${window.location.href}`);
     window.open(`https://wa.me/?text=${text}`, '_blank');
     setIsSharing(false);
   };
@@ -47,33 +47,29 @@ export default function Live() {
             <div className="space-y-2">
               <div className="flex items-center gap-3">
                 <span className="flex h-2 w-2 rounded-full bg-red-600 animate-ping"></span>
-                <span className="text-[10px] font-black tracking-[0.3em] uppercase text-red-600">Live Streaming</span>
+                <span className="text-[10px] font-black tracking-[0.3em] uppercase text-red-600">Ao Vivo</span>
               </div>
               <h2 className="text-4xl md:text-6xl font-black uppercase tracking-tighter leading-[0.9] italic">
-                Masterclass <br/> <span className="text-[#F97316]">Beleza de Elite</span>
+                Masterclass <br/> <span className="text-[#F97316]">Técnicas Pro</span>
               </h2>
             </div>
           </header>
 
-          {/* PLAYER YOUTUBE - O MÉTODO MAIS COMPATÍVEL DO MUNDO */}
           <div className="aspect-video bg-black rounded-[50px] border border-white/5 relative overflow-hidden shadow-2xl">
              <iframe 
                className="absolute inset-0 w-full h-full"
-               src="https://www.youtube.com/embed/S_8n076JpG8?autoplay=1&mute=1&controls=0&modestbranding=1&rel=0&loop=1&playlist=S_8n076JpG8" 
-               title="Beleza Live" 
+               src="https://www.youtube.com/embed/hI0KiAK_HrQ?autoplay=1&mute=1&controls=0&modestbranding=1&rel=0" 
+               title="Beleza Link Live" 
                frameBorder="0" 
                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
                allowFullScreen>
              </iframe>
-             <div className="absolute top-6 right-6 bg-black/40 backdrop-blur-xl border border-white/10 px-4 py-1 rounded-full pointer-events-none">
-                <span className="text-[8px] font-black tracking-widest text-white uppercase">Ao Vivo</span>
-             </div>
           </div>
 
           <div className="flex items-center justify-between bg-zinc-900/30 backdrop-blur-xl p-6 rounded-[35px] border border-white/5">
-             <p className="hidden md:block text-zinc-500 text-[10px] uppercase font-bold tracking-[0.2em]">Workshop Profissional - Beleza Link</p>
+             <p className="hidden md:block text-zinc-500 text-[10px] uppercase font-bold tracking-[0.2em]">Workshop Profissional - Área da Beleza</p>
              
-             {/* BOTAO DE COMPARTILHAR - EXATAMENTE ONDE VOCÊ PEDIU */}
+             {/* BOTAO DE COMPARTILHAR - POSIÇÃO MANTIDA */}
              <div className="relative">
                 <AnimatePresence mode="wait">
                   {!isSharing ? (
@@ -98,12 +94,12 @@ export default function Live() {
         <div className="lg:col-span-1 h-[600px] flex flex-col bg-zinc-900/20 border border-white/5 rounded-[50px] p-8 shadow-2xl">
            <div className="flex items-center gap-3 mb-8 border-b border-white/5 pb-4">
               <div className="w-2 h-2 rounded-full bg-[#F97316]"></div>
-              <h3 className="text-[10px] font-black uppercase tracking-[0.3em] text-zinc-400">Público</h3>
+              <h3 className="text-[10px] font-black uppercase tracking-[0.3em] text-zinc-400">Comunidade</h3>
            </div>
            <div ref={chatRef} className="flex-1 overflow-y-auto space-y-6 scrollbar-hide mb-4">
               {chat.map(c => (
                 <div key={c.id}>
-                  <p className="text-[9px] font-black uppercase text-[#F97316] tracking-tighter">{c.user}</p>
+                  <p className="text-[9px] font-black uppercase text-[#F97316]">{c.user}</p>
                   <p className="text-xs text-zinc-300">{c.text}</p>
                 </div>
               ))}
