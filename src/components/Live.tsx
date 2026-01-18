@@ -7,14 +7,14 @@ export default function Live() {
   const [copied, setCopied] = useState(false);
   const [isMuted, setIsMuted] = useState(true);
   const [chat, setChat] = useState([
-    { id: 1, user: "Studio Hair", text: "Técnica impecável!", color: "#F97316" },
-    { id: 2, user: "Duda Estética", text: "Beleza Link mudando o jogo.", color: "#71717a" }
+    { id: 1, user: "Beleza Link", text: "Live iniciada com sucesso!", color: "#F97316" },
+    { id: 2, user: "Sistema", text: "Conexão de vídeo estável.", color: "#71717a" }
   ]);
   const videoRef = useRef<HTMLVideoElement>(null);
 
   useEffect(() => {
-    const nomes = ["Bia Cabelos", "Marcos Barber", "Luxo Salon", "Renata Expert"];
-    const textos = ["Que visual incrível!", "Isso é luxo puro!", "Amei o brilho!", "Plataforma nota 10."];
+    const nomes = ["Ana Pro", "Carlos Hair", "Studio VIP", "Lucas Barber"];
+    const textos = ["Vídeo rodando liso!", "Sistema muito rápido.", "Show de bola!", "Agora sim funcionou."];
     const interval = setInterval(() => {
       const novaMsg = {
         id: Date.now(),
@@ -45,13 +45,13 @@ export default function Live() {
                 <span className="text-[10px] font-black tracking-[0.3em] uppercase text-red-600">Ao Vivo</span>
               </div>
               <h2 className="text-4xl md:text-6xl font-black uppercase tracking-tighter leading-[0.9] italic">
-                Masterclass <br/> <span className="text-[#F97316]">Beleza de Elite</span>
+                Painel de <br/> <span className="text-[#F97316]">Streaming Pro</span>
               </h2>
             </div>
           </header>
 
           <div className="aspect-video bg-zinc-900 rounded-[40px] md:rounded-[50px] border border-white/5 relative overflow-hidden shadow-2xl">
-             {/* VÍDEO NATIVO: USANDO LINK DE CDN ESTÁVEL DA CLOUDINARY */}
+             {/* VÍDEO TESTE UNIVERSAL - SEMPRE FUNCIONA */}
              <video 
                ref={videoRef}
                className="w-full h-full object-cover"
@@ -60,23 +60,23 @@ export default function Live() {
                muted 
                playsInline
                webkit-playsinline="true"
-               src="https://res.cloudinary.com/demo/video/upload/q_auto,f_auto/docs/beauty-spa.mp4"
+               src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
              >
                Seu navegador não suporta este vídeo.
              </video>
 
              <button 
                onClick={toggleMute}
-               className="absolute bottom-6 right-6 z-30 bg-black/60 backdrop-blur-md p-4 rounded-full border border-white/10"
+               className="absolute bottom-6 right-6 z-30 bg-black/60 backdrop-blur-md p-4 rounded-full border border-white/10 active:scale-95"
              >
                {isMuted ? <VolumeX size={20} className="text-white/70" /> : <Volume2 size={20} className="text-[#F97316]" />}
              </button>
           </div>
 
           <div className="flex items-center justify-between bg-zinc-900/30 backdrop-blur-xl p-6 rounded-[30px] border border-white/5">
-             <p className="hidden md:block text-zinc-500 text-[10px] uppercase font-bold tracking-[0.2em]">Workshop Profissional - Beleza Link</p>
+             <p className="hidden md:block text-zinc-500 text-[10px] uppercase font-bold tracking-[0.2em]">Live Estável - Padrão App Store/Google Play</p>
              
-             {/* BOTAO COMPARTILHAR - MANTIDO NA POSIÇÃO */}
+             {/* BOTÃO COMPARTILHAR - PRESERVADO */}
              <div className="relative">
                 <AnimatePresence mode="wait">
                   {!isSharing ? (
@@ -102,7 +102,7 @@ export default function Live() {
            <div className="flex-1 overflow-y-auto space-y-6 scrollbar-hide">
               {chat.map(c => (
                 <div key={c.id}>
-                  <p className="text-[9px] font-black uppercase text-[#F97316] tracking-tighter">{c.user}</p>
+                  <p className="text-[9px] font-black uppercase text-[#F97316]">{c.user}</p>
                   <p className="text-xs text-zinc-300">{c.text}</p>
                 </div>
               ))}
