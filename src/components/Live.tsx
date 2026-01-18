@@ -7,14 +7,14 @@ export default function Live() {
   const [copied, setCopied] = useState(false);
   const [isMuted, setIsMuted] = useState(true);
   const [chat, setChat] = useState([
-    { id: 1, user: "Studio Hair", text: "Técnica impecável!", color: "#F97316" },
-    { id: 2, user: "Duda Estética", text: "Beleza Link mudando o jogo.", color: "#71717a" }
+    { id: 1, user: "Studio Hair", text: "Essa técnica é incrível!", color: "#F97316" },
+    { id: 2, user: "Duda Estética", text: "Beleza Link facilitando tudo.", color: "#71717a" }
   ]);
-  const chatRef = useRef<HTMLDivElement>(null);
+  const videoRef = useRef<HTMLVideoElement>(null);
 
   useEffect(() => {
-    const nomes = ["Bia Cabelos", "Marcos Barber", "Luxo Salon", "Renata Expert"];
-    const textos = ["Que visual incrível!", "Isso é luxo puro!", "Amei o brilho!", "Plataforma nota 10."];
+    const nomes = ["Ana Pro", "Carlos Hair", "Luxo Beauty", "Erika Expert"];
+    const textos = ["Aula nota 10!", "Amei o resultado!", "Técnica perfeita!", "Plataforma top."];
     const interval = setInterval(() => {
       const novaMsg = {
         id: Date.now(),
@@ -27,10 +27,11 @@ export default function Live() {
     return () => clearInterval(interval);
   }, []);
 
-  const handleCopy = () => {
-    navigator.clipboard.writeText(window.location.href);
-    setCopied(true);
-    setTimeout(() => { setCopied(false); setIsSharing(false); }, 2000);
+  const toggleMute = () => {
+    if (videoRef.current) {
+      videoRef.current.muted = !videoRef.current.muted;
+      setIsMuted(videoRef.current.muted);
+    }
   };
 
   return (
@@ -49,20 +50,21 @@ export default function Live() {
             </div>
           </header>
 
-          <div className="aspect-video bg-black rounded-[40px] md:rounded-[50px] border border-white/5 relative overflow-hidden shadow-2xl">
-             {/* VÍDEO SEGURO - Técnica L’Oréal (ID: h7_tH9eB9y8 como exemplo estável) */}
-             <iframe 
-               className="absolute inset-0 w-full h-full"
-               src={`https://www.youtube-nocookie.com/embed/h7_tH9eB9y8?autoplay=1&mute=${isMuted ? 1 : 0}&controls=0&modestbranding=1&rel=0&loop=1&playlist=h7_tH9eB9y8`} 
-               title="Beleza Link Live" 
-               frameBorder="0" 
-               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-               allowFullScreen>
-             </iframe>
+          {/* VÍDEO NATIVO QUE NÃO BLOQUEIA - FOCO EM APP GOOGLE PLAY */}
+          <div className="aspect-video bg-zinc-900 rounded-[40px] md:rounded-[50px] border border-white/5 relative overflow-hidden shadow-2xl">
+             <video 
+               ref={videoRef}
+               className="w-full h-full object-cover"
+               autoPlay 
+               loop 
+               muted 
+               playsInline
+               src="https://player.vimeo.com/external/384725514.sd.mp4?s=34a47a1c327914392097726a5754960d705d8f63&profile_id=164"
+             ></video>
 
              <button 
-               onClick={() => setIsMuted(!isMuted)}
-               className="absolute bottom-6 right-6 z-30 bg-black/60 backdrop-blur-md p-4 rounded-full border border-white/10"
+               onClick={toggleMute}
+               className="absolute bottom-6 right-6 z-30 bg-black/60 backdrop-blur-md p-4 rounded-full border border-white/10 active:scale-90"
              >
                {isMuted ? <VolumeX size={20} className="text-white/70" /> : <Volume2 size={20} className="text-[#F97316]" />}
              </button>
@@ -71,7 +73,7 @@ export default function Live() {
           <div className="flex items-center justify-between bg-zinc-900/30 backdrop-blur-xl p-6 rounded-[30px] border border-white/5">
              <p className="hidden md:block text-zinc-500 text-[10px] uppercase font-bold tracking-[0.2em]">Workshop Profissional - Beleza Link</p>
              
-             {/* BOTÃO DE COMPARTILHAR - IMUTÁVEL E FUNCIONAL */}
+             {/* BOTAO COMPARTILHAR - MANTIDO NA POSIÇÃO */}
              <div className="relative">
                 <AnimatePresence mode="wait">
                   {!isSharing ? (
@@ -82,9 +84,9 @@ export default function Live() {
                       <Share2 size={16} className="inline mr-2"/> Compartilhar
                     </motion.button>
                   ) : (
-                    <motion.div key="menu-sh" initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} className="flex items-center gap-2 bg-zinc-800 p-2 rounded-[24px] border border-white/10">
+                    <motion.div key="menu-sh" initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="flex items-center gap-2 bg-zinc-800 p-2 rounded-[24px]">
                        <button onClick={() => window.open(`https://wa.me/?text=${window.location.href}`)} className="p-4 hover:bg-[#25D366] rounded-xl"><MessageSquare size={18} /></button>
-                       <button onClick={handleCopy} className="p-4 hover:bg-[#F97316] rounded-xl">{copied ? <Check size={18} /> : <Copy size={18} />}</button>
+                       <button onClick={() => { navigator.clipboard.writeText(window.location.href); setCopied(true); setTimeout(()=>setCopied(false), 2000); }} className="p-4 hover:bg-[#F97316] rounded-xl">{copied ? <Check size={18} /> : <Copy size={18} />}</button>
                        <button onClick={() => setIsSharing(false)} className="p-4 text-zinc-500 hover:text-white"><X size={18} /></button>
                     </motion.div>
                   )}
@@ -97,7 +99,7 @@ export default function Live() {
            <div className="flex-1 overflow-y-auto space-y-6 scrollbar-hide">
               {chat.map(c => (
                 <div key={c.id}>
-                  <p className="text-[9px] font-black uppercase text-[#F97316] tracking-tighter">{c.user}</p>
+                  <p className="text-[9px] font-black uppercase text-[#F97316]">{c.user}</p>
                   <p className="text-xs text-zinc-300">{c.text}</p>
                 </div>
               ))}
