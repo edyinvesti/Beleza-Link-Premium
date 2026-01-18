@@ -1,5 +1,5 @@
 ﻿import { useState, useEffect, useRef } from "react";
-import { Users, Share2, X, Copy, MessageSquare, Check, Volume2, VolumeX } from "lucide-react";
+import { Share2, X, Copy, MessageSquare, Check, Volume2, VolumeX } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
 export default function Live() {
@@ -10,7 +10,7 @@ export default function Live() {
     { id: 1, user: "Studio Hair", text: "Técnica impecável!", color: "#F97316" },
     { id: 2, user: "Duda Estética", text: "Beleza Link mudando o jogo.", color: "#71717a" }
   ]);
-  const videoRef = useRef<HTMLVideoElement>(null);
+  const chatRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const nomes = ["Bia Cabelos", "Marcos Barber", "Luxo Salon", "Renata Expert"];
@@ -26,13 +26,6 @@ export default function Live() {
     }, 4000);
     return () => clearInterval(interval);
   }, []);
-
-  const toggleMute = () => {
-    if (videoRef.current) {
-      videoRef.current.muted = !videoRef.current.muted;
-      setIsMuted(videoRef.current.muted);
-    }
-  };
 
   const handleCopy = () => {
     navigator.clipboard.writeText(window.location.href);
@@ -56,24 +49,20 @@ export default function Live() {
             </div>
           </header>
 
-          <div className="aspect-video bg-zinc-900 rounded-[40px] md:rounded-[50px] border border-white/5 relative overflow-hidden shadow-2xl">
-             {/* VÍDEO SEGURO - CDN PÚBLICA (PEXELS VIA VIMEO CDN) */}
-             <video 
-               ref={videoRef}
-               className="w-full h-full object-cover"
-               autoPlay 
-               loop 
-               muted 
-               playsInline
-               webkit-playsinline="true"
-               src="https://player.vimeo.com/external/384725514.sd.mp4?s=34a47a1c327914392097726a5754960d705d8f63&profile_id=164"
-             >
-               Seu navegador não suporta este vídeo.
-             </video>
+          {/* PLAYER YOUTUBE NOCOOKIE (CARREGAMENTO GLOBAL GARANTIDO) */}
+          <div className="aspect-video bg-black rounded-[40px] md:rounded-[50px] border border-white/5 relative overflow-hidden shadow-2xl">
+             <iframe 
+               className="absolute inset-0 w-full h-full"
+               src={`https://www.youtube-nocookie.com/embed/S_8n076JpG8?autoplay=1&mute=${isMuted ? 1 : 0}&controls=0&modestbranding=1&rel=0&loop=1&playlist=S_8n076JpG8`} 
+               title="Beleza Live" 
+               frameBorder="0" 
+               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+               allowFullScreen>
+             </iframe>
 
              <button 
-               onClick={toggleMute}
-               className="absolute bottom-6 right-6 z-30 bg-black/60 backdrop-blur-md p-4 rounded-full border border-white/10 active:scale-90 transition-all"
+               onClick={() => setIsMuted(!isMuted)}
+               className="absolute bottom-6 right-6 z-30 bg-black/60 backdrop-blur-md p-4 rounded-full border border-white/10"
              >
                {isMuted ? <VolumeX size={20} className="text-white/70" /> : <Volume2 size={20} className="text-[#F97316]" />}
              </button>
@@ -82,7 +71,7 @@ export default function Live() {
           <div className="flex items-center justify-between bg-zinc-900/30 backdrop-blur-xl p-6 rounded-[30px] border border-white/5">
              <p className="hidden md:block text-zinc-500 text-[10px] uppercase font-bold tracking-[0.2em]">Workshop Profissional - Beleza Link</p>
              
-             {/* BOTAO COMPARTILHAR - MANTIDO NO LUGAR */}
+             {/* BOTÃO COMPARTILHAR - PRESERVADO */}
              <div className="relative">
                 <AnimatePresence mode="wait">
                   {!isSharing ? (
@@ -104,7 +93,7 @@ export default function Live() {
           </div>
         </div>
 
-        <div className="lg:col-span-1 h-[600px] flex flex-col bg-zinc-900/20 border border-white/5 rounded-[40px] p-8 shadow-2xl">
+        <div className="lg:col-span-1 h-[400px] md:h-[600px] flex flex-col bg-zinc-900/20 border border-white/5 rounded-[40px] p-8 shadow-2xl">
            <div className="flex-1 overflow-y-auto space-y-6 scrollbar-hide">
               {chat.map(c => (
                 <div key={c.id}>
