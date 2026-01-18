@@ -74,7 +74,7 @@ export default function Live() {
           </div>
 
           <div className="flex items-center justify-between bg-zinc-900/30 backdrop-blur-xl p-6 rounded-[30px] border border-white/5">
-             <p className="hidden md:block text-zinc-500 text-[10px] uppercase font-bold tracking-[0.2em]">Live Estável - Padrão App Store/Google Play</p>
+             <p className="hidden md:block text-zinc-500 text-[10px] uppercase font-bold tracking-[0.2em]">Transmissão Exclusiva — Beleza Link Pro</p>
              
              {/* BOTÃO COMPARTILHAR - PRESERVADO */}
              <div className="relative">
