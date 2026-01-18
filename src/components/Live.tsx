@@ -5,16 +5,15 @@ import { motion, AnimatePresence } from "framer-motion";
 export default function Live() {
   const [isSharing, setIsSharing] = useState(false);
   const [copied, setCopied] = useState(false);
-  const [isMuted, setIsMuted] = useState(true);
   const [chat, setChat] = useState([
-    { id: 1, user: "Studio Hair", text: "Essa técnica é incrível!", color: "#F97316" },
-    { id: 2, user: "Duda Estética", text: "Beleza Link facilitando tudo.", color: "#71717a" }
+    { id: 1, user: "Studio Hair", text: "Técnica impecável!", color: "#F97316" },
+    { id: 2, user: "Duda Estética", text: "Beleza Link mudando o jogo.", color: "#71717a" }
   ]);
-  const videoRef = useRef<HTMLVideoElement>(null);
+  const chatRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const nomes = ["Ana Pro", "Carlos Hair", "Luxo Beauty", "Erika Expert"];
-    const textos = ["Aula nota 10!", "Amei o resultado!", "Técnica perfeita!", "Plataforma top."];
+    const nomes = ["Bia Cabelos", "Marcos Barber", "Luxo Salon", "Renata Expert"];
+    const textos = ["Que visual incrível!", "Isso é luxo puro!", "Amei o brilho!", "Plataforma nota 10."];
     const interval = setInterval(() => {
       const novaMsg = {
         id: Date.now(),
@@ -27,11 +26,10 @@ export default function Live() {
     return () => clearInterval(interval);
   }, []);
 
-  const toggleMute = () => {
-    if (videoRef.current) {
-      videoRef.current.muted = !videoRef.current.muted;
-      setIsMuted(videoRef.current.muted);
-    }
+  const handleCopy = () => {
+    navigator.clipboard.writeText(window.location.href);
+    setCopied(true);
+    setTimeout(() => { setCopied(false); setIsSharing(false); }, 2000);
   };
 
   return (
@@ -42,7 +40,7 @@ export default function Live() {
             <div className="space-y-2">
               <div className="flex items-center gap-3">
                 <span className="flex h-2 w-2 rounded-full bg-red-600 animate-ping"></span>
-                <span className="text-[10px] font-black tracking-[0.3em] uppercase text-red-600">Ao Vivo</span>
+                <span className="text-[10px] font-black tracking-[0.3em] uppercase text-red-600">Live Streaming</span>
               </div>
               <h2 className="text-4xl md:text-6xl font-black uppercase tracking-tighter leading-[0.9] italic">
                 Masterclass <br/> <span className="text-[#F97316]">Beleza de Elite</span>
@@ -50,30 +48,24 @@ export default function Live() {
             </div>
           </header>
 
-          {/* VÍDEO NATIVO QUE NÃO BLOQUEIA - FOCO EM APP GOOGLE PLAY */}
+          {/* PLAYER VIMEO - O ÚNICO QUE NÃO BLOQUEIA EM APPS */}
           <div className="aspect-video bg-zinc-900 rounded-[40px] md:rounded-[50px] border border-white/5 relative overflow-hidden shadow-2xl">
-             <video 
-               ref={videoRef}
-               className="w-full h-full object-cover"
-               autoPlay 
-               loop 
-               muted 
-               playsInline
-               src="https://player.vimeo.com/external/384725514.sd.mp4?s=34a47a1c327914392097726a5754960d705d8f63&profile_id=164"
-             ></video>
-
-             <button 
-               onClick={toggleMute}
-               className="absolute bottom-6 right-6 z-30 bg-black/60 backdrop-blur-md p-4 rounded-full border border-white/10 active:scale-90"
-             >
-               {isMuted ? <VolumeX size={20} className="text-white/70" /> : <Volume2 size={20} className="text-[#F97316]" />}
-             </button>
+             <iframe 
+               src="https://player.vimeo.com/video/226903450?autoplay=1&loop=1&background=1&muted=0" 
+               className="absolute inset-0 w-full h-full"
+               frameBorder="0" 
+               allow="autoplay; fullscreen; picture-in-picture" 
+               allowFullScreen>
+             </iframe>
+             <div className="absolute top-6 right-6 bg-black/40 backdrop-blur-xl border border-white/10 px-4 py-1 rounded-full pointer-events-none">
+                <span className="text-[8px] font-black tracking-widest text-white uppercase italic">Ao Vivo</span>
+             </div>
           </div>
 
           <div className="flex items-center justify-between bg-zinc-900/30 backdrop-blur-xl p-6 rounded-[30px] border border-white/5">
              <p className="hidden md:block text-zinc-500 text-[10px] uppercase font-bold tracking-[0.2em]">Workshop Profissional - Beleza Link</p>
              
-             {/* BOTAO COMPARTILHAR - MANTIDO NA POSIÇÃO */}
+             {/* BOTÃO DE COMPARTILHAR - EXATAMENTE ONDE VOCÊ PEDIU */}
              <div className="relative">
                 <AnimatePresence mode="wait">
                   {!isSharing ? (
@@ -84,9 +76,9 @@ export default function Live() {
                       <Share2 size={16} className="inline mr-2"/> Compartilhar
                     </motion.button>
                   ) : (
-                    <motion.div key="menu-sh" initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="flex items-center gap-2 bg-zinc-800 p-2 rounded-[24px]">
+                    <motion.div key="menu-sh" initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} className="flex items-center gap-2 bg-zinc-800 p-2 rounded-[24px] border border-white/10">
                        <button onClick={() => window.open(`https://wa.me/?text=${window.location.href}`)} className="p-4 hover:bg-[#25D366] rounded-xl"><MessageSquare size={18} /></button>
-                       <button onClick={() => { navigator.clipboard.writeText(window.location.href); setCopied(true); setTimeout(()=>setCopied(false), 2000); }} className="p-4 hover:bg-[#F97316] rounded-xl">{copied ? <Check size={18} /> : <Copy size={18} />}</button>
+                       <button onClick={handleCopy} className="p-4 hover:bg-[#F97316] rounded-xl">{copied ? <Check size={18} /> : <Copy size={18} />}</button>
                        <button onClick={() => setIsSharing(false)} className="p-4 text-zinc-500 hover:text-white"><X size={18} /></button>
                     </motion.div>
                   )}
@@ -99,7 +91,7 @@ export default function Live() {
            <div className="flex-1 overflow-y-auto space-y-6 scrollbar-hide">
               {chat.map(c => (
                 <div key={c.id}>
-                  <p className="text-[9px] font-black uppercase text-[#F97316]">{c.user}</p>
+                  <p className="text-[9px] font-black uppercase text-[#F97316] tracking-tighter">{c.user}</p>
                   <p className="text-xs text-zinc-300">{c.text}</p>
                 </div>
               ))}
